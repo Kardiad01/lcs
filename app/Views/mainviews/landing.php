@@ -1,1 +1,11 @@
-<h1>Landing</h1>
+<main>
+    <article>
+
+    </article>
+    <article>
+
+    </article>
+    <article>
+        
+    </article>
+</main>

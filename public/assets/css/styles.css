@@ -1,0 +1,148 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+/*
+=====================================================
+=                 CSS Variables                     =
+=====================================================
+*/
+:root{
+    /*
+    =====================
+        Main Colors
+    =====================
+    */
+    --main-red:#A86931;
+    --main-blue: #1D98B3;
+    --main-yellow: #F0B100;
+    /*
+    ==========================
+        Red secondary colors
+    ==========================
+    */
+    --secondary-red-1: #B58C2B;
+    --secondary-red-2: #BF5D2E;
+    --secondary-red-3: #BF862E;
+    --secondary-red-4: #A86931;
+    --secondary-red-5: #B5442B;
+    --secondary-red-5: #F59847;
+    --secondary-red-6: #754922;
+    --secondary-red-7: #4020A8;
+    /*
+    ==========================
+        Blue secondary colors
+    ==========================
+    */
+    --secondary-blue-1:#2B9EB5;
+    --secondary-blue-2:#3193A8;
+    --secondary-blue-3:#1546BF;
+    --secondary-blue-4:#14B378;
+    /*
+    =============================
+        Yellow secondary colors
+    =============================
+    */
+    --secondary-yellow-1:#D9B70B;
+    --secondary-yellow-2:#D98D0B;
+    --secondary-yellow-3:#0024A3;
+    --secondary-yellow-4:#0035F0;
+    --secondary-yellow-5:#0CB6F0;
+    --secondary-yellow-6:#D69D00;
+}
+
+    /*
+    =============================
+        Fonts
+    =============================
+    */
+    @font-face {
+        font-family: 'roboto';
+        src: url('./Assets/fonts/Roboto-Regular.ttf');
+    }
+    @font-face {
+        font-family: 'cormorant';
+        src: url('./Assets/fonts/CormorantGaramond-Regular.ttf');
+    }
+    @font-face {
+        font-family: 'cinzel';
+        src: url('../fonts/Cinzel-VariableFont_wght.ttf');
+    }
+
+/*
+=====================================================
+=                 Master Class                      =
+=====================================================
+*/
+
+.body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/*
+=====================================================
+=                       Header                      =
+=====================================================
+*/
+
+.body header{
+    width: 100%;
+    height: 70vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border-bottom: 1px solid var(--secondary-red-1);
+}
+
+.body header nav{
+    margin-top: 2rem;
+    width: 95%;
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'cinzel';
+    color: var(--main-yellow);
+    background-color: var(--secondary-red-6);
+}
+
+.body header nav div{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 4rem;
+}
+
+.body header nav ul {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    margin-right: 4rem;
+}
+.body header nav ul li{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 20%;
+}
+
+.body header nav ul li a{
+    height: 25%;
+    text-decoration : none;
+    font-style: none;
+    color: var(--secondary-yellow-1);
+}
+
+li:hover{
+    border-bottom: 1rem solid var(--secondary-yellow-2);
+}
+

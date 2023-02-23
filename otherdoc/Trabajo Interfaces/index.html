@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./Assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./Assets/css/styles.css">
+    <link rel="stylesheet" href="./Assets/fonts/Cinzel-SemiBold.ttf">
+    <link rel="stylesheet" href="./Assets/css/all.min.css">
+    <title>Las cartas de sofía</title>
+</head>
+<body>
+    <nav class="d-flex flex-direction-row">
+      <div id="img" role="button"  class="col-3 d-flex flex-direction-row justify-content-center">
+          <img src="./Assets/img/logo.jpeg" alt="Logo" class="head-logo">
+          <h1 class="text-center m-auto">LCS</h1>
+      </div>
+      <ul id="opciones" class="opciones">
+          <li><a class="w-100 h-100 d-flex flex-direction-column justify-content-center" href="#pasarela"><p>Novedades</p></a></li>
+          <li><a class="w-100 h-100 d-flex flex-direction-column justify-content-center" href="#noticias"><p>Noticias</p></a></li>
+          <li><a class="w-100 h-100 d-flex flex-direction-column justify-content-center" href="#cartas"><p>Cartas</p></a></li>
+          <li><a class="w-100 h-100 d-flex flex-direction-column justify-content-center" href="#innovacion"><p>Juego</p></a></li>
+          <li><a class="w-100 h-100 d-flex flex-direction-column justify-content-center" href="#idioma"><p >Idioma</p></a></li>
+      </ul>
+        <a id="burger" role="button" class="d-none">
+            <img src="./Assets/img/hamburguesa.png" class="w-100" alt="">
+        </a>
+        <div class="col-3 flex-direction-row justify-content-arrond m-auto">
+          <div class="logueo">
+              <a href="login.html">Login</a>
+          </div>
+        </div>
+    </nav>
+    <header class="w-100">
+      <!--Mediaquery para hacer un menu hamburguesa que afecte sólo ul li donde están las 2 opciones y hacerlo más legible-->
+        <div class="col-12 header">
+            <div class="fondo-header">
+              <!--
+                Aquí lo que haremos será un mediaquery para quitar el signo del juego y poner Las cartas de sofía tal cual
+                O se hace con js
+              -->
+                <div class="title-header">
+                    <span>Las Cartas De Sofía</span>
+                    <img id="img-carr" src="./Assets/img/logo.jpeg" alt="">
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="container-fluid">
+        <section id="pasarela" class="container d-flex flex-direction-row justify-content-center position-relative">
+          <button class="btn buton-left">
+      
+          </button>
+          <div class="carousel">
+               <div class="carousel-img-buttons active" data-carrousel='true'>
+                <div class="carousel-title text-center active">
+                  <h3>Nuevo Libro: Meditaciones metafísicas</h3>
+                  <p class="mt-4">Vence a tus rivales con conceptos disruptivos</p>
+                </div>
+                <div class="carousel-img">
+                  <img src="./Assets/img/4.jpg" alt="">
+                </div>
+              </div>
+              <div class="carousel-img-buttons" data-carrousel='true'>
+                <div class="carousel-title text-center">
+                  <h3>Nuevo Libro: Ética</h3>
+                  <p class="mt-4">Vence a tus rivales desarrollando un podersoso sistema</p>
+                </div>
+                <div class="carousel-img">
+                  <img src="./Assets/img/3.webp" alt="">
+                </div>
+              </div>
+              <div class="carousel-img-buttons" data-carrousel='true'>
+                <div class="carousel-title text-center">
+                  <h3>Nuevo Libro: Metafísica</h3>
+                  <p class="mt-4">Vence a tus rivales en función de los conceptos que juegue</p>
+                </div>
+                <div class="carousel-img">
+                  <img src="./Assets/img/2.webp" alt="">
+                </div>
+              </div>
+            </div>
+            <button class="btn buton-right">
+        
+            </button>
+        </section>
+        <section id="noticias" class="container">
+          <h3 class="text-center news-tittle">Noticias</h3>
+          <div class="row">
+            <div class="col-6 d-flex flex-direction-column justify-content-center text-center">
+              <a href="" class="banner">
+                <h4>Liga profesional debates</h4>
+                <div class="img-news img1"></div>
+              </a>
+            </div>
+            <div class="col-6 d-flex flex-direction-column justify-content-center text-center">
+              <a href="" class="banner">
+                <h4>Beneficios de nuestro juego en espacios sociales</h4>
+                <div class="img-news img2"></div>
+              </a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6 d-flex flex-direction-column justify-content-center text-center">
+              <a href="" class="banner">
+                <h4>Hemos recibido un premio a la educación</h4>
+                <div class="img-news img3"></div>                
+              </a>
+            </div>
+            <div class="col-6 d-flex flex-direction-column justify-content-center text-center">
+              <a href="" class="banner">
+                <h4>Nuevos libros para hacer grandes debates</h4>
+                <div class="img-news img4"></div>                
+              </a>
+            </div>
+          </div>
+        </section>
+        <section id="cartas" class="container">
+          <h3 class="text-center news-tittle">
+            Nuestras Cartas
+          </h3>
+          <div class="posicionar">
+            <div class="carta" role="button">
+
+            </div>
+            <div class="carta" role="button">
+
+            </div>
+            <div class="carta" role="button">
+
+            </div>
+            <div class="carta" role="button">
+
+            </div>
+          </div>
+        </section>
+        <section id="innovacion" class="container">
+          <div class="d-flex centrar">
+            <div class="carta-vuelta">
+              <h5 class="carta-titulo text-center mt-2">
+                La Duda Metódica
+              </h5>
+              <div class="carta-imagen">
+
+              </div>
+              <!--Mediaquery para el tamaño del texto-->
+              <div class="carta-efecto">
+                <p>
+                  Cada vez que el rival juegue un concepto
+                  Recibirá 1 punto menos de convicción.
+                </p>
+              </div>
+              <div class="carta-footer">
+                <small>Juego propiedad de Jafet Núñez</small>
+                <small>&copy;</small>
+              </div>
+            </div>
+            <div class="col-md-8 col-sm-6 col-xs-2 container-head">
+              <div>
+                <h3 class="section-head text-center">
+                    Obtención de cartas única
+                </h3>
+                <p class="section-title text-center">
+                  En este juego de cartas para obtener las cartas tendrás que adentrarte en los libros de los grandes pensadores de nuestra historia. En ellos seleccionarás los conceptos más relevantes para poder generar tus cartas. Con ellos podrás disputar tus diversos debates con los demás jugadores.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+    </main>
+    <!--Meter idioma en el footer con un select? no sé veré a ver-->
+    <footer id="idioma">
+        <div class="selector-idioma">
+          <select name="idioma" id="lang">
+            <option value="" selected>Cambiar idioma</option>
+            <option value="es"><a href="">Español</a></option>
+            <option value="en"><a href="">Inglés</a></option>
+          </select>
+        </div>
+        <div class="redes-sociales">
+          <a href=""><img src="./Assets/img/insta.png"></a>
+          <a href=""><img src="./Assets/img/face.png"></a>
+          <a href=""><img src="./Assets/img/yt.png"></a>
+          <p>Estamos en estas redes sociales</p>
+        </div>
+        <div class="pegi">
+          <p>Nuestro juego está autorizado para el sector</p>
+          <img src="./Assets/img/pegi7.png">
+          <img src="./Assets/img/online.png">
+          <img src="./Assets/img/gambilng.png">
+        </div>
+    </footer>
+    <script src="./Assets/js/bootstrap.js"></script>
+    <script src="./Assets/js/custom.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./Assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./Assets/css/styles.css">
+    <link rel="stylesheet" href="./Assets/fonts/Cinzel-SemiBold.ttf">
+    <link rel="stylesheet" href="./Assets/css/all.min.css">
+    <title>Las cartas de sofía</title>
+</head>
+<body>
+    <header class="w-100">
+        <nav class="d-flex flex-direction-row">
+            <div id="img" role="button"  class="col-3 d-flex flex-direction-row justify-content-center">
+                <img src="./Assets/img/logo.jpeg" alt="Logo" class="head-logo">
+                <h1 class="text-center m-auto">LCS</h1>
+            </div>
+            <ul id="opciones" class="opciones">
+              
+            </ul>
+            <a id="burger" role="button" class="d-none">
+                <img src="./Assets/img/hamburguesa.png" class="w-100" alt="">
+            </a>
+            <div class="col-3 flex-direction-row justify-content-arrond m-auto">
+              <div class="logueo">
+                  <a href="login.html">Login</a>
+              </div>
+            </div>
+        </nav>
+    </header>
+    <main class="main-form">
+        <section class="form-login">
+            <h2>
+                Login
+            </h2>
+            <form action="">
+                <input type="text" placeholder="usuario">
+                <input type="password" placeholder="contraseña">
+                <div class="login-rrss">
+                    <button class="btn"><img src="./Assets/img/insta.png"></button>
+                    <button class="btn"><img src="./Assets/img/face.png"></button>
+                    <button class="btn"><img src="./Assets/img/yt.png"></button>
+                </div>
+                <input type="submit" value="Enviar">
+            </form>
+        </section>
+    </main>
+     <!--Meter idioma en el footer con un select? no sé veré a ver-->
+     <footer>
+        <div class="selector-idioma">
+          <select name="idioma" id="lang">
+            <option value="" selected>Cambiar idioma</option>
+            <option value="es"><a href="">Español</a></option>
+            <option value="en"><a href="">Inglés</a></option>
+          </select>
+        </div>
+        <div class="redes-sociales">
+          <a href=""><img src="./Assets/img/insta.png"></a>
+          <a href=""><img src="./Assets/img/face.png"></a>
+          <a href=""><img src="./Assets/img/yt.png"></a>
+          <p>Estamos en estas redes sociales</p>
+        </div>
+        <div class="pegi">
+          <p>Nuestro juego está autorizado para el sector</p>
+          <img src="./Assets/img/pegi7.png">
+          <img src="./Assets/img/online.png">
+          <img src="./Assets/img/gambilng.png">
+        </div>
+    </footer>
+    <script src="./Assets/js/bootstrap.js"></script>
+    <script src="./Assets/js/custom.js"></script>
+</body>
+</html>

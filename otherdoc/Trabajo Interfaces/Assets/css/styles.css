@@ -1,0 +1,831 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+:root{
+    /*Colors*/
+    --gold-effects: #A8A805;
+    --main-red : #A86932;
+    --main-blue: #1D98B3;
+    --main-yellow: #F0B100;
+    --side-red-gold: #B58C2B;
+    --side-red-dark-gold: #BF5D2E;
+    --side-red-brown: #BF862E;
+    --side-red-light-brown: #A86931;
+    --side-red-english : #B5442B;
+    --side-blue-light : #2B9EB5;
+    --side-blue-dark: #3193A8;
+    --side-yellow-wine: #B53E2B;
+    --side-yellow-brown: #BF592E; 
+    /*Images*/
+    --right: url('../img/right.png');
+    --left: url('../img/left.png');
+    --login-back : url('../img/fondo1-login.jpg');
+    --logo : url('../img/logo.jpeg');
+    --head : url('../img/1.jpg');
+    --card-border : url('../img/bordes.png');
+    --card-img : url('../img/card-img.png');
+    --login: url('../img/login.png');
+}
+/*Fonts*/
+@font-face {
+    font-family: 'cinzel';
+    src: url('../fonts/Cinzel-VariableFont_wght.ttf');
+}
+@font-face {
+    font-family: 'roboto';
+    src: url('./Assets/fonts/Roboto-Regular.ttf');
+}
+@font-face {
+    font-family: 'cormorant';
+    src: url('./Assets/fonts/CormorantGaramond-Regular.ttf');
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
+/*
+========================================================
+=                        HEADER                        =
+========================================================
+
+*/
+.opciones{
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+    margin:auto;
+}
+
+.opcionesBurger{
+    padding: 0%;
+    padding-bottom: 2%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    top: 15vh;
+    position: absolute;
+    background-color: var(--side-red-dark-gold);
+    z-index: 1000;
+}
+
+.opcionesBurger li{
+    width: 100%;
+}
+
+.btnBurger{
+    width: 90px;
+    display: flex;
+    margin: auto;
+    margin-right: 2%;
+}
+
+h1{
+    font-family: 'cinzel';
+    font-size: 3.5rem;
+    color: var(--main-yellow);
+}
+
+nav{
+    background-color: var(--side-red-dark-gold);
+    height: 15vh;
+    position: sticky;
+    top: 0%;
+    z-index: 1000;
+}
+
+ul * a{
+    text-decoration: none;
+}
+
+ul{
+    display: flex;
+    justify-content: space-around;
+}
+
+ul li{
+    font-size: 0.75rem;
+    list-style: none;
+    border-radius: 10px;
+    background-color: var(--side-red-gold);
+    color: var(--side-yellow-wine);
+    width: 10vw;
+    height: 7vh;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    font-weight: bolder;
+}
+
+li>a{
+    font-family: 'cinzel';
+    margin: auto;
+    color : var(--side-yellow-wine);
+
+}
+
+ul li a p{
+    top: 25%;
+    margin: auto;
+}
+
+/*Habrá que corregirlo un poco de momento montaré lo que queda de estructura*/
+.logueo{
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    background-color: var(--side-blue-light);
+    position: relative;
+    margin: auto;
+}
+.logueo>a{
+    text-decoration: none;
+    position: absolute;
+    top: 40%;
+    left: 30%;
+    color: var(--side-red-english);
+
+}
+.logueo:hover{
+    background-image: var(--login);
+    box-shadow: 2px 2px 2px var(--side-blue-light);
+    color: var(--main-yellow);
+}
+/*Potencial mediaquery al porcentaje del tamaño de la imagen*/
+.header{
+    width: 100%;
+    height: 50vh;
+    background-image: var(--head);
+    background-size: cover;
+    background-clip: content-box;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-position: 50% 55%;
+    position: relative;
+}
+/*Al llegar a los 400-500px de pantalla poner que ocupe algo fijo o el 75%*/
+.title-header{
+    background-color: rgba(0, 0, 0, 0.5);
+    color: var(--side-red-gold);
+    font-family: 'cinzel';
+    width: 30%;
+    height: 60%;
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    justify-content: center;
+    top: 20%;
+    left: 5%;
+}
+.title-header>span {
+    width: 20%;
+    font-size: 1.5rem;
+    font-family: 'cinzel';
+    text-transform: uppercase;
+    margin: auto;
+    text-align: start;
+}
+.title-header>img{
+    height: 75%;
+    margin: auto;
+}
+.head-logo{
+    width: 25%;
+    height: 75%;
+    margin: auto;
+}
+
+/*
+========================================================
+=                        MAIN                          =
+========================================================
+*/
+
+main{
+    width: 100%;
+    height: 400vh;
+    background-color: var(--side-red-brown);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+section{
+    width: 90%;
+    height: 70vh; /*Para cuando encoja el acho a unos 500px hay que hacer 
+    mierdas como reducir esto a 50vh por ejemplo*/
+    background-color: var(--side-yellow-wine);
+    border-radius: 15px;
+}
+
+/*
+    Clases del carousel
+*/
+
+.carousel{
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+
+.carousel-img > img{
+    border-radius: 10px;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.carousel-img-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow: hidden;
+    z-index: -1;
+    /*Añadir keyframes*/
+}
+
+.active {
+    position: relative;
+    overflow: hidden;
+    animation-duration: 1s;
+    animation-name: slideon;
+    z-index: 3;
+}
+
+.carousel button{
+    border-radius: 50%;
+    width: 10%;
+    height: 10%;
+    margin: auto;
+    border: none;
+}
+
+.buton-left{
+    left: 0px;
+    top: 45%;
+    width: 5%;
+    height: 10%;
+    position: absolute;
+    background-image: var(--left);
+    background-size: 75% 75%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: rgba(255,255,255,0.5);
+    z-index: 410;
+}
+
+.buton-right{
+    right: 0px;
+    top: 45%;
+    width: 5%;
+    height: 10%;
+    position: absolute;
+    background-image: var(--right);
+    background-size: 75% 75%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: rgba(255,255,255,0.5);
+    z-index: 410;
+}
+
+.carousel-title{
+    position: absolute;
+    padding: 2.5rem;
+    bottom: 10%;
+    background: rgba(0, 0, 0, 0.5);
+    color : var(--main-yellow);
+}
+
+
+/*
+    Clases de las noticias.
+*/
+
+.banner{
+    margin-top: 1%;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+div>.banner{
+    margin-top: 2rem;
+    width: 100%;
+    height: 75%;
+}
+
+.banner img{
+    width: 100%;
+    height: 100%;
+}
+
+.img-news{
+    width: 100%;
+    height: 25vh;
+}
+
+.img1{
+    background-image: url('../img/n1.png');
+    background-size: 100% 100%;
+}
+
+.img2{
+    background-image: url('../img/n2.png');
+    background-size: 100% 100%;
+}
+
+.img3{
+    background-image: url('../img/n3.png');
+    background-size: 100% 100%;
+}
+
+.img4{
+    background-image: url('../img/n4.png');
+    background-size: 100% 100%;
+}
+
+.banner>h4{
+    position: absolute;
+    font-family: 'cormorant';
+    height: 100%;
+    width: 100%;
+    display: none;
+    text-decoration: none;
+    text-align: center;
+    color: var(--side-red-gold);
+    bottom: -30%;
+}
+
+.banner:hover>h4{
+    display: block;
+    top: 0%;
+    height: 25vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    font-weight: bolder;
+    font-size: 2rem;
+}
+
+.news-tittle{
+    margin-top: 1rem;
+    font-family: 'cinzel';
+    color: var(--side-red-gold);
+    font-size: 2.5rem;
+}
+
+/*
+    Clases de las cartas
+*/
+
+.carta{
+    display: flex;
+    flex-direction: column;
+    width: 15vh;
+    height: 50vh;
+    border-radius: 30px;
+    background-image: var(--logo);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    margin: auto;
+    box-shadow: 2px 2px var(--side-red-gold) ;
+}
+
+.posicionar{
+    height: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+/*
+    Clases del resumen
+*/
+
+.centrar {
+    margin-top: 10vh;
+    margin-left: 5vw;
+}
+
+
+.carta-vuelta{
+    width: 217px;
+    height: 50vh;
+    background-color: var(--side-red-dark-gold);
+    border-radius: 10px;
+    border: 1.2rem solid var(--main-yellow);
+    border-image: var(--card-border) 150 150 150 150 ;
+    border-image-outset: 0.25;
+    position: relative;
+    font-family: 'cinzel';
+    
+}
+.carta>.carta-vuelta{
+    width: 100%;
+}
+
+.carta-titulo{
+    width: 100%;
+    color: var(--side-red-gold);
+    font-size: 1rem;
+    border: 2px solid var(--side-red-english);
+    box-shadow: 2px 2px black;
+    font-weight: bolder;
+}
+
+.carta-imagen{
+    width: 100%;
+    height: 20vh;
+    margin-top: 1rem;
+    background-image: var(--card-img);
+    background-size: 100% 100%;
+    border-radius: 15%;
+    border: 3px solid var(--side-red-english);
+    box-shadow: 2px 2px black;
+}
+
+.carta-efecto{
+    
+    width: 100%;
+    height: 15vh;
+    margin-top: 15%;
+    text-align: justify;
+    padding: 0.5rem;
+    font-size: 0.75rem;
+    background-color: rgba(181, 68, 43, 0.5);
+    color: var(--main-yellow);
+    border-radius: 15%;
+    border: 3px solid var(--side-red-english);
+    box-shadow: 2px 2px black;
+    font-family: 'cormorant';
+}
+
+.carta-footer{
+    font-size: 0.2rem;
+    position: absolute;
+    bottom: 0%;
+    text-align: center;
+}
+
+.container-head{
+    /*margin-top: 20%;*/
+    margin-left: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.container-head>div{
+    margin: auto;
+}
+/*
+========================================================
+=                        FOOTER                        =
+========================================================
+*/
+
+footer{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: var(--side-red-dark-gold);
+}
+
+.selector-idioma{
+    margin-top: 10%;
+    text-align: center;
+    margin: auto;
+    width: 50%;
+    height: 10vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.redes-sociales{
+    display: flex;
+    height: 10vh;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.redes-sociales p{
+    margin-top: 1%;
+    font-family: 'cormorant';
+}
+
+.redes-sociales a img{
+    width: 70px;
+    height: 80%;
+}
+
+.redes-sociales a{
+    width: 5%;
+    height: 100%;
+}
+
+.pegi{
+    height: 10vh;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.pegi img{
+    border-radius: 50%;
+    width: 70px;
+    height: 80%;
+    border: 2px solid var(--side-blue-light);
+}
+.pegi p{
+    margin-top: 1%;
+    font-family: 'cormorant';
+}
+
+.otra-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 50%;
+    margin: auto;
+    text-align: center;
+}
+
+/*
+==================================================================
+==================================================================
+==                                                              ==
+==                        LOGIN                                 ==
+==                                                              ==
+==================================================================
+==================================================================
+
+*/
+
+.main-form{
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-image: var(--login-back);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+/*Mediaquery cambiar el ancho cuando llegue a cierta medida
+al 100%*/
+.form-login{
+    width: 650px;
+    height: 55vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.form-login>h2{
+    margin-top: 5%;
+    text-align: center;
+    font-family: 'cinzel';
+    color: var(--main-yellow);
+    font-weight: bolder;
+}
+
+.form-login>form{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: auto;
+}
+
+.form-login * input[type=text], input[type=password]{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 5vh;
+    background-color: var(--side-blue-dark);
+    color:black;
+}
+
+.form-login * input[type=text]::placeholder, input[type=password]::placeholder{
+    padding: 4%;
+    color: black;
+}
+
+.form-login * input[type=submit]{
+    font-size: 2rem;
+    margin: auto;
+    width: 40%;
+    height: 7vh;
+    border-radius: 30px;
+    border: none;
+    color: var(--side-red-english);
+    background-color: var(--main-yellow);
+}
+
+.login-rrss{
+    margin: auto;
+    width: 70%;
+    height: 10vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 5vh;
+}
+.login-rrss img{
+    width: 50%;
+    height: 100%;
+}
+
+.activate{
+    display: block;
+    width: 100%;
+    background-color: black;
+}
+/*
+==================================================================
+==================================================================
+==                                                              ==
+==                        MEDIA                                 ==
+==                                                              ==
+==================================================================
+==================================================================
+*/
+
+@media screen and (max-width:920px) {
+    main{
+        height: 600vh;
+    }
+    .title-header{
+        display: flex;
+        flex-direction: column;
+    }
+    .title-header>span{
+        width: 100%;
+        text-align: center;
+    }
+    .title-header>img{
+        height: 50%;
+    }
+
+    #img>h1{
+        display: none;
+    }
+
+    #img>img{
+        width: 50%;
+    }
+
+    .posicionar{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .posicionar>.carta{
+        width: 200px;
+    }
+
+    main section:nth-child(3){
+        height: 220vh;
+    }
+
+    main section:nth-child(4){
+        height: 130vh;
+    }
+
+    .centrar{
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .container-head{
+        margin: auto;
+        margin-top: 20%;
+    }
+
+    .carta-vuelta{
+        margin: auto;
+    }
+}
+
+@media screen and (max-width:455px) {
+    .redes-sociales>img{
+        margin: auto;
+    }
+    .redes-sociales>p{
+        display: none;
+    }
+    .pegi>p{
+        display: none;
+    }
+    .btnBurger{
+        width: 50px;
+    }
+}
+
+@media screen and (max-width:400px) {
+    .title-header>span{
+        width: 100%;
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    .title-header>img{
+        width: 25%;
+        height: 25%;
+    }
+
+    .title-header{
+        display: flex;
+        flex-direction: column;
+        width: 20%;
+        height: 20vh;
+        top: 5%;
+        left: 38%;
+    }
+
+    .logueo{
+        width: 75px;
+        height: 75px;
+    }
+
+    .logueo>a{
+        top: 35%;
+        left: 25%;
+    }
+
+    .banner:hover>h4{
+        font-size: 1rem;
+    }
+
+    .carousel-title{
+        bottom: 0%;
+    }
+
+    .redes-sociales{
+        margin: auto;
+    }
+
+    .redes-sociales a{
+        width: 80%;
+    }
+
+    .pegi{
+        margin: auto;
+    }
+
+}
+
+@media screen and (max-width:670px) {
+    .form-login{
+        width: 100%;
+    }
+    .login-rrss{
+        width: 100%;
+    }
+    
+}
+
+@keyframes slidein {
+    from {
+      opacity: 1;
+      
+    }
+    to {
+      opacity: 0;
+      display: none;
+      
+    }
+}
+
+@keyframes slideon {
+    from {
+        opacity: 0;
+        display: flex;
+        
+      }
+      to {
+        opacity: 1;
+        
+      }
+}
+
