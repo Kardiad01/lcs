@@ -5,25 +5,111 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="<?=env('clienti')?>">
     <title>Document</title>
-    <link rel="stylesheet" href="<?php echo base_url('lcs/lcs/public');?>/assets/css/styles.css">
+    <?php if(esc($path)=='login' || esc($path)=='singin'):?>
+        <!--Movidas de google-->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://accounts.google.com/gsi/client" onload="console.log('TODO: add onload function')">  
+    </script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <!--Configuración para cliente de google, o como pasar el jwt a back y que registre-->
+    <script>
+        const id = '<?=env('clienti')?>';
+        const gurlLogin = '<?=base_url('/master/landing/login/googleoauthlogin')?>';
+        const gurlSinging = '<?=base_url('/master/landing/login/googleoauthsignin')?>';
+    </script>
+    <script src="<?=base_url('/assets/js/custom/google.js')?>"></script>
+    <?php endif;?>
+    <!--Css varios y css de librerías-->
+    <link rel="stylesheet" href="<?php echo base_url('/assets/js/libs/fontawesome/css/all.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('/assets/js/libs/splider/dist/css/splide.min.css');?>">
+    <link rel="stylesheet" href="<?php echo base_url('/assets/js/libs/bootstrap/css/bootstrap.css');?>">
+    <link rel="stylesheet" href="<?php echo base_url('/assets/js/libs/toastr/toastr.css');?>">
+    <!--JavaScript y cosas de librerías-->
+    <script src="<?php echo base_url('/assets/js/libs/jquery/jquery.js');?>"></script>
+    <script src="<?php echo base_url('/assets/js/libs/toastr/toastr.js');?>"></script>
+    <script src="<?php echo base_url('/assets/js/libs/bootstrap/js/bootstrap.js');?>"></script>
+    <script src="<?php echo base_url('/assets/js/libs/anime/lib/anime.min.js');?>"></script>
+    <script src="<?php echo base_url('/assets/js/libs/splider/dist/js/splide.min.js');?>"></script>
+    <script src="<?php echo base_url('/assets/js/libs/components/component.js');?>"></script>
+    <script src="<?php echo base_url('/assets/js/libs/components/profile.js');?>"></script>
+    <link rel="stylesheet" href="<?php echo base_url('/assets/css/styles.css');?>">
+
 </head>
-<body class="body">
+<body class="<?php 
+    if(esc($path)=='landing'){
+        echo 'body';
+    }else if(esc($path)=='login' || esc($path)=='singin' || esc($path)=='mailtorecovery' || esc($path)=='restartpassword'){
+        echo 'sign';
+    }else if(esc($path)=='user'){
+        echo 'user';
+    }?>">
+    <?php if(esc($path)!='user'):?>
     <header>
-        <nav>
-            <div>
-                <h2>LCS</h2>
-            </div>
-            <ul>
+    <nav class="navbar navbar-expand-md">
+        <h2>
+            <a class="navbar-brand brand-lcs" href="<?=(esc($path)=='user')?base_url('master/user/user/loadview'):base_url('master/landing/')?>">LCS</a>
+        </h2>
+        <button class="navbar-toggler mr-5" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav">
+            <?php if(esc($path)!='user'):?>
                 <li>
-                    <a href="">Login</a>
+                    <a href="<?=base_url('master/landing/login/loadview')?>"><?=esc($languaje)['nav']['alta']?></a>
                 </li>
                 <li>
-                    <a href="">Sing In</a>
-                </li>
+                    <a href="<?=base_url('master/landing/login/singin')?>"><?=esc($languaje)['nav']['login']?></a>
+                </li> 
+                <?php endif; ?>
             </ul>
-        </nav>
-        <div>
-            
         </div>
+    </nav>
+        <?php if(esc($path)=='landing'):?>
+        <div class="welcome">
+            <p>
+                <?=esc($languaje)['header']['header']?>
+            </p>
+        </div>
+        <div class="carrousel">
+            <div class="splide" data-use="carrousel">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide component" data-splide-hash="slide01">
+                            <img width="100%" height="100%" src="<?=base_url('/assets/img/BackHead.webp');?>" alt="">
+                            <div>
+                                <p style="color:white">
+                                    <?=esc($languaje)['carousel']['c1']?>
+                                </p>
+                            </div>
+                        </li>
+                        <li class="splide__slide component" data-splide-hash="slide02">
+                            <img width="100%" height="100%" src="<?=base_url('/assets/img/BackHead.webp');?>" alt="">
+                            <div>
+                                <p style="color:white">
+                                    <?=esc($languaje)['carousel']['c2']?>
+                                </p>
+                            </div>
+                        </li>
+                        <li class="splide__slide component" data-splide-hash="slide03">
+                            <img width="100%" height="100%" src="<?=base_url('/assets/img/BackHead.webp');?>" alt="">
+                            <div>
+                                <p style="color:white">
+                                    <?=esc($languaje)['carousel']['c3']?>
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="splide__progress">
+                        <div class="splide__progress__bar">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php endif;?>
+    <?php endif;?>
     </header>

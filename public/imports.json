@@ -1,0 +1,33 @@
+{
+    "BasePath": "http://localhost/lcs/lcs/public/",
+    "required" : [
+        {"anime" : {
+            "files" : {
+                "js":"assets/js/libs/anime/lib/anime.min.js",
+                "css":""
+            }
+        }},
+        {"jquery" : {
+            "files" : {
+                "js":"assets/js/libs/jquery/jquery.js",
+                "css":""
+            }
+        }},
+        {"splider" : {
+            "files" : {
+                "js":"assets/js/libs/splider/dist/js/splide.min.js",
+                "css": "assets/js/libs/splider/dist/css/splide.min.css"
+            }
+        }},{"comoponents" : {
+            "files" : {
+                "js":"assets/js/libs/components/component.js",
+                "css": ""
+            }
+        }},{"profile" : {
+            "files" : {
+                "js":"assets/js/libs/components/profile.js",
+                "css": ""
+            }
+        }}
+    ]
+}

@@ -8,6 +8,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
+use App\Helpers\Languaje;
 
 /**
  * Class BaseController
@@ -42,7 +43,13 @@ abstract class BaseController extends Controller
      * The creation of dynamic property is deprecated in PHP 8.2.
      */
     // protected $session;
-
+    protected  $session;
+    protected  $uri;
+    protected  $post;
+    protected  $get;
+    protected  $class;
+    protected  $method;
+    protected  $languaje;
     /**
      * Constructor.
      */
@@ -50,9 +57,12 @@ abstract class BaseController extends Controller
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
-
-        // Preload any models, libraries, etc, here.
-
-        // E.g.: $this->session = \Config\Services::session();
+        $this->session = \Config\Services::session();
+        $this->uri = $this->request->getUri()->getSegments();
+        $this->post = $this->request->getPost();
+        $this->get = $this->request->getGet();
+        $this->class = (isset($this->uri[2]))?'App\Controllers\\'.ucfirst($this->uri[2]):'';
+        $this->method = $this->uri[3] ?? '';
+        $this->languaje = json_decode((new Languaje())->init(), true);
     }
 }

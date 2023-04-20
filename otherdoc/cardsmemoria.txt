@@ -1,0 +1,61 @@
+JSON CARTAS{
+	"nombre" : nombre de la carta
+	"tipo" : [replica | concepto | contrareplica],
+	"contra" : int() /resta al rival puntuación,
+	"beneficio": int() /aumenta al jugador puntuación,
+	"referencia" : [carta a la que haga referencia],
+	"costo" : tiempo que gasta \d@t pagas tiempo como recurso \d@c pagas credibilidad o puntos de debate,
+	"busca" : nombre de la carta que busca, o tipo. [w+:carta específica, @w+: tipo de carta, d@w+: numero de cartas de un tipo a buscar x|x siendo x cualquiera de las anteriores formas de búsqueda permite tener búsquedas de 2 tipos],
+	"roba" : \d@d robas tantas cartas como \d sea. Es decir, \d es un número y robas tantas como esto dice.
+	"turnos" : turnos de carencia en los que tarda una carta en activar efecto. 0 es inmediato, 1 es al turno siguiente, 2 tras 2 turnos, y así sucesivamente.
+}
+
+Se empieza con 10 min de manera constante. 
+El tiempo se regenera a cada inicio de turno
+
+Concepto hace efecto sin más y se juegan en tu turno.
+Replica se juega contra concepto : negando el efecto, por tanto sólo pueden ser jugadas en turno rival
+Contrareplica se juega contra replica: por tanto sólo se pueden jugar en turno rival
+Win condition se valora siempre al iniciar el turno
+
+Win condition genérica 10 puntos de credibilidad.
+
+Orden de efectos:
+	1º puntuaciones
+	2º otros efectos.
+
+Mazo racionalistas 20 cartas. Este mazo va a funcionar de manera disruptiva respondiendo a conceptos pero siempre que se tenga la carta Pienso, luego existo, en campo.
+Win condition específica: Sacar la tríade Yo, Dios, Mundo (o metafísica generalis). Mazo control
+
+Mazo empiristas 20 cartas. Este mazo va estar hecho para poder ganar puntos de manera rápida, y a medida que más tarde menos puntos va a ganar. De modo que va a tener mucho concepto, y alguna réplica, pero es speedrunear combando, intentando correr para robar el mazo y generar recursos no de lo que hacen otros, sino de si mismo. 
+Mazo combo.
+Win condition específica: Juega la carta conocimiento sensible antes del turno 3 (esta carta tendrá un costo de todos los puntos)
+
+#Racionalismo
+
+insert into conceptos(nombre, tipo, contra, beneficio, referencia, costo, turnos, busca , roba , descripcion, texto_aparicion) values
+		('Duda metódica', 'replica', 1, 3, null, 3@t, 2, 'Pienso luego existo', 0@d, 'Si el rival juega un concepto, puedes jugar esta carta, busca Pienso luego existo y ganas 3 puntos de debate, quitándole 1 al rival', 'texto'),
+		('Pienso Luego Existo', 'concepto', 2, 1, null, 5@t, 1, '@replica', 0, 'Este concepto quita 2 puntos al rival y te da 1 a tí, éste te permite obtener 1 carta de réplica al jugarla', 'texto'),
+		('Deducción', 'contrareplica', 0, 0, null, 3@t, 0, '2@replica', 0, 'Si el rival juega una carta replica, puedes jugar esta carta. Si la juegas buscas 2 cartas réplica', 'texto'),
+		('Imaginacion', 'concepto', 0, 1, 'Pienso Luego Existo', 3@t, 0, '1@concepto', 0, 'Si "Pienso Luego Existo" está en el campo, puedes jugar esta carta, tras jugarla ganas 1 punto de debate y obtenes 2 cartas del tipo 				concepto', 'texto'),
+		('Dios', 'concepto', 2, 2, null, 6@t, 0, '2@replica', 0, 'Juegas esta carta restas 2 puntos al rival y te da 2 a tí, posterormente buscas 2 cartas réplica' , 'texto'),
+		('Yo', 'concepto', 2, 2, null, '6@t', 0, '1@contrareplica', 0, 'Cuando juegas esta carta restas 2 puntos al rival y te da 2 a tí, posteriormente buscas una 1 contraréplica', 'texto'),
+		('Mundo', 'concepto', 2, 2, null, '6@t', 0, '1@replica|1@contrareplica', 0, 'Cuando juegas esta carta restas 2 puntos al rival y te da 2 a tí, posteriormente busca 1 réplica y 1 contraréplica', 'texto');
+		(),
+		(),
+		(),
+		(),
+		(),
+		(),
+		(),
+		(),
+		(),
+		(),
+		(),
+		(),
+		(),
+		(),
+		(),
+		(),
+		(),
+		(),

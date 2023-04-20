@@ -1,5 +1,12 @@
 {
     "require": {
-        "codeigniter4/framework": "^4.3"
+        "codeigniter4/framework": "^4.3",
+        "google/cloud-functions-framework": "^1.1",
+        "google/apiclient": "^2.13",
+        "google/cloud-core": "^1.49",
+        "kelvinmo/simplejwt": "^0.5.3",
+        "firebase/php-jwt": "^6.4",
+        "league/oauth2-google": "3.0",
+        "deeplcom/deepl-php": "^1.3"
     }
 }
