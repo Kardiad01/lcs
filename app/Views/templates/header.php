@@ -19,24 +19,27 @@
         const id = '<?=env('clienti')?>';
         const gurlLogin = '<?=base_url('/master/landing/login/googleoauthlogin')?>';
         const gurlSinging = '<?=base_url('/master/landing/login/googleoauthsignin')?>';
-    </script>
+        </script>
     <script src="<?=base_url('/assets/js/custom/google.js')?>"></script>
     <?php endif;?>
     <!--Css varios y css de librerías-->
-    <link rel="stylesheet" href="<?php echo base_url('/assets/js/libs/fontawesome/css/all.css')?>">
-    <link rel="stylesheet" href="<?php echo base_url('/assets/js/libs/splider/dist/css/splide.min.css');?>">
-    <link rel="stylesheet" href="<?php echo base_url('/assets/js/libs/bootstrap/css/bootstrap.css');?>">
-    <link rel="stylesheet" href="<?php echo base_url('/assets/js/libs/toastr/toastr.css');?>">
+    <link rel="stylesheet" href="<?=base_url('/assets/js/libs/fontawesome/css/all.css')?>">
+    <link rel="stylesheet" href="<?=base_url('/assets/js/libs/splider/dist/css/splide.min.css');?>">
+    <link rel="stylesheet" href="<?=base_url('/assets/js/libs/bootstrap/css/bootstrap.css');?>">
+    <link rel="stylesheet" href="<?=base_url('/assets/js/libs/toastr/toastr.css');?>">
+    <link rel="stylesheet" href="<?=base_url('/assets/js/libs/datatable/datatables.min.css');?>">
+    <link rel="stylesheet" href="<?=base_url('/assets/css/animate.css');?>"/>
     <!--JavaScript y cosas de librerías-->
-    <script src="<?php echo base_url('/assets/js/libs/jquery/jquery.js');?>"></script>
-    <script src="<?php echo base_url('/assets/js/libs/toastr/toastr.js');?>"></script>
-    <script src="<?php echo base_url('/assets/js/libs/bootstrap/js/bootstrap.js');?>"></script>
-    <script src="<?php echo base_url('/assets/js/libs/anime/lib/anime.min.js');?>"></script>
-    <script src="<?php echo base_url('/assets/js/libs/splider/dist/js/splide.min.js');?>"></script>
-    <script src="<?php echo base_url('/assets/js/libs/components/component.js');?>"></script>
-    <script src="<?php echo base_url('/assets/js/libs/components/profile.js');?>"></script>
-    <link rel="stylesheet" href="<?php echo base_url('/assets/css/styles.css');?>">
-
+    <script src="<?=base_url('/assets/js/libs/jquery/jquery.js');?>"></script>
+    <script src="<?=base_url('/assets/js/libs/datatable/datatables.min.js');?>"></script>
+    <script src="<?=base_url('/assets/js/libs/bootbox/bootbox.js');?>"></script>
+    <script src="<?=base_url('/assets/js/libs/toastr/toastr.js');?>"></script>
+    <script src="<?=base_url('/assets/js/libs/bootstrap/js/bootstrap.js');?>"></script>
+    <script src="<?=base_url('/assets/js/libs/anime/lib/anime.min.js');?>"></script>
+    <script src="<?=base_url('/assets/js/libs/splider/dist/js/splide.min.js');?>"></script>
+    <script src="<?=base_url('/assets/js/libs/components/component.js');?>"></script>
+    <script src="<?=base_url('/assets/js/libs/components/profile.js');?>"></script>
+    <link rel="stylesheet" href="<?=base_url('/assets/css/styles.css');?>">
 </head>
 <body class="<?php 
     if(esc($path)=='landing'){
@@ -46,7 +49,7 @@
     }else if(esc($path)=='user'){
         echo 'user';
     }?>">
-    <?php if(esc($path)!='user'):?>
+    <?php if(esc($path)!='user' && esc($path)!='deckbuilder'):?>
     <header>
     <nav class="navbar navbar-expand-md">
         <h2>
@@ -75,7 +78,7 @@
             </p>
         </div>
         <div class="carrousel">
-            <div class="splide" data-use="carrousel">
+            <div class="splide" data-library-func="carrousel-0">
                 <div class="splide__track">
                     <ul class="splide__list">
                         <li class="splide__slide component" data-splide-hash="slide01">
@@ -112,4 +115,4 @@
         </div>
         <?php endif;?>
     <?php endif;?>
-    </header>
+</header>

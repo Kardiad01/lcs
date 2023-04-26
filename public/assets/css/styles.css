@@ -675,6 +675,31 @@ body .section-body{
 
 /*
 =====================================================
+=                       Deckbuilder                 =
+=====================================================
+*/
+
+.deckbuilder{
+    height: 80vh;
+}
+
+.deckbuilder .col-8 {
+    overflow: scroll;
+}
+.seleccion{
+    overflow: scroll;
+}
+.acciones{
+    height: 12.5vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/*
+=====================================================
 =                       Media                       =
 =====================================================
 */

@@ -3,7 +3,7 @@
     <article class="external-reverse-image">
 
     </article>
-        <article class="form" action="<?=base_url('master/landing/login/login')?>" method="post" data-form="form">
+        <article class="form" action="<?=base_url('master/landing/login/login')?>" method="post" data-library-func="form-0">
             <div class="form-head">
                 <h2>Login</h2>
             </div>
@@ -48,7 +48,7 @@
     <article class="external-reverse-image">
 
     </article>
-    <article class="form" action="<?=base_url('/master/landing/login/adduser')?>" method="post" data-form="form">
+    <article class="form" action="<?=base_url('/master/landing/login/adduser')?>" method="post" data-library-func="form-0">
         <div class="form-head">
             <h2>Sing In</h2>
         </div>
@@ -95,7 +95,7 @@
 <article class="external-reverse-image">
 
 </article>
-<article class="form" action="<?=base_url('/master/landing/login/recovery')?>" method="post" data-form="form">
+<article class="form" action="<?=base_url('/master/landing/login/recovery')?>" method="post" data-library-func="form-0">
     <div class="form-head">
         <h2>Recupera tu cuenta</h2>
     </div>
@@ -116,7 +116,7 @@
 <article class="external-reverse-image">
 
 </article>
-<article class="form" action="<?=base_url('/master/landing/login/newpassword?code='.$_GET['code'])?>" method="post" data-form="form">
+<article class="form" action="<?=base_url('/master/landing/login/newpassword?code='.$_GET['code'])?>" method="post" data-library-func="form-0">
     <div class="form-head">
         <h2>Cambia tu contraseña</h2>
     </div>
@@ -139,17 +139,19 @@
 </main>
 <script>
 $(document).ready(()=>{
-    const app = new Profile({
+    const app = new App({
         form:{
-            config: {
-                get: 'data-get',
-                method: 'post',
-                format: 'json',
-                send: 'data-send',
-                ajax: true,
-                reload: false,
-                redirect: true,
-                debug: true
+            0:{
+                config: {
+                    get: 'data-get',
+                    method: 'post',
+                    format: 'json',
+                    send: 'data-send',
+                    ajax: true,
+                    reload: false,
+                    redirect: true,
+                    debug: true
+                }
             }
         },
     });

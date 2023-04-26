@@ -36,6 +36,9 @@ class Component {
       },
       button : {
         generate : this.button
+      },
+      event : {
+        generate: this.event
       }
     };
 
@@ -52,6 +55,14 @@ class Component {
                 })
              }
          });
+    }
+
+    event(config){
+        if(config.trigger!=null){
+            config.trigger.addEventListener(config.event, config.call);
+        }else{
+            this.domElement.addEventListener(config.event, config.call);
+        }
     }
 
     animated(config){
@@ -78,7 +89,7 @@ class Component {
  
     modal(config){
          $(this.domElement).on('click', function () {
-             bootbox.dialog(config)
+            bootbox.dialog(config)
          });
     }
  
@@ -147,7 +158,6 @@ class Component {
                 return console.error('Format not defined or not valid')
             }
             
-     
             if(s().debug){
                 console.log(resp)
             }

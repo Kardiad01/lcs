@@ -52,6 +52,7 @@ class Login implements IViews{
             return;
        }
        $this->session->set('user', $user);
+       model('Jugador')->set('enlinea', 1)->where('id', $user[0]['id'])->update();
        echo json_encode(['status'=>200, 'msg'=>'credenciales correctas', 'url'=>base_url('master/user/user/loadview')]);
     }
 
@@ -69,6 +70,7 @@ class Login implements IViews{
             return;
         }else{
             $this->session->set('user', $user);
+            model('Jugador')->set('enlinea', 1)->where('id', $user[0]['id'])->update();
             echo json_encode(['status'=>200, 'msg'=>'credenciales correctas', 'url'=>base_url('/master/user/user/loadview')]);
             return; 
         }
@@ -97,8 +99,8 @@ class Login implements IViews{
             'Tu contraseña actual', 
             ROOTPATH.'/public/assets/templates/password_info_es.html', 
             [
-                'USER' => explode('@',$data->email)[0],
-                'PASS' => $data->sub,
+                'USER' => str_replace('$', '', explode('@',$data->email)[0]),
+                'PASS' => str_replace('$', '', $data->sub),
             ]
             ]))->allInOne();
             $this->session->set('user', $user);

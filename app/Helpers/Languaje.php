@@ -97,16 +97,26 @@ class Languaje{
             'buybooks' => $translatedData[31],
             'buildarguments' => $translatedData[32],
             'friendlist' => $translatedData[33],
-            'exit' => $translatedData[34]
+            'readbook' => $translatedData[34] ,
+            'getmorecash' => $translatedData[46],
+            'exit' => $translatedData[35]
             ],
         'profile' => [
-            'playername' => $translatedData[35],
-            'password' => $translatedData[36],
-            'image' => $translatedData[37],
-            'email' => $translatedData[38],
-            'played' => $translatedData[39],
-            'win' => $translatedData[40],
-            'lose' => $translatedData[41],
+            'playername' => $translatedData[36],
+            'password' => $translatedData[37],
+            'image' => $translatedData[38],
+            'email' => $translatedData[39],
+            'played' => $translatedData[40],
+            'win' => $translatedData[41],
+            'lose' => $translatedData[42],
+        ],
+        'play' => [
+            'title' => $translatedData[43],
+            'online' => $translatedData[44],
+            'friends' => $translatedData[45]
+        ],
+        'buybooks' => [
+            
         ]
         ];
         return json_encode($landingData);

@@ -1,5 +1,5 @@
 /**
- * @class Profile esta clase tiene por finalidad cargar todos los componentes de la página y guardarlos dentro de ella misma
+ * @class App esta clase tiene por finalidad cargar todos los componentes de la página y guardarlos dentro de ella misma
  * @attribute webMap sería para escalar los recursos o componentes de la página, es decir, de decir que componentes existen
  * @attribute sources en este objeto se guardan las configuraciones que nosotros le decimos a la página.
  * @attribute arraySources en este array se guarda todo lo referente a los componentes de la página como una clase.
@@ -9,30 +9,19 @@
  * quieras poner mensaje custom.
  *  
 */
-class Profile {
-    webMap = {
-        func : {
-
-        },
-        form : {
-
-        }
-    };
+class App {
+    funcionalDom;
+    webMap = {};
     sources;
     data;
     arraySources = [];
     constructor(sources){
         //Esto es para encontrar aquellas cosas que tiene que usar nuestros componentes.
-        this.webMap.func = document.querySelectorAll("[data-use]");
-        this.webMap.form = document.querySelectorAll("[data-form]");
+        this.funcionalDom = document.querySelectorAll("[data-library-func]");
         this.sources = sources;
-        if(Object.keys(sources).length!=0){
-            this.sources = sources;
-            this.init();
-        }else{
-            console.error("You need a json with a configuration and types of data to use");
-        }
+        this.init();
     }
+
     /**
      * @method init este método lanza los componentes y los instancia, registrándolo en la misma aplicación. Es decir, dentro de arraySources guarda un objeto source, el cual contendrá:
      * {
@@ -42,23 +31,35 @@ class Profile {
      * 
      * }
      */
-
     init(){
-        this.webMap.func.forEach(element => {
-            this.arraySources.push({
+        [...this.funcionalDom].forEach((element)=>{
+            let key = element.dataset.libraryFunc.split('-')[0];
+            let position = element.dataset.libraryFunc.split('-')[1];
+            if(!Object.hasOwn(this.webMap, key)){
+                this.webMap[key] = {}
+            }
+            let component = new Component(key, element, this.sources[key][position].config);
+            this.webMap[key][position] = {
                 dom : element,
-                sources: this.sources[element.localName],
-                class : new Component(element.dataset.use, element, this.sources[element.dataset.use].config)
-            });
+                class : component  
+            };
+            this.arraySources.push(this.webMap[key][position]);
         });
-        this.webMap.form.forEach(element => {
-            console.log(this.sources[element.dataset.form])
-            this.arraySources.push({
-                dom : element,
-                sources: this.sources[element.localName],
-                class : new Component(element.dataset.form, element, this.sources[element.dataset.form].config),
-            });
-        })
+        /*if(Object.hasOwn(this.sources, 'event')){
+            Object.keys(this.sources.event).forEach((element)=>{
+                if(Object.hasOwn(this.sources.event[element]), 'trigger'){
+                    if(this.sources.event[element].config.trigger == document || this.sources.event[element].config.trigger == window){
+                        this.webMap['event'] = {};
+                        this.webMap['event'][element] = {};
+                        let component = new Component('event', this.sources.event[element].config.trigger, this.sources['event'][element].config)
+                        this.webMap['event'][element] = {
+                            dom : this.sources.event[element].config.trigger,
+                            class : component
+                        }
+                    }
+                }
+            })
+        }*/
     }
 
 }
