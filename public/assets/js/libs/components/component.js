@@ -24,8 +24,7 @@ class Component {
         send : this.send
       },
       buttonAjax : {
-        generate : this.button,
-        send : this.send
+        generate : this.ajax,
       },
       carrousel: {
         generate : this.carrousel,
@@ -63,6 +62,32 @@ class Component {
         }else{
             this.domElement.addEventListener(config.event, config.call);
         }
+        if(config.event == 'observer'){
+            (new MutationObserver(config.call)).observe(config.trigger, config.config);
+        }
+        if(config.event == 'websocket'){
+            //pdte implementar
+        }
+    }
+
+    //pendiente de mejorar
+    ajax(config){
+        $(this.domElement).on(config.event, async(e)=>{
+            const form = new FormData();
+            for(const formkey in config.data){
+                form.append(formkey, config.data[formkey]);
+            }
+            const conn = await fetch(config.url, {
+                method : config.method,
+                body : form,
+            });
+            let res = '';
+            if(config.type=='JSON') res = await conn.json(); 
+            if(config.type=='text') res = await conn.text();
+            if(config.type=='blob') res = await conn.blob();
+            await config.success(res)();
+            
+        });
     }
 
     animated(config){
@@ -79,7 +104,7 @@ class Component {
         this.instance.mount()
     }
 
-    button(config){
+    button(config){        
         $(this.domElement).on(config.event, config.callback);
     }
  

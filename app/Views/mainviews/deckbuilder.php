@@ -64,7 +64,7 @@
                                     const element = data.find((ele)=>{
                                         if(ele.id == id_carta) return ele;
                                     })
-                                    if(!mazoLocal.cartas.some(ele=>ele.id==id_carta) && mazoLocal.cartas.length<=20){
+                                    if(!mazoLocal.cartas.some(ele=>ele.id==id_carta) && mazoLocal.cartas.length<20){
                                         mazoLocal.cartas.push(element);
                                         $('#cardlist').html('');
                                         mazoLocal.cartas.forEach((ele)=>{
@@ -175,6 +175,9 @@
                                                     window.localStorage.removeItem('deck-'+id)
                                                     if(response.status==200){
                                                         toastr.success('', response.msg);
+                                                        setTimeout(()=>{
+                                                            window.close();
+                                                        },1000);
                                                     }else{
                                                         toastr.error('', response.msg)
                                                     }

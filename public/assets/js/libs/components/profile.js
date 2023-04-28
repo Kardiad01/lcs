@@ -45,7 +45,7 @@ class App {
             };
             this.arraySources.push(this.webMap[key][position]);
         });
-        /*if(Object.hasOwn(this.sources, 'event')){
+        if(Object.hasOwn(this.sources, 'event')){
             Object.keys(this.sources.event).forEach((element)=>{
                 if(Object.hasOwn(this.sources.event[element]), 'trigger'){
                     if(this.sources.event[element].config.trigger == document || this.sources.event[element].config.trigger == window){
@@ -56,10 +56,23 @@ class App {
                             dom : this.sources.event[element].config.trigger,
                             class : component
                         }
+                    }                   
+                }
+                if(this.sources.event[element].config.event == 'observer'){
+                    this.webMap['event'] = {};
+                    this.webMap['event'][element] = {};
+                    let component = new Component('event', this.sources.event[element].config.trigger, this.sources['event'][element].config)
+                    this.webMap['event'][element] = {
+                        dom : this.sources.event[element].config.trigger,
+                        class : component
                     }
                 }
+
+                if(this.sources.event[element].config.event == 'websocket'){
+                    //pdte implementación
+                }
             })
-        }*/
+        }
     }
 
 }

@@ -1,15 +1,37 @@
 <script>
 $(document).ready(()=>{
     //Redimensionar imagen desde el background, para imagen de perfil
-    $('.user-img').css({
-        'background-image' : 'url("<?=esc($user[0]['img_perfil'])?>")',
-        'background-color': 'black',
-        'width' : '300px',
-        'height' : '300px',
-        'background-size' : '100% 100%',
-        'border-radius' : '50%'
-    });
+    
     const app = new App({
+        event : {
+            0:{
+                name : 'observer de pruebas',
+                config: {
+                    event : 'click', 
+                    callback : function(e){
+                        console.log(e)
+                    }
+                }
+            },
+            1: {
+                name : 'websocket de pruebas',
+                config: {
+                    url : '', //url sin el wss o ws
+                    open : function(ev){
+
+                    },
+                    message : function(ev){
+
+                    },
+                    close : function(ev){
+
+                    },
+                    error : function(ev){
+
+                    }
+                }
+            }
+        },
         form:{
             0: {
                 name : 'form que sirve para actualizar datos del usuario',
@@ -185,7 +207,7 @@ $(document).ready(()=>{
                         }
                     ],
                     fnDrawCallback: function(e){
-                        $('[data-friend]').click(function(){
+                        $('[data-friend]').click(function(){                             
                             let table = $(app.webMap.datatable[0].dom).dataTable();
                             $.ajax({
                                 type: "POST",
@@ -336,6 +358,14 @@ $(document).ready(()=>{
                 } 
             }
         }
+    });
+    $('.user-img').css({
+        'background-image' : 'url("<?=esc($user[0]['img_perfil'])?>")',
+        'background-color': 'black',
+        'width' : '300px',
+        'height' : '300px',
+        'background-size' : '100% 100%',
+        'border-radius' : '50%'
     });
 })
 </script>

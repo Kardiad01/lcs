@@ -271,9 +271,8 @@ CREATE TABLE debate (
   carta_senalada_jugador1 int UNSIGNED DEFAULT NULL,
   carta_senalada_jugador2 int UNSIGNED DEFAULT NULL
 );
-use lascartasdesofia;
-select * from jugador;
-delete from jugador where id = 1;
+
+
 
 delimiter 😂
 create trigger paga

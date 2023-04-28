@@ -51,7 +51,6 @@ class Jugador extends AModel{
 
     public function getpaginatedfriends($requiredParamsToDT, $session){
         $results = [];
-        $friendlist = 
         $paginatedBooks = $this->select('id, nombre, enlinea')
             ->like('nombre', $requiredParamsToDT['busqueda'])
             ->orderBy($requiredParamsToDT['ordenacion'], $requiredParamsToDT['dir_ord'])
@@ -88,6 +87,10 @@ class Jugador extends AModel{
 
     public function makefriends($params){
         $this->db->table('amigos')->insert($params);
+    }
+
+    public function friendrequest(){
+        return $this->db->table('amigos');
     }
 
     public function friendlist($id_usuario){

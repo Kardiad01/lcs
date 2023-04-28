@@ -122,13 +122,17 @@ class User implements IViews {
 
     public function buybook(){
         //Crear trigger para automatizar la resta de la compra del libro cuando se compra
-        if(model('Libro')->addbooktoplayer($this->post)){
-            model('Libro')->select('precio')->where('id', $this->post['id_book'])->get()->getResultArray();
+        $precio = model('Libro')->select('precio')->where('id', $this->post['id_book'])->get()->getResultArray()[0]['precio'];
+        $dinero = $this->session->get('user')[0]['dinero'];
+        if($dinero>=$precio){
+            model('Libro')->addbooktoplayer($this->post);
             $this->session->set('user', model('Jugador')
                 ->where('id', $this->post['id_user'])
                 ->get()
                 ->getResultArray());
             echo json_encode(['status'=>200]);
+        }else{        
+            echo json_encode(['status'=>202]);
         }
     }
 
@@ -206,9 +210,6 @@ class User implements IViews {
     }
 
     public function friendlist(){
-    }
-
-    public function play(){
 
     }
 
@@ -217,6 +218,10 @@ class User implements IViews {
     }
 
     public function recivemsg(){
+
+    }
+
+    public function play(){
 
     }
 
@@ -247,8 +252,8 @@ class User implements IViews {
         echo json_encode(['data'=>model('Argumentario')->getalldecksofaplayer($this->session->get('user')[0]['id'])]);
     }
 
-    public function addcardstodeck(){        
-        if(!isset($this->post['cards'])){
+    public function addcardstodeck(){ 
+        if(!isset($this->post['cards']) && !is_array($this->post['cards'])){
             echo json_encode(['status'=>201, 'msg'=>'no se permiten mazos con 0 cartas']);
             return;
         }
