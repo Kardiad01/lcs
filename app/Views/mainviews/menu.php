@@ -7,8 +7,14 @@ $(document).ready(()=>{
             0:{
                 name : 'observer de pruebas',
                 config: {
-                    event : 'click', 
-                    callback : function(e){
+                    event : 'observer',
+                    trigger : document.querySelector('.user-img'),
+                    config : {
+                        childList : true,
+                        attributes : true,
+                        attributeFilter : ['src']
+                    },
+                    call : function(e){
                         console.log(e)
                     }
                 }
@@ -16,7 +22,9 @@ $(document).ready(()=>{
             1: {
                 name : 'websocket de pruebas',
                 config: {
-                    url : '', //url sin el wss o ws
+                    event : 'websocket',
+                    trigger : document,
+                    url : '<?=base_url('master/user/user/friendrequest')?>', //url sin el wss o ws
                     open : function(ev){
 
                     },
@@ -514,18 +522,40 @@ $(document).ready(()=>{
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <table data-library-func="datatable-1" class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
+            <div class="container-fluid row">
+                <div class="col-6">
+                    <h5>Usuarios del juego</h5>
+                    <table data-library-func="datatable-1" class="table w-50">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-6">
+                    <h5>Amigos</h5>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Acciones</th>
+                        </thead>
+                        <tbody>
+                            <td>Holao</td>
+                            <td>
+                                <button class="btn btn-primary">Chatear</button>
+                                <button class="btn btn-danger">Eliminar</button>
+                            </td>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         </div>
     </div>

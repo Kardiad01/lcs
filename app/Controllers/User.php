@@ -205,6 +205,11 @@ class User implements IViews {
         }
     }
 
+    public function friendrequest(){
+        echo json_encode(['status'=>200, 'msg'=>model('Jugador')->friendrequest($this->session->get('user')[0]['id'])]);        
+    }
+
+
     public function confirmfriend(){
 
     }

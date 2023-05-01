@@ -66,7 +66,18 @@ class Component {
             (new MutationObserver(config.call)).observe(config.trigger, config.config);
         }
         if(config.event == 'websocket'){
-            //pdte implementar
+            console.log(config.url);
+            const websocket = new WebSocket('wss:'+config.url.replace('http://', ''));
+            websocket.addEventListener('open', (e)=>{
+                console.log('Conexión abierta')
+                websocket.send();
+            })
+            websocket.addEventListener('message', (e)=>{
+                console.log(e)
+            })
+            websocket.addEventListener('close', (e)=>{
+                console.log(e)
+            })
         }
     }
 

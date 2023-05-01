@@ -89,8 +89,10 @@ class Jugador extends AModel{
         $this->db->table('amigos')->insert($params);
     }
 
-    public function friendrequest(){
-        return $this->db->table('amigos');
+    public function friendrequest($id){
+        return $this->db->table('amigos')
+        ->join('jugador', 'amigos.id_solicitante = jugador.id')
+        ->where('amigos.id_solicitado', $id)->get()->getResultArray();
     }
 
     public function friendlist($id_usuario){

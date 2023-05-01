@@ -120,12 +120,13 @@ insert into disciplina (nombre, win_condition) values
 drop table if exists argumentario;
 create table if not exists argumentario(
 	id int unsigned auto_increment primary key,
+    id_jugador int unsigned,
     nombre varchar(250),
-    conceptos int
+    foreign key (id_jugador) references jugador(id)
 );
 
 drop table if exists argumentario_cartas;
-create table if not exists argumentario_cartas(
+create table if not exists argumentario_conceptos(
 	id_argumentario int unsigned,
     id_concepto int unsigned,
     foreign key (id_argumentario) references argumentario(id),
@@ -276,6 +277,14 @@ create table if not exists masterizados(
     id_libro int unsigned,
     foreign key (id_jugador) references jugador(id),
     foreign key (id_libro) references libro(id)
+);
+
+drop table if exists amigos;
+create table if not exists amigos(
+	id_solicitado int unsigned,
+    id_solicitante int unsigned,
+    foreign key (id_solicitado) references jugador(id),
+    foreign key (id_solicitante) references jugador(id)
 );
 
 drop trigger if exists paga;
