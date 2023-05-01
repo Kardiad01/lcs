@@ -1,3 +1,5 @@
+drop database if exists lascartasdesofia;
+create database if not exists lascartasdesofia;
 use lascartasdesofia;
 drop table if exists conceptos;
 create table if not exists conceptos(
@@ -14,66 +16,60 @@ create table if not exists conceptos(
     descripcion varchar(300),
     texto_aparicion varchar(1000)
 );
-drop table if exists concepto_libros;
-create table if not exists concepto_libros(
-	id_concepto int unsigned,
-    id_libro int unsigned,
-    foreign key (id_concepto) references conceptos(id),
-    foreign key (id_libro) references libro(id)
-);
+
 #Cartas racionalistas
 insert into conceptos(nombre, tipo, contra, beneficio, referencia, costo, turnos, busca , roba , descripcion, texto_aparicion) values
-		('Duda metódica', 'replica', 1, 3, null, '3@t', 5 'Pienso luego existo', 0, 'Cuando juegas quitas 2 puntos al rival y ganas 2 puntos, posteriormente busca Pienso luego existo y ganas 3 puntos de debate, quitándole 1 al rival', 'texto'),
-		('Pienso Luego Existo', 'concepto', 5 1, null, '4@t', 0, '@replica', 0, 'Este concepto quita 2 puntos al rival y te da 1 a tí, éste te permite obtener 1 carta de réplica al jugarla', 'texto'),
+		('Duda metódica', 'replica', 1, 3, null, '3@t', 5, 'Pienso luego existo', 0, 'Cuando juegas quitas 2 puntos al rival y ganas 2 puntos, posteriormente busca Pienso luego existo y ganas 3 puntos de debate, quitándole 1 al rival', 'texto'),
+		('Pienso Luego Existo', 'concepto', 5, 1, null, '4@t', 0, '@replica', 0, 'Este concepto quita 2 puntos al rival y te da 1 a tí, éste te permite obtener 1 carta de réplica al jugarla', 'texto'),
 		('Deducción', 'contrareplica', 0, 0, null, '3@t', 0, '2@replica', 0, 'Si el rival juega una carta replica, puedes jugar esta carta. Si la juegas buscas 2 cartas réplica', 'texto'),
 		('Imaginacion', 'concepto', 0, 1, 'Pienso Luego Existo', '3@t', 0, '1@concepto', 0, 'Si "Pienso Luego Existo" está en el campo, puedes jugar esta carta, tras jugarla ganas 1 punto de debate y obtenes 2 cartas del tipo concepto', 'texto'),
-		('Dios', 'concepto', 5 5 null, '6@t', 0, '2@replica', 0, 'Juegas esta carta restas 2 puntos al rival y te da 2 a tí, posterormente buscas 2 cartas réplica' , 'texto'),
-		('Yo', 'concepto', 5 5 null, '6@t', 0, '1@contrareplica', 0, 'Cuando juegas esta carta restas 2 puntos al rival y te da 2 a tí, posteriormente buscas una 1 contraréplica', 'texto'),
-		('Mundo', 'concepto', 5 5 null, '6@t', 0, '1@replica|1@contrareplica', 0, 'Cuando juegas esta carta restas 2 puntos al rival y te da 2 a tí, posteriormente busca 1 réplica y 1 contraréplica', 'texto'),
+		('Dios', 'concepto', 5, 5, null, '6@t', 0, '2@replica', 0, 'Juegas esta carta restas 2 puntos al rival y te da 2 a tí, posterormente buscas 2 cartas réplica' , 'texto'),
+		('Yo', 'concepto', 5, 5, null, '6@t', 0, '1@contrareplica', 0, 'Cuando juegas esta carta restas 2 puntos al rival y te da 2 a tí, posteriormente buscas una 1 contraréplica', 'texto'),
+		('Mundo', 'concepto', 5, 5, null, '6@t', 0, '1@replica|1@contrareplica', 0, 'Cuando juegas esta carta restas 2 puntos al rival y te da 2 a tí, posteriormente busca 1 réplica y 1 contraréplica', 'texto'),
 		('Pensar', 'replica', 3, 1, 'Pienso Luego Existo', '3@t', 0, '1@replica', 0, 'Si "Pienso luego existo" está en el campo, puedes jugar esta carta, tras jugaarla restas 3 puntos al rival y te da a tí 1, posteriormente busca 1 réplica', 'texto'),
-		('Idea de un ser más perfecto', 'replica', 0, 5 'Pienso Luego Existo', '3@t', 0, 'Dios', null, 'Cuando juegas esta carta ganas 2 puntos, posteriormente busca 1 concepto Dios', 'texto'),
-		('Ideas', 'contrareplica', 5 5 null, '3@t', 0, '2@replicas', 0, 'Cuando juegas esta carta quitas 2 puntos al rival y ganas 2 puntos, posteriormente busca 2 réplicas', 'texto'),
-		('Precipitación', 'replica', 1, 5 null, '3@t', 0, 'Duda metódica', 0, 'Cuando juegas esta carta quitas 1 punto al rival y ganas 2 puntos, posteriormente busca una Duda metódica', 'texto');
+		('Idea de un ser más perfecto', 'replica', 0, 5, 'Pienso Luego Existo', '3@t', 0, 'Dios', null, 'Cuando juegas esta carta ganas 2 puntos, posteriormente busca 1 concepto Dios', 'texto'),
+		('Ideas', 'contrareplica', 5, 5, null, '3@t', 0, '2@replicas', 0, 'Cuando juegas esta carta quitas 2 puntos al rival y ganas 2 puntos, posteriormente busca 2 réplicas', 'texto'),
+		('Precipitación', 'replica', 1, 5, null, '3@t', 0, 'Duda metódica', 0, 'Cuando juegas esta carta quitas 1 punto al rival y ganas 2 puntos, posteriormente busca una Duda metódica', 'texto');
 insert into conceptos(nombre, tipo, contra, beneficio, referencia, costo, turnos, busca , roba , descripcion, texto_aparicion) values        
 		('Conocimiento cierto', 'contrareplica', 1, 1, null, '3@t', 0, '1@replica', 0, 'Cuando juegas esta carta quitas 1 punto al rival y ganas 2 puntos, posteriormente busca 1 carta réplica', 'texto'),
 		('Verdadero método', 'contrareplica', 1,1, null, '3@t', 0, '1@replica', 0, 'Cuando juegas esta carta quitas 1 punto al rival y ganas 1 punto, posteriormente busca 1 carta réplica', 'texto'),
-		('Clara', 'replica', 55 null, '3@t', 0, '1@replica', 0, 'Cuando juegas esta carta quitas 2 puntos al rival y ganas 2 puntos, posteriormente busca 1 carta réplica', 'texto'),
+		('Clara', 'replica', 5, 5, null, '3@t', 0, '1@replica', 0, 'Cuando juegas esta carta quitas 2 puntos al rival y ganas 2 puntos, posteriormente busca 1 carta réplica', 'texto'),
 		('Distinción', 'replica', 3, 0, null, '3@t', 0, '1@contrareplica', 0, 'Cuando juegas esta carta quitas 3 puntos al rival, posteriormente busca 1 carta de contraréplica', 'texto'),
 		('Espíritu', 'contrareplica', 7, 0, 'Yo', '7@t', 0, null, 0, 'Si "Yo" está en el campo, puedes jugar esta carta, tras jugarla el rival perderá 7 puntos', 'texto'),
-		('Verdadero', 'contrareplica', 1, 5 null, '2@t', 0, '1@replica', 0, 'Cuando juegas esta carta quitas 1 punto al rival y tú ganas 5 posteriormente busca 1 carta réplica', 'texto'),
-		('Opiniones', 'replica', 5 1, null, '1@t', 0, null, 0, 'Cuando juegas esta carta quitas 2 puntos al rival y tu ganas 1.', 'text'),
+		('Verdadero', 'contrareplica', 1, 5, null, '2@t', 0, '1@replica', 0, 'Cuando juegas esta carta quitas 1 punto al rival y tú ganas 5 posteriormente busca 1 carta réplica', 'texto'),
+		('Opiniones', 'replica', 5, 1, null, '1@t', 0, null, 0, 'Cuando juegas esta carta quitas 2 puntos al rival y tu ganas 1.', 'text'),
 		('Ciencias', 'replica', 5, 5, 'Mundo|Yo|Duda metódica', '7@t', 0, '4@replica|1@contrareplica', 0 , 'Si "Mundo", "Yo", "Duda metódica" están en el campo, puedes jugar esta carta, tras jugarla el rival pierde 5 puntos, y tú ganas 5 además de poder buscar 4 réplicas y 1 contraréplica', 'texto'),
 		('Entendimiento', 'replica', 9, 0, 'Yo|Dios', '10@t', 0, null, 0, 'Si "Yo" y "Dios" están en el campo, puedes jugar esta carta, tras jugarla el rival perde 9 puntos', 'text0'),
 		('Esencia', 'concepto', 1, 3, null, '3@t', 0, null, 0, 'Cuando juegas esta carta quitas 1 punto al rival y tú ganas 3', 'text'),
-		('Res extensa', 'replica', 3, 5 'Esencia', '5@t', 0, '1@concepto', 0, 'Si "Esencia" está en el campo puedes jugar esta carta, tras jugarla el rival pierde 3 puntos y tú ganas 5 además puedes buscar un concepto', 'texto'),
+		('Res extensa', 'replica', 3, 5, 'Esencia', '5@t', 0, '1@concepto', 0, 'Si "Esencia" está en el campo puedes jugar esta carta, tras jugarla el rival pierde 3 puntos y tú ganas 5 además puedes buscar un concepto', 'texto'),
 		('Res cogitans', 'replica', 5, 0, 'Esencia', '3@t', 0, null, 0, 'Si "Esencia" está en el campo puedes jugar esta carta, el rival pierde 5 puntos', 'text'),
-		('Pensar', 'contrareplica', 5 4, null, '4@t', 0, null, 0, 'Cuando juegas esta carta quitas 2 puntos al rival y tú ganas 4' , 'text');
+		('Pensar', 'contrareplica', 5, 4, null, '4@t', 0, null, 0, 'Cuando juegas esta carta quitas 2 puntos al rival y tú ganas 4' , 'text');
 #Cartas empiristas
 insert into conceptos (nombre, tipo, contra, beneficio, referencia, costo, turnos, busca, roba, descripcion, texto_aparicion)values
-		('Experiencia Sensible',	'concepto',	5	5	null,	'5@t',	0,	null,	0,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 2 puntos', 'texto'),
-		('Inmanencia',	'concepto',	5	5	'Experiencia Sensible',	'3@t',	0,	null,	5	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 2. Robas 2 cartas','texto'),
+		('Experiencia Sensible',	'concepto',	5,	5,	null,	'5@t',	0,	null,	0,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 2 puntos', 'texto'),
+		('Inmanencia',	'concepto',	5,	5,	'Experiencia Sensible',	'3@t',	0,	null,	5,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 2. Robas 2 cartas','texto'),
 		('Asociacion',	'concepto',	1,	1,	null,	'3@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 1 punto y tú ganas 1. Robas 1 carta',	'texto'),
-		('Semejanza',	'replica',	5	5	'Asociacion',	'2@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 2. Robas 1 carta.',	'texto'),
-		('Contigüidad',	'replica',	5	5	'Asociacion',	'2@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 2. Robas 1 carta.',	'texto'),
-		('Causa-Efecto',	'replica',	5	5	'Asociacion',	'2@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 2. Robas 1 carta.',	'texto'),
+		('Semejanza',	'replica',	5,	5,	'Asociacion',	'2@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 2. Robas 1 carta.',	'texto'),
+		('Contigüidad',	'replica',	5,	5,	'Asociacion',	'2@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 2. Robas 1 carta.',	'texto'),
+		('Causa-Efecto',	'replica',	5,	5,	'Asociacion',	'2@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 2. Robas 1 carta.',	'texto'),
 		('Impresiones',	'concepto',	3,	1,	null,	'2@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 3 puntos y tú ganas 1. Robas 1 carta.',	'texto'),
-		('Ideas',	'replica',	5	4,	'Asociacion',	'4@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 4. Robas 1 carta.',	'texto'),
-		('Hábito',	'concepto',	5	4,	null,	'4@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 4. Robas 1 carta.',	'texto'),
-		('Crítica',	'replica',	5	1,	'Inmanencia',	'1@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 1. Robas 1 carta.',	'texto'),
+		('Ideas',	'replica',	5,	4,	'Asociacion',	'4@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 4. Robas 1 carta.',	'texto'),
+		('Hábito',	'concepto',	5,	4,	null,	'4@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 4. Robas 1 carta.',	'texto'),
+		('Crítica',	'replica',	5,	1,	'Inmanencia',	'1@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 1. Robas 1 carta.',	'texto'),
 		('Contradiccion',	'contrareplica',	3,	1,	'Asociacion',	'1@t',	0, null ,	1,	'Cuando juegas esta carta tu rival pierde 3 puntos y tú ganas 1. Robas 1 carta.',	'texto'),
 		('Causa',	'replica',	4,	3,	'Asociacion',	'3@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 4 puntos y tú ganas 3. Robas 1 carta.',	'texto'),
-		('Creencia',	'concepto',	5	3,	null,	'3@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 3. Robas 1 carta.',	'texto'),
+		('Creencia',	'concepto',	5,	3,	null,	'3@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 3. Robas 1 carta.',	'texto'),
 		('Sentimiento',	'concepto',	4,	1,	null,	'1@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 4 puntos y tú ganas 1. Robas 1 carta.',	'texto'),
 		('Mérito',	'replica',	3,	3,	'Utilidad',	'3@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 3 puntos y tú ganas 3. Robas 1 carta.',	'texto'),
-		('Utilidad',	'concepto',	1,	5	null,	'2@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 1 puntos y tú ganas 2. Robas 1 carta.',	'texto'),
-		('Felicidad',	'concepto',	5	3,	null,	'3@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 3. Robas 1 carta.',	'texto'),
+		('Utilidad',	'concepto',	1,	5,	null,	'2@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 1 puntos y tú ganas 2. Robas 1 carta.',	'texto'),
+		('Felicidad',	'concepto',	5,	3,	null,	'3@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 3. Robas 1 carta.',	'texto'),
 		('Contrato Social',	'replica',	4,	3,	'Utilidad',	'3@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 4 puntos y tú ganas 3. Robas 1 carta.',	'texto'),
 		('Libertad',	'concepto',	1,	3,	null,	'3@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 1 puntos y tú ganas 3. Robas 1 carta.',	'texto'),
 		('Deber',	'contrareplica',	3,	3,	'Utilidad',	'3@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 3 puntos y tú ganas 3. Robas 1 carta.',	'texto'),
 		('Representación',	'concepto',	3,	4,	'Impresiones',	'4@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 3 puntos y tú ganas 4. Robas 1 carta.',	'texto'),
-		('Contemplación',	'concepto',	1,	5	'Impresiones',	'2@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 1 puntos y tú ganas 2. Robas 1 carta.',	'texto'),
-		('Práctica',	'replica',	5	3,	'Libertad',	'3@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 3. Robas 1 carta.',	'texto'),
-		('Negación de Transcensus',	'replica',	5	4,	'Inmanencia',	'4@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 4. Robas 1 carta.','texto');
+		('Contemplación',	'concepto',	1,	5,	'Impresiones',	'2@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 1 puntos y tú ganas 2. Robas 1 carta.',	'texto'),
+		('Práctica',	'replica',	5,	3,	'Libertad',	'3@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 3. Robas 1 carta.',	'texto'),
+		('Negación de Transcensus',	'replica',	5,	4,	'Inmanencia',	'4@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 4. Robas 1 carta.','texto');
 
 update conceptos set referencia =2 where referencia = 'Pienso Luego Existo';
 update conceptos set referencia = 6 where referencia = 'Yo';
@@ -88,8 +84,6 @@ update conceptos set referencia = 43 where referencia = 'Libertad';
 update conceptos set referencia = '7|6|1' where referencia = 'Mundo|Yo|Duda metódica';
 update conceptos set referencia = '5|6' where referencia = 'Yo|Dios';
 
-
-select * from conceptos;
 
 drop table if exists jugador;
 create table if not exists jugador (
@@ -108,9 +102,6 @@ create table if not exists jugador (
     elo int default 1000
 );
 
-alter table jugador add column dinero float;
-
-drop table if exists jugador_jugador;
 drop table if exists disciplina;
 create table if not exists disciplina (
 	id int unsigned auto_increment primary key,
@@ -152,7 +143,7 @@ create table if not exists autor (
     id_disciplina int unsigned,
 	foreign key (id_disciplina) references disciplina(id)
 );
-select * from conceptos;
+
 insert into autor (nombre, apellidos, cartas_relevantes, id_disciplina) values
 	('René', 'Descartes', '7|6|1', 1),
     ('David', 'Hume', '25', 2);
@@ -272,8 +263,22 @@ CREATE TABLE debate (
   carta_senalada_jugador2 int UNSIGNED DEFAULT NULL
 );
 
+drop table if exists conceptos_jugador;
+create table if not exists conceptos_jugador(
+	id_concepto int unsigned,
+    id_jugador int unsigned
+);
 
 
+drop table if exists masterizados;
+create table if not exists masterizados(
+	id_jugador int unsigned,
+    id_libro int unsigned,
+    foreign key (id_jugador) references jugador(id),
+    foreign key (id_libro) references libro(id)
+);
+
+drop trigger if exists paga;
 delimiter 😂
 create trigger paga
 after insert on jugador_libros for each row
@@ -282,7 +287,7 @@ begin
     declare dinero_jugador int;
     set dinero_libro = (select libro.precio from libro where id = new.id_libro);
     set dinero_jugador = (select jugador.dinero from jugador where id = new.id_jugador);
-    if(dinero_jugador>dinero_libro && dinero_jugador!=0) 
+    if(dinero_jugador>=dinero_libro && dinero_jugador!=0) 
     then
 		update jugador set dinero = dinero_jugador - dinero_libro where jugador.id = new.id_jugador;
     end if;
