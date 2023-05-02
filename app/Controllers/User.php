@@ -106,7 +106,7 @@ class User implements IViews {
         $requiredParamsToDT = [
             'columnas' => $columns,
             'ordenacion' =>$columns[$this->post['order'][0]['column']],
-            'total_registros' => model('Libro')->countAll(),
+            'total_registros' => model('Jugador')->countAll(),
             'dir_ord' => $this->post['order'][0]['dir'],
             'inicio' => $this->post['start'],
             'longitud' => $this->post['length'],
@@ -130,8 +130,8 @@ class User implements IViews {
                 ->where('id', $this->post['id_user'])
                 ->get()
                 ->getResultArray());
-            echo json_encode(['status'=>200]);
-        }else{        
+            echo json_encode(['status'=>200, 'data'=>$this->session->get('user')[0]['dinero']]);
+        }else{
             echo json_encode(['status'=>202]);
         }
     }
@@ -206,16 +206,56 @@ class User implements IViews {
     }
 
     public function friendrequest(){
-        echo json_encode(['status'=>200, 'msg'=>model('Jugador')->friendrequest($this->session->get('user')[0]['id'])]);        
+        echo json_encode(['status'=>200, 'data'=>model('Jugador')->friendrequest($this->session->get('user')[0]['id'])]);
+    }
+
+    public function deletefriend(){
+        try{
+            model('Jugador')->deletefriend($this->post['id_player'], $this->session->get('user')[0]['id']);
+            echo json_encode(['status'=>200, 'msg'=>'amigo borrado con éxito']);
+        }catch(Exception $e){
+            echo json_encode(['status'=>500, 'msg'=>'no se pudo eliminar amigo']);
+        }
     }
 
 
-    public function confirmfriend(){
+    public function aceptnewfriend(){
+        try{
+            model('Jugador')->aceptnewfriend($this->post['id_player']);
+            echo json_encode(['status'=>200, 'msg'=>'Amigo añadido con éxito']);
+        }catch(Exception $e){
+            echo json_encode(['status'=>500, 'msg'=>'Un error ha ocurrido']);
+        }
+    }
 
+    public function rejectnewfriend(){
+        try{
+            model('Jugador')->rejectnewfriend($this->post['id_player']);
+            echo json_encode(['status'=>200, 'msg'=>'Solicitud rechazada con éxito']);
+        }catch(Exception $e){
+            echo json_encode(['status'=>500, 'msg'=>'Un error ha ocurrido']);
+        }
     }
 
     public function friendlist(){
-
+        $columns = ['id', 'nombre', 'enlinea'];
+        $requiredParamsToDT = [
+            'columnas' => $columns,
+            'ordenacion' =>$columns[$this->post['order'][0]['column']],
+            'total_registros' => model('Jugador')->friendbyuser($this->session->get('user')[0]['id']),
+            'dir_ord' => $this->post['order'][0]['dir'],
+            'inicio' => $this->post['start'],
+            'longitud' => $this->post['length'],
+            'busqueda' => $this->post['search']['value'] ?? ''
+        ];
+        echo json_encode([
+            'draw' => intval($this->post['draw']),
+            'recordsTotal' => $requiredParamsToDT['total_registros'],
+            'recordsFiltered' => $requiredParamsToDT['total_registros'],
+            'inicio'=> $requiredParamsToDT['inicio'],
+            'final' => $this->post['length'],
+            'data'=>model('Jugador')->friendlist($requiredParamsToDT, $this->session->get('user')[0]['id'])
+        ]);
     }
 
     public function sendmsg(){

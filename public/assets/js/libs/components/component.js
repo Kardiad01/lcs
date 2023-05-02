@@ -63,20 +63,25 @@ class Component {
             this.domElement.addEventListener(config.event, config.call);
         }
         if(config.event == 'observer'){
-            (new MutationObserver(config.call)).observe(config.trigger, config.config);
+            this['observe'] = {};
+            this.observe = new MutationObserver(config.call);
+            this.observe.observe(config.trigger, config.config);
         }
         if(config.event == 'websocket'){
-            console.log(config.url);
-            const websocket = new WebSocket('wss:'+config.url.replace('http://', ''));
-            websocket.addEventListener('open', (e)=>{
-                console.log('Conexión abierta')
-                websocket.send();
+            const urlregex = /(https:\/\/|http:\/\/)/g;
+            this['socket'] = {};
+            this.socket =  new WebSocket('ws:'+config.url.replace(urlregex, ''));
+            this.socket.addEventListener('open', (e)=>{
+                config.open(e)
             })
-            websocket.addEventListener('message', (e)=>{
-                console.log(e)
+            this.socket.addEventListener('message', (e)=>{
+                config.message(e)
             })
-            websocket.addEventListener('close', (e)=>{
-                console.log(e)
+            this.socket.addEventListener('close', (e)=>{
+                config.close(e)
+            })
+            this.socket.addEventListener('error', (e)=>{
+                config.error(e)
             })
         }
     }

@@ -59,7 +59,7 @@ class App {
                     }              
                 }
                 if((this.sources.event[element].config.event === 'observer'  || this.sources.event[element].config.event === 'websocket') 
-                    && this.sources.event[element].config.trigger === document && this.sources.event[element].config.trigger === window){              
+                    && this.sources.event[element].config.trigger !== document && this.sources.event[element].config.trigger !== window){              
                     this.webMap['event'] = {};
                     this.webMap['event'][element] = {};
                     let component = new Component('event', this.sources.event[element].config.trigger, this.sources['event'][element].config)

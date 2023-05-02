@@ -1,41 +1,155 @@
 <script>
 $(document).ready(()=>{
     //Redimensionar imagen desde el background, para imagen de perfil
-    
     const app = new App({
         event : {
             0:{
-                name : 'observer de pruebas',
+                name : 'observer de pruebas que de momento te da las friend request',
                 config: {
                     event : 'observer',
                     trigger : document.querySelector('.user-img'),
                     config : {
                         childList : true,
-                        attributes : true,
-                        attributeFilter : ['src']
+                        attributes : true
                     },
                     call : function(e){
-                        console.log(e)
+                        //de aquí se podría meter lo de recompensa diaria ajustando a back.
+                        $.ajax({
+                            type: "POST",
+                            url: "<?=base_url('master/user/user/friendrequest')?>",
+                            data: "",
+                            dataType: "JSON",
+                            success: function (response) {
+                                if(response.status===200 && response.data.length>0){
+                                    for(let item in response.data){
+                                        let player = response.data[item][0];
+                                        bootbox.dialog({
+                                            title : `<h5>Solicitud de Amistad</h5>`,
+                                            message : `<div>
+                                                ${player.nombre} quiere ser tu amigo
+                                            </div>`,
+                                            buttons: {
+                                                aceptar : {
+                                                    label : 'Aceptar',
+                                                    className : 'btn btn-success',
+                                                    callback : ()=>{
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: "<?=base_url('master/user/user/aceptnewfriend')?>",
+                                                            data: {
+                                                                id_player : player.id 
+                                                            },
+                                                            dataType: "JSON",
+                                                            success: function (response) {
+                                                                if(response.status===200){
+                                                                    toastr.success(response.msg);
+                                                                    $(app.webMap.datatable[4].dom).dataTable().api().ajax.reload()
+                                                                }else{
+                                                                    toastr.error(response.msg);
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                },
+                                                rechazar : {
+                                                    label : 'Rechazar',
+                                                    className : 'btn btn-danger',
+                                                    callback : ()=>{
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: "<?=base_url('master/user/user/rejectnewfriend')?>",
+                                                            data: {
+                                                                id_player : player.id
+                                                            },
+                                                            dataType: "dataType",
+                                                            success: function (response) {
+                                                                if(response.status===200){
+                                                                    toastr.success(response.msg);
+                                                                }else{
+                                                                    toastr.error(response.msg);
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            }
+                                        })
+                                    }
+                                }
+                            }
+                        });
                     }
                 }
             },
-            1: {
+            /*1: {
                 name : 'websocket de pruebas',
                 config: {
                     event : 'websocket',
                     trigger : document,
-                    url : '<?=base_url('master/user/user/friendrequest')?>', //url sin el wss o ws
+                    url : 'http://localhost:8080/master/user/user/friendrequest', //url sin el wss o ws
                     open : function(ev){
-
+                        console.log(ev)
                     },
                     message : function(ev){
-
+                        console.log(ev)
                     },
                     close : function(ev){
-
+                        console.log(ev)
                     },
                     error : function(ev){
-
+                        console.log(ev)
+                    }
+                }
+            }*/
+            3: {
+                name : 'observer para datatables y eventos',
+                config : {
+                    event : 'observer',
+                    trigger : document.querySelector('[data-library-func=datatable-4]'),
+                    config : {
+                        childList : true,
+                        subtree : true
+                    },
+                    call : (e)=>{
+                        [...e[0].addedNodes].forEach((element)=>{
+                            $('[data-chat]').click(function (){
+                                $.ajax({
+                                    type: "POST",
+                                    url: "<?=base_url('')?>",
+                                    data: "data",
+                                    dataType: "JSON",
+                                    success: function (response) {
+                                        
+                                    }
+                                });
+                            })
+                            $('[data-eliminar-amigo]').click(function(){
+                                bootbox.dialog({
+                                    title : '<h5>Borrar amigo</h5>',
+                                    message : '<p>¿Quieres borrar a este amigo?</p>',
+                                    buttons : {
+                                        confirmar : {
+                                            label : 'Si',
+                                            className : 'btn btn-danger',
+                                            callback : ()=>{
+                                                $.ajax({
+                                                    type: "POST",
+                                                    url: "<?=base_url('master/user/user/deletefriend')?>",
+                                                    data: {
+                                                        id_player : $(this).data('eliminarAmigo')
+                                                    },
+                                                    dataType: "JSON",
+                                                    success: function (response) {
+                                                        console.log(response)
+                                                        $(app.webMap.datatable[4].dom).dataTable().api().ajax.reload()
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    }
+                                })
+                            })
+                        });
                     }
                 }
             }
@@ -175,13 +289,19 @@ $(document).ready(()=>{
                                 success: function (response) {
                                     if(response.status==200){
                                         toastr.success("", "Compra realizada"); 
-                                        table.api().ajax.reload();                                       
+                                        table.api().ajax.reload();
+                                        $($('.money')[0]).html(`Fondos: ${response.data}`);
+                                        $($('.money')[1]).html(`Fondos: ${response.data}`);                         
                                     }else{
                                         toastr.error("", "Compra no completada")
                                     }
                                 }
                             });
                         })
+                    }, 
+                    fnInitComplete : function(e){
+                        $($('.money')[0]).html('Fondos: <?=esc($user)[0]['dinero']?>');
+                        $($('.money')[1]).html('Fondos: <?=esc($user)[0]['dinero']?>');                          
                     }
                 },
             },
@@ -364,6 +484,39 @@ $(document).ready(()=>{
                         })
                     }
                 } 
+            },
+            4: {
+                name : 'Datatabla que muestra los amigos que tienes',
+                config : {
+                    procesing : true,
+                    serverSide : true,
+                    ajax: {
+                        type : "POST",
+                        url :  "<?=base_url('/master/user/user/friendlist')?>",
+                        dataSrc : 'data'
+                    },
+                    columnDefs: [
+                        {
+                            targets: 0,
+                            data: 'nombre',
+                            render : function (data, type, row, meta){                             
+                                return row.nombre.replace(' ', '&nbsp')
+                            }
+                        },
+                        {
+                            targets: 1,
+                            data: 'id',
+                            render : function (data, type, row, meta){
+                                return `
+                                <td>
+                                    <button class="btn btn-primary" data-chat = "${data}"><i class="fa-solid fa-comment"></i></button>
+                                    <button class="btn btn-danger" data-eliminar-amigo = "${data}"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                                `;
+                            }
+                        },
+                    ]
+                }
             }
         }
     });
@@ -375,6 +528,8 @@ $(document).ready(()=>{
         'background-size' : '100% 100%',
         'border-radius' : '50%'
     });
+    //app.webMap.event[1].class.config.event.socket.send('request');
+    
 })
 </script>
 <main class="pc-body d-flex flex-column aling-items-center justify-content-center">
@@ -384,7 +539,7 @@ $(document).ready(()=>{
     </div>
     <div class="user-title">
         <h3>Usuario: <?=esc($user[0]['nombre'])?></h3>
-        <h4>Fondos: <?=esc($user[0]['dinero'])?></h4>
+        <h4 class="money">Fondos: <?=esc($user[0]['dinero'])?></h4>
     </div>
 </div>
 <!-- Button trigger modal -->
@@ -466,6 +621,7 @@ $(document).ready(()=>{
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+            <p class="money"></p>
             <table data-library-func="datatable-0" class="table">
                 <thead>
                     <tr>
@@ -523,9 +679,9 @@ $(document).ready(()=>{
         </div>
         <div class="modal-body">
             <div class="container-fluid row">
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12">
                     <h5>Usuarios del juego</h5>
-                    <table data-library-func="datatable-1" class="table w-50">
+                    <table data-library-func="datatable-1" class="table">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -538,20 +694,16 @@ $(document).ready(()=>{
                         </tbody>
                     </table>
                 </div>
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12">
                     <h5>Amigos</h5>
-                    <table class="table">
+                    <table  data-library-func="datatable-4" class="table">
                         <thead>
                             <tr>
                                 <th>Nombre</th>
                                 <th>Acciones</th>
                         </thead>
                         <tbody>
-                            <td>Holao</td>
-                            <td>
-                                <button class="btn btn-primary">Chatear</button>
-                                <button class="btn btn-danger">Eliminar</button>
-                            </td>
+                            
                         </tbody>
                     </table>
                 </div>

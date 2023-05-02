@@ -75,45 +75,47 @@ class Languaje{
             'o1' => $translatedData[14],
             'os1' => $translatedData[15],
             'o2' => $translatedData[16],
-            'os2' => $translatedData[17]
+            'os2' => $translatedData[17],
+            'o3' => $translatedData[18],
+            'os3' => $translatedData[19],
             ],
         'ourcards' =>[
-            'head' => $translatedData[18]
+            'head' => $translatedData[20]
             ],
         'forms' => [
-            'username' => $translatedData[19],
-            'password' => $translatedData[20],
-            'email' => $translatedData[22],
-            'repeatpassword' => $translatedData[24],
-            'forgotpassword' => $translatedData[25],
-            'recoveraccount' => $translatedData[26],
-            'entermail' => $translatedData[27],
-            'login' => $translatedData[28],
-            'registratonemail' => $translatedData[29],
+            'username' => $translatedData[21],
+            'password' => $translatedData[22],
+            'email' => $translatedData[24],
+            'repeatpassword' => $translatedData[26],
+            'forgotpassword' => $translatedData[27],
+            'recoveraccount' => $translatedData[28],
+            'entermail' => $translatedData[29],
+            'login' => $translatedData[30],
+            'registratonemail' => $translatedData[31],
             ],
         'usermenu' =>[
-            'play' => $translatedData[29],
-            'viewprofile' => $translatedData[30],
-            'buybooks' => $translatedData[31],
-            'buildarguments' => $translatedData[32],
-            'friendlist' => $translatedData[33],
-            'readbook' => $translatedData[34] ,
-            'getmorecash' => $translatedData[46],
-            'exit' => $translatedData[35]
+            'play' => $translatedData[31],
+            'viewprofile' => $translatedData[32],
+            'buybooks' => $translatedData[33],
+            'buildarguments' => $translatedData[34],
+            'friendlist' => $translatedData[35],
+            'readbook' => $translatedData[36] ,
+            'getmorecash' => $translatedData[48],
+            'exit' => $translatedData[37]
             ],
         'profile' => [
-            'playername' => $translatedData[36],
-            'password' => $translatedData[37],
-            'image' => $translatedData[38],
-            'email' => $translatedData[39],
-            'played' => $translatedData[40],
-            'win' => $translatedData[41],
-            'lose' => $translatedData[42],
+            'playername' => $translatedData[38],
+            'password' => $translatedData[39],
+            'image' => $translatedData[40],
+            'email' => $translatedData[41],
+            'played' => $translatedData[42],
+            'win' => $translatedData[43],
+            'lose' => $translatedData[44],
         ],
         'play' => [
-            'title' => $translatedData[43],
-            'online' => $translatedData[44],
-            'friends' => $translatedData[45]
+            'title' => $translatedData[45],
+            'online' => $translatedData[46],
+            'friends' => $translatedData[47]
         ],
         'buybooks' => [
             
