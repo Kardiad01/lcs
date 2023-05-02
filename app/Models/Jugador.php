@@ -83,6 +83,23 @@ class Jugador extends AModel{
         $this->db->table('amigos')->set('checkeado', 1)->where('id_solicitado', $id_user)->update();
     }
 
+    public function theyarefriends($params){
+        $combinationOne = $this->db->table('amigos')
+            ->where('id_solicitado', $params['id_user'])
+            ->where('id_solicitante', $params['id_otheruser'])
+            ->where('confirmado', 1)
+            ->get()->getResultArray();
+        $combinationTwo = $this->db->table('amigos')
+            ->where('id_solicitado', $params['id_otheruser'])
+            ->where('id_solicitante', $params['id_user'])
+            ->where('confirmado', 1)
+            ->get()->getResultArray();
+        if(count($combinationOne)>0 || count($combinationTwo)>0){
+            return true;
+        }
+        return false;
+    }
+
     public function aceptnewfriend($id_user){
         $this->db->table('amigos')->set('checkeado', 1)->set('confirmado', 1)->where('id_solicitado', $id_user)->update();
     }
@@ -118,16 +135,20 @@ class Jugador extends AModel{
             ->where('amigos.confirmado', 1)->get()->getResultArray()[0]['id_solicitado'];
     }
 
-    public function friendlist($params, $id_usuario){
-        //esta consulta tiene que ir de otra manera
-        return $this->select('id, nombre, enlinea')
-            ->like('nombre', $params['busqueda'])
-            ->join('amigos', 'amigos.id_solicitante=jugador.id')
-            ->orderBy($params['ordenacion'], $params['dir_ord'])
-            ->limit($params['inicio'], $params['longitud'])
-            ->where('id', $id_usuario)
-            ->where('confirmado', 1)
-            ->get()->getResultArray();
+    public function friendlist($id_usuario){
+        return $this->db->query("
+            SELECT * 
+            FROM amigos
+            JOIN jugador ON jugador.id = amigos.id_solicitante
+            WHERE amigos.id_solicitante IN 
+            (SELECT amigos.id_solicitante FROM amigos WHERE amigos.id_solicitado = $id_usuario)
+            UNION 
+            SELECT *
+            FROM amigos
+            JOIN jugador ON jugador.id = amigos.id_solicitado
+            WHERE amigos.id_solicitado IN 
+            (SELECT amigos.id_solicitado FROM amigos WHERE amigos.id_solicitante = $id_usuario)
+        ")->getResultArray();
     }
 
     public function deletefriend($id_jugador, $id_user){

@@ -45,6 +45,8 @@ class User implements IViews {
      *  10º Matchmaking o formas de emparejamiento
      */
 
+    //User methods
+
     public function userprofile(){
         $updateableData = array_filter($this->post, function($element){
             if($element!=''){
@@ -81,7 +83,11 @@ class User implements IViews {
             echo json_encode(['status'=>404]);
         }
     }
+  
 
+    //Cards buying methods
+
+    
     public function listbook(){
         $columns = ['id', 'titulo', 'precio'];
         $requiredParamsToDT = [
@@ -98,25 +104,6 @@ class User implements IViews {
             'recordsTotal' => $requiredParamsToDT['total_registros'],
             'recordsFiltered' => $requiredParamsToDT['total_registros'],
             'data'=>model('Libro')->getpaginatedbooks($requiredParamsToDT, $this->session->get('user')[0])
-        ]);
-    }
-
-    public function lookingforfriends(){
-        $columns = ['id', 'nombre', 'enlinea'];
-        $requiredParamsToDT = [
-            'columnas' => $columns,
-            'ordenacion' =>$columns[$this->post['order'][0]['column']],
-            'total_registros' => model('Jugador')->countAll(),
-            'dir_ord' => $this->post['order'][0]['dir'],
-            'inicio' => $this->post['start'],
-            'longitud' => $this->post['length'],
-            'busqueda' => $this->post['search']['value'] ?? ''
-        ];
-        echo json_encode([
-            'draw' => intval($this->post['draw']),
-            'recordsTotal' => $requiredParamsToDT['total_registros'],
-            'recordsFiltered' => $requiredParamsToDT['total_registros'],
-            'data'=>model('Jugador')->getpaginatedfriends($requiredParamsToDT, $this->session->get('user')[0])
         ]);
     }
 
@@ -175,12 +162,14 @@ class User implements IViews {
         echo json_encode(['status'=>200, 'data'=>$findConcepts]);
     }
 
-    public function cardlist(){
-        $columns = ['nombre', 'costo', 'descripcion', 'tipo', 'acciones'];
+   //Friendlist methods
+
+   public function lookingforfriends(){
+        $columns = ['id', 'nombre', 'enlinea'];
         $requiredParamsToDT = [
             'columnas' => $columns,
             'ordenacion' =>$columns[$this->post['order'][0]['column']],
-            'total_registros' => model('Conceptos')->conceptsbyuser($this->session->get('user')[0]['id']),
+            'total_registros' => model('Jugador')->countAll(),
             'dir_ord' => $this->post['order'][0]['dir'],
             'inicio' => $this->post['start'],
             'longitud' => $this->post['length'],
@@ -190,23 +179,32 @@ class User implements IViews {
             'draw' => intval($this->post['draw']),
             'recordsTotal' => $requiredParamsToDT['total_registros'],
             'recordsFiltered' => $requiredParamsToDT['total_registros'],
-            'inicio'=> $requiredParamsToDT['inicio'],
-            'final' => $this->post['length'],
-            'data'=>model('Conceptos')->paginatedconcepts($requiredParamsToDT, $this->session->get('user')[0]['id'])
-        ]);  
+            'data'=>model('Jugador')->getpaginatedfriends($requiredParamsToDT, $this->session->get('user')[0])
+        ]);
     }
 
     public function addfriend(){
         try{
-            model('Jugador')->makefriends($this->post);
-            echo json_encode(['status'=>200, 'msg'=>'solicitud enviada']);
+            $theyarefriends = model('Jugador')->theyarefriends([
+                'id_user' => $this->session->get('user')[0]['id'],
+                'id_otheruser' => $this->post['id_solicitante']
+            ]);
+            if(!$theyarefriends){
+                model('Jugador')->makefriends([
+                    'id_solicitado' => $this->session->get('user')[0]['id'],
+                    'id_solicitante' => $this->post['id_solicitante']
+                ]);
+                echo json_encode(['status'=>200, 'msg'=>'solicitud enviada']);
+            }else{
+                echo json_encode(['status'=>201, 'msg'=>'ya son amigos']);
+            }
         }catch(Exception $e){
             echo json_encode(['status'=>500, 'msg'=>'algo salió mal']);
         }
     }
 
-    public function friendrequest(){
-        echo json_encode(['status'=>200, 'data'=>model('Jugador')->friendrequest($this->session->get('user')[0]['id'])]);
+    public function friendrequest(){      
+            echo json_encode(['status'=>200, 'data'=>model('Jugador')->friendrequest($this->session->get('user')[0]['id'])]);
     }
 
     public function deletefriend(){
@@ -221,8 +219,16 @@ class User implements IViews {
 
     public function aceptnewfriend(){
         try{
-            model('Jugador')->aceptnewfriend($this->post['id_player']);
-            echo json_encode(['status'=>200, 'msg'=>'Amigo añadido con éxito']);
+            $theyarefriends = model('Jugador')->theyarefriends([
+                'id_user' => $this->session->get('user')[0]['id'],
+                'id_otheruser' => $this->post['id_player']
+            ]);
+            if(!$theyarefriends){
+                model('Jugador')->aceptnewfriend($this->post['id_player']);
+                echo json_encode(['status'=>200, 'msg'=>'Amigo añadido con éxito']);
+            }else{
+                echo json_encode(['status'=>201, 'msg'=>'Ya sois amigos']);
+            }
         }catch(Exception $e){
             echo json_encode(['status'=>500, 'msg'=>'Un error ha ocurrido']);
         }
@@ -238,23 +244,8 @@ class User implements IViews {
     }
 
     public function friendlist(){
-        $columns = ['id', 'nombre', 'enlinea'];
-        $requiredParamsToDT = [
-            'columnas' => $columns,
-            'ordenacion' =>$columns[$this->post['order'][0]['column']],
-            'total_registros' => model('Jugador')->friendbyuser($this->session->get('user')[0]['id']),
-            'dir_ord' => $this->post['order'][0]['dir'],
-            'inicio' => $this->post['start'],
-            'longitud' => $this->post['length'],
-            'busqueda' => $this->post['search']['value'] ?? ''
-        ];
         echo json_encode([
-            'draw' => intval($this->post['draw']),
-            'recordsTotal' => $requiredParamsToDT['total_registros'],
-            'recordsFiltered' => $requiredParamsToDT['total_registros'],
-            'inicio'=> $requiredParamsToDT['inicio'],
-            'final' => $this->post['length'],
-            'data'=>model('Jugador')->friendlist($requiredParamsToDT, $this->session->get('user')[0]['id'])
+            'data'=>model('Jugador')->friendlist($this->session->get('user')[0]['id'])
         ]);
     }
 
@@ -269,6 +260,8 @@ class User implements IViews {
     public function play(){
 
     }
+
+    //Deck builder methods
 
     public function createdeck(){
         if(model('Argumentario')->limitofdeck($this->session->get('user')[0]['id'])){
@@ -324,6 +317,27 @@ class User implements IViews {
         }else{
             echo 'buen intento chaval';
         }
+    }
+
+    public function cardlist(){
+        $columns = ['nombre', 'costo', 'descripcion', 'tipo', 'acciones'];
+        $requiredParamsToDT = [
+            'columnas' => $columns,
+            'ordenacion' =>$columns[$this->post['order'][0]['column']],
+            'total_registros' => model('Conceptos')->conceptsbyuser($this->session->get('user')[0]['id']),
+            'dir_ord' => $this->post['order'][0]['dir'],
+            'inicio' => $this->post['start'],
+            'longitud' => $this->post['length'],
+            'busqueda' => $this->post['search']['value'] ?? ''
+        ];
+        echo json_encode([
+            'draw' => intval($this->post['draw']),
+            'recordsTotal' => $requiredParamsToDT['total_registros'],
+            'recordsFiltered' => $requiredParamsToDT['total_registros'],
+            'inicio'=> $requiredParamsToDT['inicio'],
+            'final' => $this->post['length'],
+            'data'=>model('Conceptos')->paginatedconcepts($requiredParamsToDT, $this->session->get('user')[0]['id'])
+        ]);  
     }
 
     public function customview($params)

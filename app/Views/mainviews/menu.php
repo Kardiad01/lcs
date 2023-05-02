@@ -101,58 +101,6 @@ $(document).ready(()=>{
                     }
                 }
             }*/
-            3: {
-                name : 'observer para datatables y eventos',
-                config : {
-                    event : 'observer',
-                    trigger : document.querySelector('[data-library-func=datatable-4]'),
-                    config : {
-                        childList : true,
-                        subtree : true
-                    },
-                    call : (e)=>{
-                        [...e[0].addedNodes].forEach((element)=>{
-                            $('[data-chat]').click(function (){
-                                $.ajax({
-                                    type: "POST",
-                                    url: "<?=base_url('')?>",
-                                    data: "data",
-                                    dataType: "JSON",
-                                    success: function (response) {
-                                        
-                                    }
-                                });
-                            })
-                            $('[data-eliminar-amigo]').click(function(){
-                                bootbox.dialog({
-                                    title : '<h5>Borrar amigo</h5>',
-                                    message : '<p>¿Quieres borrar a este amigo?</p>',
-                                    buttons : {
-                                        confirmar : {
-                                            label : 'Si',
-                                            className : 'btn btn-danger',
-                                            callback : ()=>{
-                                                $.ajax({
-                                                    type: "POST",
-                                                    url: "<?=base_url('master/user/user/deletefriend')?>",
-                                                    data: {
-                                                        id_player : $(this).data('eliminarAmigo')
-                                                    },
-                                                    dataType: "JSON",
-                                                    success: function (response) {
-                                                        console.log(response)
-                                                        $(app.webMap.datatable[4].dom).dataTable().api().ajax.reload()
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    }
-                                })
-                            })
-                        });
-                    }
-                }
-            }
         },
         form:{
             0: {
@@ -341,8 +289,7 @@ $(document).ready(()=>{
                                 type: "POST",
                                 url: "<?=base_url('master/user/user/addfriend')?>",
                                 data: {
-                                    id_solicitante : $(this).data('id'),
-                                    id_solicitado : $(this).data('user-id')
+                                    id_solicitante : $(this).data('id')
                                 },
                                 dataType: "JSON",
                                 success: function (response) {
@@ -488,8 +435,7 @@ $(document).ready(()=>{
             4: {
                 name : 'Datatabla que muestra los amigos que tienes',
                 config : {
-                    procesing : true,
-                    serverSide : true,
+                    paging : false,
                     ajax: {
                         type : "POST",
                         url :  "<?=base_url('/master/user/user/friendlist')?>",
@@ -499,7 +445,7 @@ $(document).ready(()=>{
                         {
                             targets: 0,
                             data: 'nombre',
-                            render : function (data, type, row, meta){                             
+                            render : function (data, type, row, meta){                      
                                 return row.nombre.replace(' ', '&nbsp')
                             }
                         },
@@ -515,8 +461,50 @@ $(document).ready(()=>{
                                 `;
                             }
                         },
-                    ]
-                }
+                        {
+                            targets: 2,
+                            data: 'enlinea',
+                            render : function(data, type, row, meta){                                
+                                if(data==1){
+                                    return `
+                                    <span class="badge bg-success">&nbsp</span>
+                                    `
+                                }
+                                return `
+                                    <span class="badge bg-danger">&nbsp</span>
+                                `;
+                            }
+                        }
+                    ],
+                    fnDrawCallback : function(){
+                    console.log($('[data-eliminar-amigo]'));                           
+                        $('[data-eliminar-amigo]').click(function(){
+                            bootbox.dialog({
+                                title : '<h5>Borrar amigo</h5>',
+                                message : '<p>¿Quieres borrar a este amigo?</p>',
+                                buttons : {
+                                    confirmar : {
+                                        label : 'Si',
+                                        className : 'btn btn-danger',
+                                        callback : ()=>{
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "<?=base_url('master/user/user/deletefriend')?>",
+                                                data: {
+                                                    id_player : $(this).data('eliminarAmigo')
+                                                },
+                                                dataType: "JSON",
+                                                success: function (response) {
+                                                    $(app.webMap.datatable[4].dom).dataTable().api().ajax.reload();
+                                                }
+                                            });
+                                        }
+                                    }
+                                }
+                            })
+                        })
+                    }
+                },
             }
         }
     });
@@ -527,9 +515,7 @@ $(document).ready(()=>{
         'height' : '300px',
         'background-size' : '100% 100%',
         'border-radius' : '50%'
-    });
-    //app.webMap.event[1].class.config.event.socket.send('request');
-    
+    });    
 })
 </script>
 <main class="pc-body d-flex flex-column aling-items-center justify-content-center">
@@ -701,6 +687,7 @@ $(document).ready(()=>{
                             <tr>
                                 <th>Nombre</th>
                                 <th>Acciones</th>
+                                <th>En línea</th>
                         </thead>
                         <tbody>
                             
