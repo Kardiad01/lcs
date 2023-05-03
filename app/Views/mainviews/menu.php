@@ -32,6 +32,7 @@ $(document).ready(()=>{
                                                 aceptar : {
                                                     label : 'Aceptar',
                                                     className : 'btn btn-success',
+                                                    closeButton: false,
                                                     callback : ()=>{
                                                         $.ajax({
                                                             type: "POST",
@@ -81,17 +82,23 @@ $(document).ready(()=>{
                     }
                 }
             },
-            /*1: {
+            1: {
                 name : 'websocket de pruebas',
                 config: {
                     event : 'websocket',
                     trigger : document,
-                    url : 'http://localhost:8080/master/user/user/friendrequest', //url sin el wss o ws
+                    url : 'http://localhost:8181', //url sin el wss o ws
+                    config : [
+
+                    ],
                     open : function(ev){
-                        console.log(ev)
+                        console.log('Conexión establecida')
+                        console.log(ev)                        
                     },
                     message : function(ev){
-                        console.log(ev)
+                        console.log(ev.data)
+                        const data = JSON.parse(ev.data)
+                        console.log(data)
                     },
                     close : function(ev){
                         console.log(ev)
@@ -100,7 +107,7 @@ $(document).ready(()=>{
                         console.log(ev)
                     }
                 }
-            }*/
+            }
         },
         form:{
             0: {
@@ -476,7 +483,7 @@ $(document).ready(()=>{
                             }
                         }
                     ],
-                    fnDrawCallback : function(){
+                    fnDrawCallback : function(data){
                     console.log($('[data-eliminar-amigo]'));                           
                         $('[data-eliminar-amigo]').click(function(){
                             bootbox.dialog({
@@ -500,6 +507,50 @@ $(document).ready(()=>{
                                             });
                                         }
                                     }
+                                }
+                            })
+                        });
+                        $('[data-chat]').click(function(){
+                            //añadir algoritmo para obtener la key del data
+                            bootbox.dialog({
+                                title : `<h5> Hablar con ${data.json.data[0].nombre} <h5>`,
+                                message : `<div class="container">
+                                    <form>
+                                        <div>
+                                            <div class="row d-flex flex-column" style="height:40vh; overflow:scroll" id="chat-screen">
+                                                <div class="col-8 align-self-end border rounded mt-2">
+                                                    <p class="h-25">
+                                                        <b style="font-size:0.8rem">${data.json.data[0].nombre}</b><small style="font-size:0.8rem">10/04/2023 20:23:11</small><p>Hola, soy un girao que me quiero pegar un tiro con un colt bastante wapos</p>
+                                                    </p>
+                                                </div>
+                                                <div class="col-8 align-self-start border rounded mt-2">
+                                                    <p class="h-25">
+                                                        <b style="font-size:0.8rem">YO:</b><small style="font-size:0.8rem">10/04/2023 20:23:11</small><p>Hola</p> 
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <textarea class="form-control" rows="1" id="chat-message" name="message" placeholder="Escribe tu mensaje" style="resize:none;"></textarea>
+                                        </div>
+                                    </form>
+                                <div>`,
+                                onShow : function(){
+                                    $('#chat-message').keypress(function(ev){
+                                        console.log();
+                                        if(ev.originalEvent.code === 'Enter'){
+                                            app.webMap.event[1].class.config.event.socket.send(`
+                                               {
+                                                "type": "chat",
+                                                "data": {
+                                                    "id_user" : "<?=esc($user)[0]['id']?>",
+                                                    "id_friend": "${data.json.data[0].id_solicitante}",
+                                                    "message": "${$('#chat-message').val()}"
+                                                    }
+                                                }`)
+                                            $(this).val('');
+                                        }
+                                    })
                                 }
                             })
                         })

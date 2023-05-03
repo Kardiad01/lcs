@@ -70,7 +70,7 @@ class Component {
         if(config.event == 'websocket'){
             const urlregex = /(https:\/\/|http:\/\/)/g;
             this['socket'] = {};
-            this.socket =  new WebSocket('ws:'+config.url.replace(urlregex, ''));
+            this.socket =  new WebSocket('ws://'+config.url.replace(urlregex, ''), config.config);
             this.socket.addEventListener('open', (e)=>{
                 config.open(e)
             })
@@ -83,6 +83,7 @@ class Component {
             this.socket.addEventListener('error', (e)=>{
                 config.error(e)
             })
+            console.log(this.socket)
         }
     }
 
