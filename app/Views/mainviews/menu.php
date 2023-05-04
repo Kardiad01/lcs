@@ -83,21 +83,33 @@ $(document).ready(()=>{
                 }
             },
             1: {
-                name : 'websocket de pruebas',
+                name : 'websocket del chat',
                 config: {
                     event : 'websocket',
                     trigger : document,
-                    url : 'http://localhost:8181', //url sin el wss o ws
+                    url : 'http://localhost:8181', //url sin el wss o ws el http te lo quita, y tiene que estar, para que sea más notorio que es una... URL
                     config : [
 
                     ],
                     open : function(ev){
-                        console.log('Conexión establecida')
-                        console.log(ev)                        
+                        console.log('Conexión establecida');
+                        ev.currentTarget.send(JSON.stringify({
+                            type : "init",
+                            user: "<?=esc($user)[0]['id']?>"
+                        }));
                     },
                     message : function(ev){
-                        console.log(ev.data)
-                        const data = JSON.parse(ev.data)
+                        const data = JSON.parse(ev.data);
+                        console.log($(`#chat-screen-${data.data.id_oyente}`));
+                        console.log($(`#chat-screen-${data.data.id_hablante}`));
+                        console.log(data);
+                        $(`#chat-screen-${data.data.id_hablante}`).append(`
+                        <div class="col-8 align-self-end border rounded mt-2">
+                            <p class="h-25">
+                                <b style="font-size:0.8rem">${data.data.user}</b><small style="font-size:0.8rem">10/04/2023 20:23:11</small><p>${data.data.message}</p>
+                            </p>
+                        </div>
+                        `);
                         console.log(data)
                     },
                     close : function(ev){
@@ -511,43 +523,60 @@ $(document).ready(()=>{
                             })
                         });
                         $('[data-chat]').click(function(){
-                            //añadir algoritmo para obtener la key del data
+                            let idChat = $(this).data('chat');
+                            console.log(idChat);
+                            let datos = data.json.data;
+                            datos = datos.filter((ele)=>{
+                                if(ele.id == idChat) return ele;
+                            })[0];
                             bootbox.dialog({
-                                title : `<h5> Hablar con ${data.json.data[0].nombre} <h5>`,
-                                message : `<div class="container">
-                                    <form>
-                                        <div>
-                                            <div class="row d-flex flex-column" style="height:40vh; overflow:scroll" id="chat-screen">
-                                                <div class="col-8 align-self-end border rounded mt-2">
-                                                    <p class="h-25">
-                                                        <b style="font-size:0.8rem">${data.json.data[0].nombre}</b><small style="font-size:0.8rem">10/04/2023 20:23:11</small><p>Hola, soy un girao que me quiero pegar un tiro con un colt bastante wapos</p>
-                                                    </p>
-                                                </div>
-                                                <div class="col-8 align-self-start border rounded mt-2">
-                                                    <p class="h-25">
-                                                        <b style="font-size:0.8rem">YO:</b><small style="font-size:0.8rem">10/04/2023 20:23:11</small><p>Hola</p> 
-                                                    </p>
-                                                </div>
+                                /*
+                                 <div class="col-8 align-self-end border rounded mt-2">
+                                    <p class="h-25">
+                                        <b style="font-size:0.8rem">${data.json.data[0].nombre}</b><small style="font-size:0.8rem">10/04/2023 20:23:11</small><p>Hola, soy un girao que me quiero pegar un tiro con un colt bastante wapos</p>
+                                    </p>
+                                </div>
+                                <div class="col-8 align-self-start border rounded mt-2">
+                                    <p class="h-25">
+                                        <b style="font-size:0.8rem">YO:</b><small style="font-size:0.8rem">10/04/2023 20:23:11</small><p>Hola</p> 
+                                    </p>
+                                </div>
+                                */
+                                title : `<h5> Hablar con ${datos.nombre} <h5>`,
+                                message : `<div class="container">                                    
+                                        <div class="border rounded">
+                                            <div class="row d-flex flex-column" style="height:40vh; overflow:scroll;" id="chat-screen-${idChat}">
+                                               
                                             </div>
                                         </div>
                                         <div>
-                                            <textarea class="form-control" rows="1" id="chat-message" name="message" placeholder="Escribe tu mensaje" style="resize:none;"></textarea>
+                                            <input type="text" class="form-control" id="chat-message" name="message" placeholder="Escribe tu mensaje" style="resize:none;"></textarea>
                                         </div>
-                                    </form>
                                 <div>`,
-                                onShow : function(){
+                                onShow : (e) =>{
                                     $('#chat-message').keypress(function(ev){
-                                        console.log();
-                                        if(ev.originalEvent.code === 'Enter'){
+                                        if(ev.originalEvent.code === 'Enter'){             
+                                            console.log(datos);
+                                            const fecha = new Date();
+                                            
                                             app.webMap.event[1].class.config.event.socket.send(`
                                                {
                                                 "type": "chat",
                                                 "data": {
-                                                    "id_user" : "<?=esc($user)[0]['id']?>",
-                                                    "id_friend": "${data.json.data[0].id_solicitante}",
-                                                    "message": "${$('#chat-message').val()}"
+                                                    "id_hablante" : "<?=esc($user)[0]['id']?>",
+                                                    "id_oyente": "${datos.id}",
+                                                    "message": "${$('#chat-message').val()}",
+                                                    "user": "<?=esc($user)[0]['nombre']?>",
+                                                    "date": ""
                                                     }
-                                                }`)
+                                                }`)                                            
+                                            $(`#chat-screen-${idChat}`).append(`
+                                            <div class="col-8 align-self-start border rounded mt-2">
+                                                <p class="h-25">
+                                                    <b style="font-size:0.8rem">YO:</b><small style="font-size:0.8rem">10/04/2023 20:23:11</small><p>${$(this).val()}</p> 
+                                                </p>
+                                            </div>
+                                            `);
                                             $(this).val('');
                                         }
                                     })

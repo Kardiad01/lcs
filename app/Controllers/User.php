@@ -249,12 +249,13 @@ class User implements IViews {
         ]);
     }
 
-    public function sendmsg(){
-
-    }
-
-    public function recivemsg(){
-
+    public function historicchat(){
+        try{
+            echo json_encode(['status'=>200, 'data'=>model('Jugador')->chathistoric($this->session->get('user')[0]['id'])]);
+        }catch(Exception $e){
+            //echo json_encode(['status'=>500]);
+            throw $e;
+        }
     }
 
     public function play(){

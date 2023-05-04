@@ -159,6 +159,21 @@ class Jugador extends AModel{
             ->delete();
     }
 
+    public function chathistoric($id_usuario){
+        return $this->db->query("SELECT * 
+        FROM chat
+        JOIN jugador ON jugador.id = chat.id_hablante
+        WHERE chat.id_hablante IN 
+        (SELECT chat.id_hablante FROM chat WHERE chat.id_oyente = $id_usuario)
+        UNION 
+        SELECT *
+        FROM chat
+        JOIN jugador ON jugador.id = chat.id_oyente
+        WHERE chat.id_oyente IN 
+        (SELECT chat.id_oyente FROM chat WHERE chat.id_hablante = $id_usuario);
+        ")->getResultArray();
+    }
+
 }
 
 ?>
