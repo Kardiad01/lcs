@@ -106,7 +106,7 @@ $(document).ready(()=>{
                         $(`#chat-screen-${data.data.id_hablante}`).append(`
                         <div class="col-8 align-self-end border rounded mt-2">
                             <p class="h-25">
-                                <b style="font-size:0.8rem">${data.data.user}</b><small style="font-size:0.8rem">10/04/2023 20:23:11</small><p>${data.data.message}</p>
+                                <b style="font-size:0.8rem">${data.data.user}</b><small style="font-size:0.8rem">${data.data.date}</small><p>${data.data.message}</p>
                             </p>
                         </div>
                         `);
@@ -529,6 +529,15 @@ $(document).ready(()=>{
                             datos = datos.filter((ele)=>{
                                 if(ele.id == idChat) return ele;
                             })[0];
+                            $.ajax({
+                                type: "POST",
+                                url: "<?=base_url()?>",
+                                data: "data",
+                                dataType: "dataType",
+                                success: function (response) {
+                                    
+                                }
+                            });
                             bootbox.dialog({
                                 /*
                                  <div class="col-8 align-self-end border rounded mt-2">
@@ -544,8 +553,8 @@ $(document).ready(()=>{
                                 */
                                 title : `<h5> Hablar con ${datos.nombre} <h5>`,
                                 message : `<div class="container">                                    
-                                        <div class="border rounded">
-                                            <div class="row d-flex flex-column" style="height:40vh; overflow:scroll;" id="chat-screen-${idChat}">
+                                        <div class="border rounded w-100">
+                                            <div class="row d-flex flex-column overflow-auto" style="height:40vh" id="chat-screen-${idChat}">
                                                
                                             </div>
                                         </div>
@@ -555,10 +564,9 @@ $(document).ready(()=>{
                                 <div>`,
                                 onShow : (e) =>{
                                     $('#chat-message').keypress(function(ev){
+                                        const fecha = moment().format('YYYY-MM-DD hh:mm:ss');
+                                        console.log(fecha);
                                         if(ev.originalEvent.code === 'Enter'){             
-                                            console.log(datos);
-                                            const fecha = new Date();
-                                            
                                             app.webMap.event[1].class.config.event.socket.send(`
                                                {
                                                 "type": "chat",
@@ -567,13 +575,13 @@ $(document).ready(()=>{
                                                     "id_oyente": "${datos.id}",
                                                     "message": "${$('#chat-message').val()}",
                                                     "user": "<?=esc($user)[0]['nombre']?>",
-                                                    "date": ""
+                                                    "date": "${fecha}"
                                                     }
                                                 }`)                                            
                                             $(`#chat-screen-${idChat}`).append(`
                                             <div class="col-8 align-self-start border rounded mt-2">
                                                 <p class="h-25">
-                                                    <b style="font-size:0.8rem">YO:</b><small style="font-size:0.8rem">10/04/2023 20:23:11</small><p>${$(this).val()}</p> 
+                                                    <b style="font-size:0.8rem">YO:</b><small style="font-size:0.8rem">${fecha}</small><p>${$(this).val()}</p> 
                                                 </p>
                                             </div>
                                             `);

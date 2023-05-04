@@ -1,6 +1,7 @@
-drop database if exists lascartasdesofia;
-create database if not exists lascartasdesofia;
+DROP DATABASE if EXISTS lascartasdesofia;
+CREATE DATABASE if NOT EXISTS lascartasdesofia;
 use lascartasdesofia;
+
 drop table if exists conceptos;
 create table if not exists conceptos(
 	id int unsigned auto_increment primary key,
@@ -31,12 +32,18 @@ insert into conceptos(nombre, tipo, contra, beneficio, referencia, costo, turnos
 		('Ideas', 'contrareplica', 5, 5, null, '3@t', 0, '2@replicas', 0, 'Cuando juegas esta carta quitas 2 puntos al rival y ganas 2 puntos, posteriormente busca 2 réplicas', 'texto'),
 		('Precipitación', 'replica', 1, 5, null, '3@t', 0, 'Duda metódica', 0, 'Cuando juegas esta carta quitas 1 punto al rival y ganas 2 puntos, posteriormente busca una Duda metódica', 'texto');
 insert into conceptos(nombre, tipo, contra, beneficio, referencia, costo, turnos, busca , roba , descripcion, texto_aparicion) values        
-		('Conocimiento cierto', 'contrareplica', 1, 1, null, '3@t', 0, '1@replica', 0, 'Cuando juegas esta carta quitas 1 punto al rival y ganas 2 puntos, posteriormente busca 1 carta réplica', 'texto'),
-		('Verdadero método', 'contrareplica', 1,1, null, '3@t', 0, '1@replica', 0, 'Cuando juegas esta carta quitas 1 punto al rival y ganas 1 punto, posteriormente busca 1 carta réplica', 'texto'),
-		('Clara', 'replica', 5, 5, null, '3@t', 0, '1@replica', 0, 'Cuando juegas esta carta quitas 2 puntos al rival y ganas 2 puntos, posteriormente busca 1 carta réplica', 'texto'),
-		('Distinción', 'replica', 3, 0, null, '3@t', 0, '1@contrareplica', 0, 'Cuando juegas esta carta quitas 3 puntos al rival, posteriormente busca 1 carta de contraréplica', 'texto'),
-		('Espíritu', 'contrareplica', 7, 0, 'Yo', '7@t', 0, null, 0, 'Si "Yo" está en el campo, puedes jugar esta carta, tras jugarla el rival perderá 7 puntos', 'texto'),
-		('Verdadero', 'contrareplica', 1, 5, null, '2@t', 0, '1@replica', 0, 'Cuando juegas esta carta quitas 1 punto al rival y tú ganas 5 posteriormente busca 1 carta réplica', 'texto'),
+		('Conocimiento cierto', 'contrareplica', 1, 1, null, '3@t', 0, '1@replica', 0, 'Cuando juegas esta carta quitas 1 punto al rival y ganas 2 puntos, posteriormente busca 1 carta réplica', 'texto');
+insert into conceptos(nombre, tipo, contra, beneficio, referencia, costo, turnos, busca , roba , descripcion, texto_aparicion) values        
+		('Verdadero método', 'contrareplica', 1, 1, null, '3@t', 0, '1@replica', 0, 'Cuando juegas esta carta quitas 1 punto al rival y ganas 1 punto, posteriormente busca 1 carta réplica', 'texto');
+insert into conceptos(nombre, tipo, contra, beneficio, referencia, costo, turnos, busca , roba , descripcion, texto_aparicion) values        
+		('Claridad', 'replica', 5,5, null, '3@t', 0, '1@replica', 0, 'Cuando juegas esta carta quitas 2 puntos al rival y ganas 2 puntos, posteriormente busca 1 carta réplica', 'texto');
+insert into conceptos(nombre, tipo, contra, beneficio, referencia, costo, turnos, busca , roba , descripcion, texto_aparicion) values        
+		('Distinción', 'replica', 3, 0, null, '3@t', 0, '1@contrareplica', 0, 'Cuando juegas esta carta quitas 3 puntos al rival, posteriormente busca 1 carta de contraréplica', 'texto');
+insert into conceptos(nombre, tipo, contra, beneficio, referencia, costo, turnos, busca , roba , descripcion, texto_aparicion) values        
+		('Espíritu', 'contrareplica', 7, 0, 'Yo', '7@t', 0, null, 0, 'Si "Yo" está en el campo, puedes jugar esta carta, tras jugarla el rival perderá 7 puntos', 'texto');
+insert into conceptos(nombre, tipo, contra, beneficio, referencia, costo, turnos, busca , roba , descripcion, texto_aparicion) values        
+		('Verdadero', 'contrareplica', 1, 5, null, '2@t', 0, '1@replica', 0, 'Cuando juegas esta carta quitas 1 punto al rival y tú ganas 5 posteriormente busca 1 carta réplica', 'texto');
+insert into conceptos(nombre, tipo, contra, beneficio, referencia, costo, turnos, busca , roba , descripcion, texto_aparicion) values        
 		('Opiniones', 'replica', 5, 1, null, '1@t', 0, null, 0, 'Cuando juegas esta carta quitas 2 puntos al rival y tu ganas 1.', 'text'),
 		('Ciencias', 'replica', 5, 5, 'Mundo|Yo|Duda metódica', '7@t', 0, '4@replica|1@contrareplica', 0 , 'Si "Mundo", "Yo", "Duda metódica" están en el campo, puedes jugar esta carta, tras jugarla el rival pierde 5 puntos, y tú ganas 5 además de poder buscar 4 réplicas y 1 contraréplica', 'texto'),
 		('Entendimiento', 'replica', 9, 0, 'Yo|Dios', '10@t', 0, null, 0, 'Si "Yo" y "Dios" están en el campo, puedes jugar esta carta, tras jugarla el rival perde 9 puntos', 'text0'),
@@ -47,7 +54,7 @@ insert into conceptos(nombre, tipo, contra, beneficio, referencia, costo, turnos
 #Cartas empiristas
 insert into conceptos (nombre, tipo, contra, beneficio, referencia, costo, turnos, busca, roba, descripcion, texto_aparicion)values
 		('Experiencia Sensible',	'concepto',	5,	5,	null,	'5@t',	0,	null,	0,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 2 puntos', 'texto'),
-		('Inmanencia',	'concepto',	5,	5,	'Experiencia Sensible',	'3@t',	0,	null,	5,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 2. Robas 2 cartas','texto'),
+		('Inmanencia',	'concepto',	5,	5,	'Experiencia Sensible',	'3@t',	0,	NULL,	5,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 2. Robas 2 cartas','texto'),
 		('Asociacion',	'concepto',	1,	1,	null,	'3@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 1 punto y tú ganas 1. Robas 1 carta',	'texto'),
 		('Semejanza',	'replica',	5,	5,	'Asociacion',	'2@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 2. Robas 1 carta.',	'texto'),
 		('Contigüidad',	'replica',	5,	5,	'Asociacion',	'2@t',	0,	null ,	1,	'Cuando juegas esta carta tu rival pierde 2 puntos y tú ganas 2. Robas 1 carta.',	'texto'),
@@ -87,7 +94,7 @@ update conceptos set referencia = '5|6' where referencia = 'Yo|Dios';
 
 drop table if exists jugador;
 create table if not exists jugador (
-	id int unsigned auto_increment primary key,
+	 id int unsigned auto_increment primary key,
     nombre varchar(250),
     contrasena varchar(250),
     id_google varchar(100),
@@ -102,6 +109,7 @@ create table if not exists jugador (
     elo int default 1000
 );
 
+drop table if exists jugador_jugador;
 drop table if exists disciplina;
 create table if not exists disciplina (
 	id int unsigned auto_increment primary key,
@@ -119,13 +127,12 @@ insert into disciplina (nombre, win_condition) values
 
 drop table if exists argumentario;
 create table if not exists argumentario(
-	id int unsigned auto_increment primary key,
-    id_jugador int unsigned,
-    nombre varchar(250),
-    foreign key (id_jugador) references jugador(id)
+	 id int unsigned auto_increment primary key,
+	 id_jugador INT UNSIGNED,
+    nombre varchar(250)
 );
 
-drop table if exists argumentario_cartas;
+drop table if EXISTS argumentario_conceptos;
 create table if not exists argumentario_conceptos(
 	id_argumentario int unsigned,
     id_concepto int unsigned,
@@ -144,7 +151,7 @@ create table if not exists autor (
     id_disciplina int unsigned,
 	foreign key (id_disciplina) references disciplina(id)
 );
-
+select * from conceptos;
 insert into autor (nombre, apellidos, cartas_relevantes, id_disciplina) values
 	('René', 'Descartes', '7|6|1', 1),
     ('David', 'Hume', '25', 2);
@@ -160,13 +167,6 @@ create table if not exists libro (
     foreign key (id_autor) references autor(id)
 );
 
-create table if not exists libro_jugador(
-	id_jugador int unsigned,
-    id_libro int unsigned,
-    foreign key (id_jugador) references jugador(id),
-    foreign key (id_libro) references libro(id)
-);
-
 insert into libro (titulo, precio, id_disciplina, id_autor) values
 	('Meditaciones Metafísicas', 10, 1, 1),
     ('Discurso del método', 10, 1 ,1),
@@ -179,7 +179,7 @@ insert into libro (titulo, precio, id_disciplina, id_autor) values
 
 drop table if exists concepto_libros;
 create table if not exists concepto_libros(
-	id_libro int unsigned,
+	 id_libro int unsigned,
     id_concepto int unsigned,
     foreign key (id_libro) references libro(id),
     foreign key (id_concepto) references conceptos(id)
@@ -264,32 +264,69 @@ CREATE TABLE debate (
   carta_senalada_jugador2 int UNSIGNED DEFAULT NULL
 );
 
-drop table if exists conceptos_jugador;
-create table if not exists conceptos_jugador(
-	id_concepto int unsigned,
-    id_jugador int unsigned
+DROP TABLE if EXISTS conceptos_jugador;
+CREATE TABLE if not EXISTS conceptos_jugador(
+	id_jugador INT UNSIGNED,
+	id_concepto INT UNSIGNED,
+	FOREIGN KEY (id_jugador) REFERENCES jugador(id),
+	FOREIGN KEY (id_concepto) REFERENCES conceptos(id)
 );
 
-
-drop table if exists masterizados;
-create table if not exists masterizados(
-	id_jugador int unsigned,
+drop table if exists concepto_libros;
+create table if not exists concepto_libros(
+	id_concepto int unsigned,
     id_libro int unsigned,
-    foreign key (id_jugador) references jugador(id),
+    foreign key (id_concepto) references conceptos(id),
     foreign key (id_libro) references libro(id)
 );
 
-drop table if exists amigos;
-create table if not exists amigos(
-	id_solicitado int unsigned,
-    id_solicitante int unsigned,
-    foreign key (id_solicitado) references jugador(id),
-    foreign key (id_solicitante) references jugador(id)
+
+drop TABLE if EXISTS masterizados;
+CREATE TABLE if NOT EXISTS masterizados(
+	id_libro INT UNSIGNED,
+	id_jugador INT UNSIGNED,
+	FOREIGN KEY (id_jugador) REFERENCES jugador(id),
+	FOREIGN KEY (id_libro) REFERENCES libro(id)
 );
 
-drop trigger if exists paga;
+DROP TABLE if EXISTS amigos;
+CREATE TABLE if not exists amigos(
+	id_solicitado INT UNSIGNED,
+	id_solicitante INT UNSIGNED,
+	confirmado TINYINT(1) DEFAULT 0,
+	checkeado TINYINT(1) DEFAULT 0,
+	FOREIGN KEY (id_solicitado) REFERENCES jugador(id),
+	FOREIGN KEY (id_solicitante) REFERENCES jugador(id)
+);
+
+DROP TABLE if EXISTS chat;
+CREATE TABLE if NOT exists chat(
+	id_hablante INT UNSIGNED,
+	id_oyente INT UNSIGNED,
+	mensaje VARCHAR(2000),
+	fecha DATETIME DEFAULT CURRENT_TIMESTAMP(),
+	FOREIGN KEY (id_hablante) REFERENCES jugador(id),
+	FOREIGN KEY (id_oyente) REFERENCES jugador(id)
+);
+
+
+SELECT *
+FROM chat
+JOIN jugador ON jugador.id = chat.id_hablante
+WHERE chat.id_hablante = 1 AND chat.id_oyente = 2
+UNION
+SELECT *
+FROM chat 
+JOIN jugador ON jugador.id = chat.id_hablante
+WHERE chat.id_hablante = 2 AND chat.id_oyente = 1
+ORDER BY fecha ASC;
+
+
+
+
 delimiter 😂
-create trigger paga
+DROP TRIGGER if exists paga;
+create TRIGGER if NOT exists paga
 after insert on jugador_libros for each row
 begin
 	declare dinero_libro int;
@@ -302,4 +339,4 @@ begin
     end if;
 end;
 😂
-delimiter ; 
+delimiter ;

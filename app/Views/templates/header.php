@@ -33,6 +33,7 @@
     <script src="<?=base_url('/assets/js/libs/jquery/jquery.js');?>"></script>
     <script src="<?=base_url('/assets/js/libs/datatable/datatables.min.js');?>"></script>
     <script src="<?=base_url('/assets/js/libs/bootbox/bootbox.js');?>"></script>
+    <script src="<?=base_url('/assets/js/libs/moment/moment.js');?>"></script>
     <script src="<?=base_url('/assets/js/libs/toastr/toastr.js');?>"></script>
     <script src="<?=base_url('/assets/js/libs/bootstrap/js/bootstrap.js');?>"></script>
     <script src="<?=base_url('/assets/js/libs/anime/lib/anime.min.js');?>"></script>
