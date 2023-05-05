@@ -9,7 +9,7 @@
     box-sizing: border-box;
 }
 
-::-webkit-scrollbar{
+.body::-webkit-scrollbar{
     display: none;
 }
 
@@ -700,6 +700,42 @@ body .section-body{
 .chat-screen{
     width: 100%;
     margin: auto;
+}
+
+.scroled-element{
+    overflow: auto;
+}
+
+.scroled-element::-webkit-scrollbar:vertical{
+    width: 1px;
+    border-radius: 5px;
+}
+
+
+.scroled-element::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.scroled-element::-webkit-scrollbar:vertical {
+    width:10px;
+}
+
+.scroled-element::-webkit-scrollbar-button:increment,.scroled-element::-webkit-scrollbar-button {
+    display: none;
+} 
+
+.scroled-element::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+.scroled-element::-webkit-scrollbar-thumb {
+    background-color: #797979;
+    border-radius: 20px;
+    border: 2px solid #f1f2f3;
+}
+
+.scroled-element::-webkit-scrollbar-track {
+    border-radius: 10px;  
 }
 
 

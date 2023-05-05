@@ -559,7 +559,7 @@ $(document).ready(()=>{
                                         bootbox.dialog({
                                             title : `<h5> Hablar con ${datos.nombre} <h5>`,
                                             message : `<div class="chat-screen border">                                    
-                                                        <div class="m-auto d-flex flex-column overflow-scroll w-100" style="height:40vh" id="chat-screen-${idChat}">
+                                                        <div id="chat-screen-${idChat}" class="m-auto d-flex flex-column scroled-element w-100" style="height:40vh" id="chat-screen-${idChat}">
                                                             ${response.html}
                                                         </div>    
                                                         <input type="text" class="form-control" id="chat-message" name="message" placeholder="Escribe tu mensaje" style="resize:none;"></textarea>
@@ -567,6 +567,7 @@ $(document).ready(()=>{
                                                     </div>
                                             <div>`,
                                             onShow : (e) =>{
+                                                $(`.chat-screen`).scrollTop(9999999);
                                                 $('#chat-message').keypress(function(ev){
                                                     const fecha = moment().format('YYYY-MM-DD hh:mm:ss');
                                                     if(ev.originalEvent.code === 'Enter'){             
@@ -588,6 +589,7 @@ $(document).ready(()=>{
                                                             </p>
                                                         </div>
                                                         `);
+                                                        $(`#chat-screen-${idChat}`).scrollTop(9999999);
                                                         $(this).val('');
                                                     }
                                                 })

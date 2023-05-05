@@ -307,7 +307,8 @@ CREATE TABLE if NOT exists chat(
 	fecha DATETIME DEFAULT CURRENT_TIMESTAMP(),
 	FOREIGN KEY (id_hablante) REFERENCES jugador(id),
 	FOREIGN KEY (id_oyente) REFERENCES jugador(id)
-);
+)CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
 
 
 SELECT *
