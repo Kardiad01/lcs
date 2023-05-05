@@ -110,12 +110,13 @@ $(document).ready(()=>{
                         if(data.type==='chat'){
                             toastr.info(`Nuevo mensaje de : ${data.data.user}`);
                             $(`#chat-screen-${data.data.id_hablante}`).append(`
-                            <div class="col-8 align-self-end border rounded mt-2">
-                                <p class="h-25">
+                            <div class="col-8 align-self-start border rounded mt-2 coment">
+                                <p class="h-25  mr-3 coment">
                                     <b style="font-size:0.8rem">${data.data.user}</b><small style="font-size:0.8rem">${data.data.date}</small><p>${data.data.message}</p>
                                 </p>
                             </div>
-                            `);                        
+                            `);     
+                            $(`#chat-screen-${data.data.id_hablante}`).animate({ scrollTop:  Number.MAX_SAFE_INTEGER }, 1000);                   
                         }
                         if(data.type=='close'){
                             $(app.webMap.datatable[4].dom).dataTable().api().ajax.reload();
@@ -567,7 +568,8 @@ $(document).ready(()=>{
                                                     </div>
                                             <div>`,
                                             onShow : (e) =>{
-                                                $(`.chat-screen`).scrollTop(9999999);
+                                                //$(`#chat-screen-${data.data.id_hablante}`).height()*1999999
+                                                 $(`#chat-screen-${idChat}`).animate({ scrollTop: Number.MAX_SAFE_INTEGER}, 1000);                                                            
                                                 $('#chat-message').keypress(function(ev){
                                                     const fecha = moment().format('YYYY-MM-DD hh:mm:ss');
                                                     if(ev.originalEvent.code === 'Enter'){             
@@ -583,13 +585,13 @@ $(document).ready(()=>{
                                                                 }
                                                             }`)                                            
                                                         $(`#chat-screen-${idChat}`).append(`
-                                                        <div class="col-8 align-self-start border rounded mt-2">
-                                                            <p class="h-25">
+                                                        <div class="col-8 align-self-end border rounded mt-2 coment">
+                                                            <p class="h-25 mr-3 coment">
                                                                 <b style="font-size:0.8rem">YO:</b><small style="font-size:0.8rem">${fecha}</small><p>${$(this).val()}</p> 
                                                             </p>
                                                         </div>
                                                         `);
-                                                        $(`#chat-screen-${idChat}`).scrollTop(9999999);
+                                                        $(`#chat-screen-${idChat}`).animate({ scrollTop: Number.MAX_SAFE_INTEGER }, 1000);
                                                         $(this).val('');
                                                     }
                                                 })

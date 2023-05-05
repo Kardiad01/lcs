@@ -254,16 +254,16 @@ class User implements IViews {
             foreach($chat as $coment){
                 if($coment['id_hablante']==$this->session->get('user')[0]['id']){
                     $html .= '
-                    <div class="col-12 align-self-start border rounded mt-2">
-                        <p class="h-25">
+                    <div class="col-8 align-self-end border rounded mt-2 coment">
+                        <p class="h-25 mr-3 coment">
                             <b style="font-size:0.8rem">YO:</b><small style="font-size:0.8rem">'.$coment['fecha'].'</small><p>'.$coment['mensaje'].'</p> 
                         </p>
                     </div>
                     ';
                 }else{
                     $html .='
-                        <div class="col-12 align-self-end border rounded mt-2">
-                            <p class="h-25">
+                        <div class="col-8 align-self-start border rounded mt-2 coment">
+                            <p class="h-25 ml-3 coment">
                                 <b style="font-size:0.8rem">'.$coment['nombre'].'</b><small style="font-size:0.8rem">'.$coment['fecha'].'</small><p>'.$coment['mensaje'].'</p>
                             </p>
                         </div>

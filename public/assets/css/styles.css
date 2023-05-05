@@ -738,6 +738,9 @@ body .section-body{
     border-radius: 10px;  
 }
 
+.coment{
+    word-wrap: break-word;
+}
 
 /*
 =====================================================
