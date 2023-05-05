@@ -40,8 +40,6 @@ class User implements IViews {
 
     /**
      * Funciones dentro de esto:
-     *  8º Listar amigos
-     *  9º Añadir amigos
      *  10º Matchmaking o formas de emparejamiento
      */
 
@@ -251,9 +249,30 @@ class User implements IViews {
 
     public function historicchat(){
         try{
-            echo json_encode(['status'=>200, 'data'=>model('Jugador')->chathistoric($this->session->get('user')[0]['id'])]);
+            $chat = model('Jugador')->chathistoric($this->session->get('user')[0]['id'], $this->post['id_otrousuario']);
+            $html = '';
+            foreach($chat as $coment){
+                if($coment['id_hablante']==$this->session->get('user')[0]['id']){
+                    $html .= '
+                    <div class="col-12 align-self-start border rounded mt-2">
+                        <p class="h-25">
+                            <b style="font-size:0.8rem">YO:</b><small style="font-size:0.8rem">'.$coment['fecha'].'</small><p>'.$coment['mensaje'].'</p> 
+                        </p>
+                    </div>
+                    ';
+                }else{
+                    $html .='
+                        <div class="col-12 align-self-end border rounded mt-2">
+                            <p class="h-25">
+                                <b style="font-size:0.8rem">'.$coment['nombre'].'</b><small style="font-size:0.8rem">'.$coment['fecha'].'</small><p>'.$coment['mensaje'].'</p>
+                            </p>
+                        </div>
+                    ';
+                }
+            }
+            echo json_encode(['status' => 200, 'data' => $chat, 'html' => $html]);
         }catch(Exception $e){
-            //echo json_encode(['status'=>500]);
+            echo json_encode(['status'=>500]);
             throw $e;
         }
     }

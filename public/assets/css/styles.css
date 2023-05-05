@@ -697,6 +697,11 @@ body .section-body{
     align-items: center;
 }
 
+.chat-screen{
+    width: 100%;
+    margin: auto;
+}
+
 
 /*
 =====================================================

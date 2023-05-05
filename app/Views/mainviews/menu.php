@@ -1,5 +1,6 @@
 <script>
 $(document).ready(()=>{
+    
     //Redimensionar imagen desde el background, para imagen de perfil
     const app = new App({
         event : {
@@ -95,25 +96,42 @@ $(document).ready(()=>{
                         console.log('Conexión establecida');
                         ev.currentTarget.send(JSON.stringify({
                             type : "init",
-                            user: "<?=esc($user)[0]['id']?>"
+                            user: "<?=esc($user)[0]['id']?>",
+                            name : "<?=esc($user)[0]['nombre']?>"
                         }));
+                        $(app.webMap.datatable[4].dom).dataTable().api().ajax.reload();
                     },
                     message : function(ev){
                         const data = JSON.parse(ev.data);
-                        console.log($(`#chat-screen-${data.data.id_oyente}`));
-                        console.log($(`#chat-screen-${data.data.id_hablante}`));
-                        console.log(data);
-                        $(`#chat-screen-${data.data.id_hablante}`).append(`
-                        <div class="col-8 align-self-end border rounded mt-2">
-                            <p class="h-25">
-                                <b style="font-size:0.8rem">${data.data.user}</b><small style="font-size:0.8rem">${data.data.date}</small><p>${data.data.message}</p>
-                            </p>
-                        </div>
-                        `);
-                        console.log(data)
+                        if(data.type==='init'){
+                            toastr.info(`${data.name} se ha conectado`);
+                            $(app.webMap.datatable[4].dom).dataTable().api().ajax.reload();
+                        }
+                        if(data.type==='chat'){
+                            toastr.info(`Nuevo mensaje de : ${data.data.user}`);
+                            $(`#chat-screen-${data.data.id_hablante}`).append(`
+                            <div class="col-8 align-self-end border rounded mt-2">
+                                <p class="h-25">
+                                    <b style="font-size:0.8rem">${data.data.user}</b><small style="font-size:0.8rem">${data.data.date}</small><p>${data.data.message}</p>
+                                </p>
+                            </div>
+                            `);                        
+                        }
+                        if(data.type=='close'){
+                            $(app.webMap.datatable[4].dom).dataTable().api().ajax.reload();
+                        }
                     },
                     close : function(ev){
-                        console.log(ev)
+                        ev.currentTarget.send(`{
+                            type: "close"
+                        }`)
+                        $.ajax({
+                            method: "POST",
+                            url: "<?=base_url('/master/user/user/logout')?>",
+                            data: "",
+                            dataType: "JSON"
+                        });
+                        window.location.replace("<?=base_url()?>");
                     },
                     error : function(ev){
                         console.log(ev)
@@ -312,7 +330,6 @@ $(document).ready(()=>{
                                 },
                                 dataType: "JSON",
                                 success: function (response) {
-                                    console.log(response)
                                     if(response.status==200){
                                         toastr.success("", response.msg);
                                         table.api().ajax.reload();
@@ -496,7 +513,7 @@ $(document).ready(()=>{
                         }
                     ],
                     fnDrawCallback : function(data){
-                    console.log($('[data-eliminar-amigo]'));                           
+                        $('[data-eliminar-amigo]').unbind('click');
                         $('[data-eliminar-amigo]').click(function(){
                             bootbox.dialog({
                                 title : '<h5>Borrar amigo</h5>',
@@ -522,74 +539,63 @@ $(document).ready(()=>{
                                 }
                             })
                         });
+                        $('[data-chat]').unbind('click');
                         $('[data-chat]').click(function(){
                             let idChat = $(this).data('chat');
-                            console.log(idChat);
                             let datos = data.json.data;
                             datos = datos.filter((ele)=>{
                                 if(ele.id == idChat) return ele;
                             })[0];
                             $.ajax({
                                 type: "POST",
-                                url: "<?=base_url()?>",
-                                data: "data",
-                                dataType: "dataType",
+                                url: "<?=base_url('master/user/user/historicchat')?>",
+                                data: {
+                                    id_otrousuario : idChat
+                                },
+                                dataType: "JSON",
                                 success: function (response) {
-                                    
+                                    console.log(response)
+                                    if(response.status === 200){
+                                        bootbox.dialog({
+                                            title : `<h5> Hablar con ${datos.nombre} <h5>`,
+                                            message : `<div class="chat-screen border">                                    
+                                                        <div class="m-auto d-flex flex-column overflow-scroll w-100" style="height:40vh" id="chat-screen-${idChat}">
+                                                            ${response.html}
+                                                        </div>    
+                                                        <input type="text" class="form-control" id="chat-message" name="message" placeholder="Escribe tu mensaje" style="resize:none;"></textarea>
+                                                    <div>
+                                                    </div>
+                                            <div>`,
+                                            onShow : (e) =>{
+                                                $('#chat-message').keypress(function(ev){
+                                                    const fecha = moment().format('YYYY-MM-DD hh:mm:ss');
+                                                    if(ev.originalEvent.code === 'Enter'){             
+                                                        app.webMap.event[1].class.config.event.socket.send(`
+                                                           {
+                                                            "type": "chat",
+                                                            "data": {
+                                                                "id_hablante" : "<?=esc($user)[0]['id']?>",
+                                                                "id_oyente": "${datos.id}",
+                                                                "message": "${$('#chat-message').val()}",
+                                                                "user": "<?=esc($user)[0]['nombre']?>",
+                                                                "date": "${fecha}"
+                                                                }
+                                                            }`)                                            
+                                                        $(`#chat-screen-${idChat}`).append(`
+                                                        <div class="col-8 align-self-start border rounded mt-2">
+                                                            <p class="h-25">
+                                                                <b style="font-size:0.8rem">YO:</b><small style="font-size:0.8rem">${fecha}</small><p>${$(this).val()}</p> 
+                                                            </p>
+                                                        </div>
+                                                        `);
+                                                        $(this).val('');
+                                                    }
+                                                })
+                                            }
+                                        }) 
+                                    }
                                 }
                             });
-                            bootbox.dialog({
-                                /*
-                                 <div class="col-8 align-self-end border rounded mt-2">
-                                    <p class="h-25">
-                                        <b style="font-size:0.8rem">${data.json.data[0].nombre}</b><small style="font-size:0.8rem">10/04/2023 20:23:11</small><p>Hola, soy un girao que me quiero pegar un tiro con un colt bastante wapos</p>
-                                    </p>
-                                </div>
-                                <div class="col-8 align-self-start border rounded mt-2">
-                                    <p class="h-25">
-                                        <b style="font-size:0.8rem">YO:</b><small style="font-size:0.8rem">10/04/2023 20:23:11</small><p>Hola</p> 
-                                    </p>
-                                </div>
-                                */
-                                title : `<h5> Hablar con ${datos.nombre} <h5>`,
-                                message : `<div class="container">                                    
-                                        <div class="border rounded w-100">
-                                            <div class="row d-flex flex-column overflow-auto" style="height:40vh" id="chat-screen-${idChat}">
-                                               
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <input type="text" class="form-control" id="chat-message" name="message" placeholder="Escribe tu mensaje" style="resize:none;"></textarea>
-                                        </div>
-                                <div>`,
-                                onShow : (e) =>{
-                                    $('#chat-message').keypress(function(ev){
-                                        const fecha = moment().format('YYYY-MM-DD hh:mm:ss');
-                                        console.log(fecha);
-                                        if(ev.originalEvent.code === 'Enter'){             
-                                            app.webMap.event[1].class.config.event.socket.send(`
-                                               {
-                                                "type": "chat",
-                                                "data": {
-                                                    "id_hablante" : "<?=esc($user)[0]['id']?>",
-                                                    "id_oyente": "${datos.id}",
-                                                    "message": "${$('#chat-message').val()}",
-                                                    "user": "<?=esc($user)[0]['nombre']?>",
-                                                    "date": "${fecha}"
-                                                    }
-                                                }`)                                            
-                                            $(`#chat-screen-${idChat}`).append(`
-                                            <div class="col-8 align-self-start border rounded mt-2">
-                                                <p class="h-25">
-                                                    <b style="font-size:0.8rem">YO:</b><small style="font-size:0.8rem">${fecha}</small><p>${$(this).val()}</p> 
-                                                </p>
-                                            </div>
-                                            `);
-                                            $(this).val('');
-                                        }
-                                    })
-                                }
-                            })
                         })
                     }
                 },
@@ -603,7 +609,7 @@ $(document).ready(()=>{
         'height' : '300px',
         'background-size' : '100% 100%',
         'border-radius' : '50%'
-    });    
+    });
 })
 </script>
 <main class="pc-body d-flex flex-column aling-items-center justify-content-center">
