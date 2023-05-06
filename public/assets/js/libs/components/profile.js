@@ -41,7 +41,8 @@ class App {
             let component = new Component(key, element, this.sources[key][position].config);
             this.webMap[key][position] = {
                 dom : element,
-                class : component  
+                class : component,
+                component : `${key}-${position}`
             };
             this.arraySources.push(this.webMap[key][position]);
         });
@@ -54,7 +55,8 @@ class App {
                         let component = new Component('event', this.sources.event[element].config.trigger, this.sources['event'][element].config)
                         this.webMap['event'][element] = {
                             dom : this.sources.event[element].config.trigger,
-                            class : component
+                            class : component,
+                            component : 'event'
                         }
                     }              
                 }
@@ -65,7 +67,8 @@ class App {
                     let component = new Component('event', this.sources.event[element].config.trigger, this.sources['event'][element].config)
                     this.webMap['event'][element] = {
                         dom : this.sources.event[element].config.trigger,
-                        class : component
+                        class : component,
+                        component : 'event'
                     }
                 }
             })

@@ -14,72 +14,7 @@ $(document).ready(()=>{
                         attributes : true
                     },
                     call : function(e){
-                        //de aquí se podría meter lo de recompensa diaria ajustando a back.
-                        $.ajax({
-                            type: "POST",
-                            url: "<?=base_url('master/user/user/friendrequest')?>",
-                            data: "",
-                            dataType: "JSON",
-                            success: function (response) {
-                                if(response.status===200 && response.data.length>0){
-                                    for(let item in response.data){
-                                        let player = response.data[item][0];
-                                        bootbox.dialog({
-                                            title : `<h5>Solicitud de Amistad</h5>`,
-                                            message : `<div>
-                                                ${player.nombre} quiere ser tu amigo
-                                            </div>`,
-                                            buttons: {
-                                                aceptar : {
-                                                    label : 'Aceptar',
-                                                    className : 'btn btn-success',
-                                                    closeButton: false,
-                                                    callback : ()=>{
-                                                        $.ajax({
-                                                            type: "POST",
-                                                            url: "<?=base_url('master/user/user/aceptnewfriend')?>",
-                                                            data: {
-                                                                id_player : player.id 
-                                                            },
-                                                            dataType: "JSON",
-                                                            success: function (response) {
-                                                                if(response.status===200){
-                                                                    toastr.success(response.msg);
-                                                                    $(app.webMap.datatable[4].dom).dataTable().api().ajax.reload()
-                                                                }else{
-                                                                    toastr.error(response.msg);
-                                                                }
-                                                            }
-                                                        });
-                                                    }
-                                                },
-                                                rechazar : {
-                                                    label : 'Rechazar',
-                                                    className : 'btn btn-danger',
-                                                    callback : ()=>{
-                                                        $.ajax({
-                                                            type: "POST",
-                                                            url: "<?=base_url('master/user/user/rejectnewfriend')?>",
-                                                            data: {
-                                                                id_player : player.id
-                                                            },
-                                                            dataType: "dataType",
-                                                            success: function (response) {
-                                                                if(response.status===200){
-                                                                    toastr.success(response.msg);
-                                                                }else{
-                                                                    toastr.error(response.msg);
-                                                                }
-                                                            }
-                                                        });
-                                                    }
-                                                }
-                                            }
-                                        })
-                                    }
-                                }
-                            }
-                        });
+                        //Bonitas líneas de código que sólo van a servir de como lanzaría un observer                        
                     }
                 }
             },
@@ -92,7 +27,7 @@ $(document).ready(()=>{
                     config : [
 
                     ],
-                    open : function(ev){
+                    open : function(ev){                        
                         console.log('Conexión establecida');
                         ev.currentTarget.send(JSON.stringify({
                             type : "init",
@@ -100,6 +35,9 @@ $(document).ready(()=>{
                             name : "<?=esc($user)[0]['nombre']?>"
                         }));
                         $(app.webMap.datatable[4].dom).dataTable().api().ajax.reload();
+                        getUserFriendRequest("<?=base_url('master/user/user/friendrequest')?>", 
+                            "<?=base_url('master/user/user/aceptnewfriend')?>", 
+                            "<?=base_url('master/user/user/rejectnewfriend')?>", app);
                     },
                     message : function(ev){
                         const data = JSON.parse(ev.data);
@@ -118,7 +56,12 @@ $(document).ready(()=>{
                             `);     
                             $(`#chat-screen-${data.data.id_hablante}`).animate({ scrollTop:  Number.MAX_SAFE_INTEGER }, 1000);                   
                         }
-                        if(data.type=='close'){
+                        if(data.type=='request'){
+                            getUserFriendRequest("<?=base_url('master/user/user/friendrequest')?>", 
+                            "<?=base_url('master/user/user/aceptnewfriend')?>", 
+                            "<?=base_url('master/user/user/rejectnewfriend')?>", app);
+                        }
+                        if(data.type=='delete' || data.type=='accept' || data.type=='close'){
                             $(app.webMap.datatable[4].dom).dataTable().api().ajax.reload();
                         }
                     },
@@ -333,6 +276,7 @@ $(document).ready(()=>{
                                 success: function (response) {
                                     if(response.status==200){
                                         toastr.success("", response.msg);
+                                        app.webMap.event[1].class.config.event.socket.send(`{"type": "request","id": "${response.data}"}`);
                                         table.api().ajax.reload();
                                     }else{
                                         toastr.error("", response.msg)
@@ -533,6 +477,7 @@ $(document).ready(()=>{
                                                 dataType: "JSON",
                                                 success: function (response) {
                                                     $(app.webMap.datatable[4].dom).dataTable().api().ajax.reload();
+                                                    app.webMap.event[1].class.config.event.socket.send(`{"type": "delete","id": "${response.data}"}`);
                                                 }
                                             });
                                         }
@@ -555,7 +500,6 @@ $(document).ready(()=>{
                                 },
                                 dataType: "JSON",
                                 success: function (response) {
-                                    console.log(response)
                                     if(response.status === 200){
                                         bootbox.dialog({
                                             title : `<h5> Hablar con ${datos.nombre} <h5>`,
@@ -568,11 +512,10 @@ $(document).ready(()=>{
                                                     </div>
                                             <div>`,
                                             onShow : (e) =>{
-                                                //$(`#chat-screen-${data.data.id_hablante}`).height()*1999999
-                                                 $(`#chat-screen-${idChat}`).animate({ scrollTop: Number.MAX_SAFE_INTEGER}, 1000);                                                            
+                                                $(`#chat-screen-${idChat}`).animate({ scrollTop: Number.MAX_SAFE_INTEGER}, 1000);                                                            
                                                 $('#chat-message').keypress(function(ev){
                                                     const fecha = moment().format('YYYY-MM-DD hh:mm:ss');
-                                                    if(ev.originalEvent.code === 'Enter'){             
+                                                    if(ev.originalEvent.code === 'Enter' && $('#chat-message').val()!=''){             
                                                         app.webMap.event[1].class.config.event.socket.send(`
                                                            {
                                                             "type": "chat",
@@ -614,6 +557,7 @@ $(document).ready(()=>{
         'background-size' : '100% 100%',
         'border-radius' : '50%'
     });
+    //console.log(app);
 })
 </script>
 <main class="pc-body d-flex flex-column aling-items-center justify-content-center">

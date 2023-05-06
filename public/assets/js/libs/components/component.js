@@ -49,7 +49,9 @@ class Component {
              if(this.component == object){
                 const pConfig = Object.keys(this.config[this.component]);
                 pConfig.forEach(element=>{
-                    this.config[this.component]['domElement'] = domElement;
+                    if(this.domElement!==null){
+                        this.config[this.component]['domElement'] = domElement;
+                    }
                     this.config[this.component][element](config);
                 })
              }
@@ -83,7 +85,6 @@ class Component {
             this.socket.addEventListener('error', (e)=>{
                 config.error(e)
             })
-            console.log(this.socket)
         }
     }
 

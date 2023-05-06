@@ -22,6 +22,9 @@
         </script>
     <script src="<?=base_url('/assets/js/custom/google.js')?>"></script>
     <?php endif;?>
+    <?php if(esc($path)=='user'):?>
+        <script src="<?= base_url('/assets/js/custom/helper.js')?>"></script>
+    <?php endif;?>
     <!--Css varios y css de librerías-->
     <link rel="stylesheet" href="<?=base_url('/assets/js/libs/fontawesome/css/all.css')?>">
     <link rel="stylesheet" href="<?=base_url('/assets/js/libs/splider/dist/css/splide.min.css');?>">

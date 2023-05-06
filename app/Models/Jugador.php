@@ -78,7 +78,6 @@ class Jugador extends AModel{
         }
     }
 
-
     public function rejectnewfriend($id_user){
         $this->db->table('amigos')->set('checkeado', 1)->where('id_solicitado', $id_user)->update();
     }
@@ -128,26 +127,18 @@ class Jugador extends AModel{
         return $data;
     }
 
-    public function friendbyuser($id_usuario){
-        return $this->db->table('amigos')
-            ->selectCount('amigos.id_solicitado')
-            ->where("amigos.id_solicitante = $id_usuario or amigos.id_solicitado = $id_usuario")
-            ->where('amigos.confirmado', 1)->get()->getResultArray()[0]['id_solicitado'];
-    }
-
+    //devuelve los amigos que tiene un usuario.
     public function friendlist($id_usuario){
         return $this->db->query("
             SELECT * 
             FROM amigos
             JOIN jugador ON jugador.id = amigos.id_solicitante
-            WHERE amigos.id_solicitante IN 
-            (SELECT amigos.id_solicitante FROM amigos WHERE amigos.id_solicitado = $id_usuario)
+            WHERE amigos.id_solicitado = $id_usuario
             UNION 
             SELECT *
             FROM amigos
             JOIN jugador ON jugador.id = amigos.id_solicitado
-            WHERE amigos.id_solicitado IN 
-            (SELECT amigos.id_solicitado FROM amigos WHERE amigos.id_solicitante = $id_usuario)
+            WHERE amigos.id_solicitante = $id_usuario
         ")->getResultArray();
     }
 

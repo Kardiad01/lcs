@@ -192,7 +192,7 @@ class User implements IViews {
                     'id_solicitado' => $this->session->get('user')[0]['id'],
                     'id_solicitante' => $this->post['id_solicitante']
                 ]);
-                echo json_encode(['status'=>200, 'msg'=>'solicitud enviada']);
+                echo json_encode(['status'=>200, 'msg'=>'solicitud enviada', 'data'=>$this->post['id_solicitante']]);
             }else{
                 echo json_encode(['status'=>201, 'msg'=>'ya son amigos']);
             }
@@ -208,7 +208,7 @@ class User implements IViews {
     public function deletefriend(){
         try{
             model('Jugador')->deletefriend($this->post['id_player'], $this->session->get('user')[0]['id']);
-            echo json_encode(['status'=>200, 'msg'=>'amigo borrado con éxito']);
+            echo json_encode(['status'=>200, 'msg'=>'amigo borrado con éxito', 'data'=>$this->post['id_player']]);
         }catch(Exception $e){
             echo json_encode(['status'=>500, 'msg'=>'no se pudo eliminar amigo']);
         }
