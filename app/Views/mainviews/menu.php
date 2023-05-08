@@ -19,7 +19,7 @@ $(document).ready(()=>{
                 }
             },
             1: {
-                name : 'websocket del chat',
+                name : 'websocket maestro de todo lo que tiene que ver con amigos',
                 config: {
                     event : 'websocket',
                     trigger : document,
@@ -29,18 +29,31 @@ $(document).ready(()=>{
                     ],
                     open : function(ev){                        
                         console.log('Conexión establecida');
-                        ev.currentTarget.send(JSON.stringify({
-                            type : "init",
-                            user: "<?=esc($user)[0]['id']?>",
-                            name : "<?=esc($user)[0]['nombre']?>"
-                        }));
-                        $(app.webMap.datatable[4].dom).dataTable().api().ajax.reload();
-                        getUserFriendRequest("<?=base_url('master/user/user/friendrequest')?>", 
-                            "<?=base_url('master/user/user/aceptnewfriend')?>", 
-                            "<?=base_url('master/user/user/rejectnewfriend')?>", app);
+                        $.ajax({
+                            type: "POST",
+                            url: "<?=base_url('master/user/user/firendstosocket')?>",
+                            data: "",
+                            dataType: "JSON",
+                            success: function (response) {
+                                ev.currentTarget.send(JSON.stringify({
+                                type : "init",
+                                user: "<?=esc($user)[0]['id']?>",
+                                name : "<?=esc($user)[0]['nombre']?>",
+                                friends: JSON.stringify(response)
+                            }));
+                            $(app.webMap.datatable[4].dom).dataTable().api().ajax.reload();
+                            getUserFriendRequest("<?=base_url('master/user/user/friendrequest')?>", 
+                                "<?=base_url('master/user/user/aceptnewfriend')?>", 
+                                "<?=base_url('master/user/user/rejectnewfriend')?>", app);
+                            }
+                        });
                     },
                     message : function(ev){
                         const data = JSON.parse(ev.data);
+                        console.log(data);
+                        if(app.webMap.datatable[5]!=undefined && $.fn.dataTable.isDataTable(app.webMap.datatable[4].dom)){
+                                $(app.webMap.datatable[5].class.domElement).dataTable().api().ajax.reload();
+                        }  
                         if(data.type==='init'){
                             toastr.info(`${data.name} se ha conectado`);
                             $(app.webMap.datatable[4].dom).dataTable().api().ajax.reload();
@@ -62,7 +75,48 @@ $(document).ready(()=>{
                             "<?=base_url('master/user/user/rejectnewfriend')?>", app);
                         }
                         if(data.type=='delete' || data.type=='accept' || data.type=='close'){
-                            $(app.webMap.datatable[4].dom).dataTable().api().ajax.reload();
+                            $(app.webMap.datatable[4].dom).dataTable().api().ajax.reload();                       
+                        }
+                        if(data.type=='duelrequest'){
+                            bootbox.dialog({
+                                title : `<h2>Tienes una solicitud de debate</h2>`,
+                                message : `<p> ${data.username} te pide debate ¿Desea aceptar?`,
+                                closeButton : false,
+                                buttons: {
+                                    yes : {
+                                        label: 'Sí',
+                                        className: 'btn-success',
+                                        callback: (e) => {
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "<?=base_url('master/user/user/playfriendsop')?>",
+                                                data: {
+                                                    id_opponent : data.id_opponent
+                                                },
+                                                dataType: "JSON",
+                                                success: function (response) {
+                                                    res = response;
+                                                    res['type'] = 'aceptduel';
+                                                    app.webMap.event[1].class.config.event.socket.send(JSON.stringify(response));
+                                                }
+                                            });
+                                        }
+                                    },
+                                    no : {
+                                        label: 'No',
+                                        className: 'btn-danger',
+                                        callback: (e) => {
+
+                                        }
+                                    }            
+                                }
+                            })
+                        }
+                        if(data.type=='acpetduel'){
+                            //Idea de url sería base_url('master/play?game=984573rywiefgkjergh') con game igual al nombre de fichcero.
+                            //Esto redirigirá a otra página con otro websocket que mandará a la movida del juego.
+
+                            //window.location.replace();
                         }
                     },
                     close : function(ev){
@@ -81,7 +135,7 @@ $(document).ready(()=>{
                         console.log(ev)
                     }
                 }
-            }
+            },
         },
         form:{
             0: {
@@ -164,6 +218,92 @@ $(document).ready(()=>{
                                 }
                             }
                         }
+                    }
+                }
+            },
+            2 : {
+                name: 'modal que sirve para habilitar un matchmaking automático',
+                config : {
+                    title : '<h2>Emparejamiento automático</h2>',
+                    message: '<p>ACABA DE ENTRAR EN UNA COLA DE MIERDA</p>',
+                    onShow : function(){
+                        //aquí se pondría la movida para hacer el matchmaking
+                    }
+                }
+            },
+            3: {
+                name : 'modal que sirve para habilitar pelea con amigos',
+                config: {
+                    title : '<h2>Pelear con amigo</h2>',
+                    message: `<div>
+                        <p>A LIARSE DE PUTASOS</p>
+                        <table data-library-func="datatable-5"></table>
+                    </div>`,
+                    onShow: function(e){
+                        console.log( $(e.currentTarget).find('.modal-content'))
+                        $(e.currentTarget).find('.modal-content').css({
+                            width:'50vw',
+                            height:'50vh',
+                            minWidth: '500px'
+                        })
+                        //console.log();
+                        //se tiene que dar de alta a un componente getamigos
+                        app.addComponent(document.querySelector('[data-library-func="datatable-5"]'), {
+                            datatable: {
+                                5:{
+                                    nombre : 'Datatabla que habilita la pelea con amigos añadiendo nuevo componente',
+                                    config : {
+                                        paging : false,
+                                        responsive: true,
+                                        ajax: {
+                                            type : "POST",
+                                            url :  "<?=base_url('/master/user/user/onlinefriends')?>",
+                                            dataSrc : 'data'
+                                        },
+                                        columnDefs: [
+                                            {
+                                                targets: 0,
+                                                data: 'nombre',
+                                                render : function (data, type, row, meta){                      
+                                                    return row.nombre.replace(' ', '&nbsp')
+                                                }
+                                            },
+                                            {
+                                                targets: 1,
+                                                data: 'id',
+                                                render : function (data, type, row, meta){
+                                                    return `
+                                                    <td>
+                                                        <button class="btn btn-primary" data-duel = "${data}"><i class="fa-solid fa-gamepad"></i></button>
+                                                    </td>
+                                                    `;
+                                                }
+                                            },
+                                            {
+                                                targets: 2,
+                                                data: 'enlinea',
+                                                render : function(data, type, row, meta){                                
+                                                    if(data==1){
+                                                        return `
+                                                        <span class="badge bg-success">&nbsp</span>
+                                                        `
+                                                    }
+                                                    return `
+                                                        <span class="badge bg-danger">&nbsp</span>
+                                                    `;
+                                                }
+                                            }
+                                        ],
+                                        fnDrawCallback : function(){
+                                            $('[data-duel]').unbind('click');
+                                            $('[data-duel]').click(function(e){
+                                                app.webMap.event[1].class.config.event.socket.send(`{"type": "duelrequest","id": "${$(this).data('duel')}", "username":"<?=esc($user)[0]['nombre']?>", "id_opponent":"<?=esc($user)[0]['id']?>"}`);
+                                            });
+                                        }
+                                    }
+                                }
+                            }
+                        });
                     }
                 }
             }
@@ -549,6 +689,7 @@ $(document).ready(()=>{
             }
         }
     });
+    //para prod o lo que sea las imágenes no se ven porque falta un /public
     $('.user-img').css({
         'background-image' : 'url("<?=esc($user[0]['img_perfil'])?>")',
         'background-color': 'black',
@@ -591,8 +732,8 @@ $(document).ready(()=>{
             <div>
                 <h3>Selecciona como quieres jugar</h3>
                 <div class="d-flex flex-colum">
-                    <button class="btn">Online</button>
-                    <button class="btn">Con amigo</button>
+                    <button class="btn" data-library-func="modal-2">Online</button>
+                    <button class="btn" data-library-func="modal-3">Con amigo</button>
                 </div>
             </div>
         </div>

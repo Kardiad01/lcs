@@ -13,6 +13,7 @@ class User implements IViews {
     private $session;
     private $languaje;
     private $files;
+    private $salt = '78mMbozkN?r.'; //acuerdate que tienes que hacer un .env para poner la salt esta
 
     public function __construct()
     {
@@ -42,6 +43,21 @@ class User implements IViews {
      * Funciones dentro de esto:
      *  10º Matchmaking o formas de emparejamiento
      */
+
+    // Play with frendsop
+
+    public function playfriendsop(){
+        //Paso 0: crear nombre del fichero que llevará todo
+        //Paso 1: crear registro de partida en la bbdd
+        //Paso 2: pasar los campos de la bbdd 
+        $roomName = md5(password_hash($this->salt.'_'.$this->post['id_opponent'].$this->session->get('user')[0]['id'], PASSWORD_BCRYPT));
+        $dataRoom = model('Jugador')->newgamewithfriend([
+            'id_jugador_retante' => $this->post['id_opponent'],
+            'id_jugador_retado' => $this->session->get('user')[0]['id'],
+            'recurso' => $roomName
+        ]);
+        echo json_encode(['status'=>200, 'data'=>$dataRoom]);
+    }
 
     //User methods
 
@@ -162,6 +178,10 @@ class User implements IViews {
 
    //Friendlist methods
 
+   public function firendstosocket(){
+       echo json_encode(model('Jugador')->firendstosocket($this->session->get('user')[0]['id']));
+   }
+
    public function lookingforfriends(){
         $columns = ['id', 'nombre', 'enlinea'];
         $requiredParamsToDT = [
@@ -277,8 +297,8 @@ class User implements IViews {
         }
     }
 
-    public function play(){
-
+    public function onlinefriends(){
+        echo json_encode(['status'=>200, 'data'=> model('Jugador')->onlinefriends($this->session->get('user')[0]['id'])]);
     }
 
     //Deck builder methods

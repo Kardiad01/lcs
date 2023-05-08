@@ -19,11 +19,11 @@ class App {
         //Esto es para encontrar aquellas cosas que tiene que usar nuestros componentes.
         this.funcionalDom = document.querySelectorAll("[data-library-func]");
         this.sources = sources;
-        this.init();
+        this._init();
     }
 
     /**
-     * @method init este método lanza los componentes y los instancia, registrándolo en la misma aplicación. Es decir, dentro de arraySources guarda un objeto source, el cual contendrá:
+     * @method _init este método lanza los componentes y los instancia, registrándolo en la misma aplicación. Es decir, dentro de arraySources guarda un objeto source, el cual contendrá:
      * {
      *   dom : elemento del dom
      *   class : componente de la librería
@@ -31,7 +31,7 @@ class App {
      * 
      * }
      */
-    init(){
+    _init(){
         [...this.funcionalDom].forEach((element)=>{
             let key = element.dataset.libraryFunc.split('-')[0];
             let position = element.dataset.libraryFunc.split('-')[1];
@@ -72,6 +72,50 @@ class App {
                     }
                 }
             })
+        }
+    }
+
+    /**
+     * @method addComponent este método permite la inserción de un nuevo componente, intentando reutilizar los sources previamente cargados
+     * o configuraciones previas. En caso de que no haya, se interpretará que se ha dado de alta como uno nuevo 
+     * @param component String con el componente que va a ser.
+     * @param position String de la posición que va a ocupar en la configuración
+     * @param domElement HTMLOBJECT objeto del html que se va a parsear.
+     * @param configRegister este parámetro es opcional y serviría para cargar la configuración si ya existe de algo. Si se quiere añadir nuevo
+     * pues... se añade la config en otro maravilloso JSON  para hacer un JSON de JSONES 😂😂😂
+     */
+    addComponent(domElement, configRegister){
+        domElement ?? false;
+        if(!domElement){
+            console.error('You need introduce a dom element with this structure: data-library-func="key-position". \n Where key = name of component and position = number o name that you give in your JSON');
+            return;
+        }
+        if(typeof configRegister === "object"){
+            let key = domElement.dataset.libraryFunc.split('-')[0];
+            let position = domElement.dataset.libraryFunc.split('-')[1];
+            if(!Object.hasOwn(this.webMap, key)){
+                this.webMap[key] = {}
+            }
+            let component = new Component(key, domElement, configRegister[key][position].config);
+            this.webMap[key][position] = {
+                dom : domElement,
+                class : component,
+                component : `${key}-${position}`
+            };
+            this.arraySources.push(this.webMap[key][position]);
+        }else{
+            let key = configRegister.split('-')[0];
+            let position = configRegister.split('-')[1];
+            if(!Object.hasOwn(this.webMap, key)){
+                this.webMap[key] = {}
+            }
+            let component = new Component(key, domElement, this.sources[key][position].config);
+            this.webMap[key][position] = {
+                dom : domElement,
+                class : component,
+                component : `${key}-${position}`
+            };
+            this.arraySources.push(this.webMap[key][position]);
         }
     }
 

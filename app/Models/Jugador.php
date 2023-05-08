@@ -142,12 +142,30 @@ class Jugador extends AModel{
         ")->getResultArray();
     }
 
+    public function firendstosocket($id_jugador){
+        return $this->db->query("
+            SELECT amigos.id_solicitante
+            FROM amigos
+            WHERE amigos.id_solicitado = $id_jugador
+            UNION
+            SELECT amigos.id_solicitado
+            FROM amigos
+            WHERE amigos.id_solicitante = $id_jugador
+        ")->getResultArray();
+    }
+
     public function deletefriend($id_jugador, $id_user){
         $this->db->table('amigos')
             ->where("amigos.id_solicitante = $id_jugador and amigos.id_solicitado = $id_user")
             ->orWhere("amigos.id_solicitante = $id_user and amigos.id_solicitado = $id_jugador")
             ->where('amigos.confirmado', 1)
             ->delete();
+    }
+
+    public function newgamewithfriend($params){
+        $this->db->table('debate')->insert($params);
+        $id = $this->db->insertID();
+        return $this->db->table('debate')->where('id', $id)->get()->getResultArray();
     }
 
     public function chathistoric($id_usuario, $id_otrousuario){
@@ -162,6 +180,20 @@ class Jugador extends AModel{
         WHERE chat.id_hablante = $id_otrousuario AND chat.id_oyente = $id_usuario
         ORDER BY fecha ASC;
         ")->getResultArray();
+    }
+
+    public function onlinefriends($id){
+        return $this->db->query("
+        SELECT * 
+        FROM amigos
+        JOIN jugador ON jugador.id = amigos.id_solicitante
+        WHERE amigos.id_solicitado = $id and jugador.enlinea = 1
+        UNION 
+        SELECT *
+        FROM amigos
+        JOIN jugador ON jugador.id = amigos.id_solicitado
+        WHERE amigos.id_solicitante = $id and jugador.enlinea = 1
+    ")->getResultArray();
     }
 
 }
