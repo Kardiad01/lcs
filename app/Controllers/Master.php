@@ -33,10 +33,16 @@ class Master extends BaseController
     }
 
     public function game(){
-        
+        if(model('Debate')->roomexists($this->get['play'])){
+            return view('templates/header', ['path'=>'videogame', 'user'=>$this->session->get('user'), 'languaje'=>$this->languaje])
+                    .view('mainviews/game', ['path'=>'videogame', 'user'=>$this->session->get('user'), 'languaje'=>$this->languaje])
+                    .view('templates/footer', ['path'=>'videogame', 'user'=>$this->session->get('user'), 'languaje'=>$this->languaje]);
+        }else{
+            echo 'La partida no existe o ha expirado';
+        }
     }
 
-    public function dev(){
+    /*public function dev(){
         //shhh this is a sicret XD
         if($_SERVER['HTTP_HOST']=='localhost'){
             echo '<pre>';
@@ -45,5 +51,5 @@ class Master extends BaseController
         }else{
             echo 'no puedes pasar espacio prohibido';
         }
-    }
+    }*/
 }

@@ -186,11 +186,11 @@
    * Hides all currently active Bootbox modals
    * @returns The current bootbox object
    */
-  exports.hideAll = function () {
+  /*exports.hideAll = function () {
     $('.bootbox').modal('hide');
 
     return exports;
-  };
+  };*/
 
  
   /**

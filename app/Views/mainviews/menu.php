@@ -94,29 +94,29 @@ $(document).ready(()=>{
                                                     id_opponent : data.id_opponent
                                                 },
                                                 dataType: "JSON",
-                                                success: function (response) {
-                                                    res = response;
+                                                success: function (response) {   
+                                                    console.log(response);                                           
+                                                    res = {};
+                                                    res['id'] = response.data[0].id_jugador_retado;
+                                                    res['idr'] = response.data[0].id_jugador_retante;
+                                                    res['room'] = response.data[0].recurso;
                                                     res['type'] = 'aceptduel';
-                                                    app.webMap.event[1].class.config.event.socket.send(JSON.stringify(response));
+                                                    app.webMap.event[1].class.config.event.socket.send(JSON.stringify(res));
                                                 }
                                             });
                                         }
                                     },
                                     no : {
                                         label: 'No',
-                                        className: 'btn-danger',
-                                        callback: (e) => {
-
-                                        }
+                                        className: 'btn-danger',                                        
                                     }            
                                 }
                             })
                         }
-                        if(data.type=='acpetduel'){
+                        if(data.type=='aceptduel'){
                             //Idea de url sería base_url('master/play?game=984573rywiefgkjergh') con game igual al nombre de fichcero.
                             //Esto redirigirá a otra página con otro websocket que mandará a la movida del juego.
-
-                            //window.location.replace();
+                            window.open(`<?=base_url('master/game?play')?>${data.room}&type=friend`);
                         }
                     },
                     close : function(ev){

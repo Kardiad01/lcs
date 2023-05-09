@@ -80,6 +80,7 @@ a{
     --sign-back: url('../img/fondo.jpg');
     --sing-icon: url('../img/login.png');
     --user-pc : url('../img/pc.png');
+    --game-reverse : url('../img/reverse-cards.JPG');
 }
 
     /*
@@ -126,6 +127,133 @@ a{
     height: 100vh;
 }
 
+.game{
+    width: 100%;
+    height: 90vh;
+}
+
+/*
+=====================================================
+=                       game                   =
+=====================================================
+*/
+
+.game main {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    border: 1px solid var(--secondary-red-3);
+}
+
+.game aside {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    height: 100%;
+    border: 1px solid var(--secondary-red-8);
+}
+
+.game aside{
+    display: flex;
+    flex-direction: column;
+}
+
+.game .chat{
+    height: 50%;
+    border: 1px solid var(--secondary-red-1);
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+.game .chat h6, .game .log h6{
+    border: 1px solid var(--secure-dark);
+    text-align: center;
+}
+
+.game .chat-screen {
+    overflow: scroll;
+    height: 100%;
+}
+
+.game article{
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    height: 100%;
+    border: 1px solid var(--secure-dark);
+}
+
+.game .board{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 50%;
+}
+
+.game .board .opponent-board, .game .board .player-board{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 50%;
+    border: 1px solid var(--secondary-red-8);
+}
+
+.game .opponent-board .concept-place, .game .player-board .concept-place{
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid var(--secure-dark);
+}
+
+.game .opponent-board .answer-place, .game .player-board .answer-place, 
+.game .opponent-board .deck-place, .game .player-board .deck-place{
+    width: 20%;
+    border: 1px solid var(--secure-dark);
+}
+
+.game .opponent-hand, .game .player-hand{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 25%;
+}
+
+.game .opponent-hand div{
+    width: 25%;
+    background-image: var(--game-reverse);
+    background-size: 100% 100%;
+}
+
+.game .player-hand div {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--main-yellow);
+}
+
+.game .player-hand .img{
+    width: 95%;
+    height: 45%;
+    font-size: 0.85rem;
+}
+
+.game .player-hand div h6{
+    width: 95%;
+    border: 1px solid var(--secure-dark);
+    text-align: center;
+    height: 10%;
+}
+
+.game .player-hand .content{
+    width: 95%;
+    height: 45%;
+    font-size: 0.75rem;
+}
+
 /*
 =====================================================
 =                       Header                      =
@@ -143,11 +271,6 @@ a{
     color: var(--secondary-red-1);
 }
 
-
-/*
-    LANDING THEME OF HEADER
-*/
-
 .body header{
     width: 100%;
     height: 150vh;
@@ -162,7 +285,7 @@ a{
     background-size: 100% 100%;
 }
 
-.body header nav, .sign header nav{
+.body header nav, .sign header nav, .game header nav{
     margin: auto;
     margin-top: 2rem;
     width: 95%;
@@ -172,7 +295,7 @@ a{
     background-color: var(--secondary-red-6);
 }
 
-.body header nav div, .sign header nav div{
+.body header nav div, .sign header nav div, .game header nav div{
     height: 100%;
     display: flex;
     justify-content: center;
@@ -180,7 +303,7 @@ a{
     margin-left: 4rem;
 }
 
-.body header nav ul, .sign header nav ul {
+.body header nav ul, .sign header nav ul, .game header nav ul{
     width: 25%;
     display: flex;
     justify-content: space-between;
@@ -189,7 +312,7 @@ a{
     padding: 1rem;
 }
 
-.body header nav ul li, .sign header nav ul li{
+.body header nav ul li, .sign header nav ul li, .game header nav ul li{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -197,14 +320,12 @@ a{
     width: 20%;
 }
 
-.body li a, .sign li a, .menu li a{
+.body li a, .sign li a, .menu li a, .game li a{
     font-style: none;
     color: var(--secondary-yellow-1);
 }
 
-
-
-.body li:hover, .sign li:hover{
+.body li:hover, .sign li:hover, .game li:hover{
     border-bottom: 1px solid var(--secondary-yellow-2);
 }
 
@@ -230,7 +351,7 @@ a{
     FORMS AND USER THEME OF HEADER 
 */
 
-.user header, .sign header{
+.user header, .sign header, .game header{
     width: 100%;
     height: 10vh;
     flex-direction: column;
@@ -239,7 +360,7 @@ a{
 }
 
 
-.user header nav, .sign header nav{
+.user header nav, .sign header nav, .game header nav{
     margin: auto;
     width: 100%;
     height: 100%;
@@ -252,13 +373,13 @@ a{
     background-color: var(--secondary-red-6);
 }
 
-.user header nav a, .sign header nav a{
+.user header nav a, .sign header nav a, .game header nav a{
     text-decoration: none;
     font-style: none;
     color: var(--main-yellow);
 }
 
-.user header nav li, .sign header nav li{
+.user header nav li, .sign header nav li, .game header nav li{
     list-style: none;
 }
 
@@ -697,6 +818,12 @@ body .section-body{
     align-items: center;
 }
 
+/*
+=====================================================
+=                      Chat                         =
+=====================================================
+*/
+
 .chat-screen{
     width: 100%;
     margin: auto;
@@ -706,35 +833,41 @@ body .section-body{
     overflow: auto;
 }
 
-.scroled-element::-webkit-scrollbar:vertical{
+.scroled-element::-webkit-scrollbar:vertical, .game .chat-screen::-webkit-scrollbar:vertical{
     width: 1px;
     border-radius: 5px;
 }
 
 
-.scroled-element::-webkit-scrollbar {
+.scroled-element::-webkit-scrollbar, .game .chat-screen::-webkit-scrollbar {
     -webkit-appearance: none;
 }
 
-.scroled-element::-webkit-scrollbar:vertical {
+.scroled-element::-webkit-scrollbar:vertical, .game .chat-screen::-webkit-scrollbar:vertical {
     width:10px;
 }
 
-.scroled-element::-webkit-scrollbar-button:increment,.scroled-element::-webkit-scrollbar-button {
+.scroled-element::-webkit-scrollbar-button:increment,
+.scroled-element::-webkit-scrollbar-button,
+.game .chat-screen::-webkit-scrollbar-button:increment
+.game .chat-screen::-webkit-scrollbar-button {
     display: none;
 } 
 
-.scroled-element::-webkit-scrollbar:horizontal {
+.scroled-element::-webkit-scrollbar:horizontal,
+.game .chat-screen::-webkit-scrollbar:horizontal {
     height: 10px;
 }
 
-.scroled-element::-webkit-scrollbar-thumb {
+.scroled-element::-webkit-scrollbar-thumb,
+.game .chat-screen::-webkit-scrollbar-thumb {
     background-color: #797979;
     border-radius: 20px;
     border: 2px solid #f1f2f3;
 }
 
-.scroled-element::-webkit-scrollbar-track {
+.scroled-element::-webkit-scrollbar-track,
+.game .chat-screen::-webkit-scrollbar-track {
     border-radius: 10px;  
 }
 
@@ -804,9 +937,3 @@ body .section-body{
 
 }
 
-/*
-    1º Meter medias para el texto del mensaje de bienvenida
-    2º Meter medias para la parte del pegi
-    3º Meter medias quizá para las noticias y quitar el scroll
-    
-*/

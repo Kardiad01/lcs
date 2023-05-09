@@ -52,6 +52,8 @@
         echo 'sign';
     }else if(esc($path)=='user'){
         echo 'user';
+    }else if(esc($path)=='videogame'){
+        echo 'game';
     }?>">
     <?php if(esc($path)!='user' && esc($path)!='deckbuilder'):?>
     <header>
@@ -64,14 +66,16 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav">
-            <?php if(esc($path)!='user'):?>
+            <?php if(esc($path)!='user' && esc($path)!='videogame'):?>
                 <li>
                     <a href="<?=base_url('master/landing/login/loadview')?>"><?=esc($languaje)['nav']['alta']?></a>
                 </li>
                 <li>
                     <a href="<?=base_url('master/landing/login/singin')?>"><?=esc($languaje)['nav']['login']?></a>
                 </li> 
-                <?php endif; ?>
+                <?php elseif(esc($path)=='videogame'):?>
+                    <a href="#">Surrender</a>
+                <?php endif;?>
             </ul>
         </div>
     </nav>
