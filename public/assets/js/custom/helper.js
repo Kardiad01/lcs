@@ -68,3 +68,99 @@ const getUserFriendRequest = (url, urlsi, urlno, app)=>{
     });
 }
 
+const selectorDeck = (urlmazo, urlobtenermazo, user, app, room_code) =>{
+    console.log(urlmazo);
+    console.log(urlobtenermazo);
+    bootbox.dialog({
+        title : '<h5>Elige tu mazo</h5>',
+        message : `<table data-library-func="datatable-mazos">
+            <thead>
+                <th>Nombre</th>
+                <th>Seleccionar</th>
+            </thead>
+        </table>`,
+        closeButton: false,
+        onShow : function(){
+            app.addComponent(document.querySelector('[data-library-func="datatable-mazos"]'), {
+                datatable : {
+                    mazos: {
+                        name : 'Datatabla que da mazos para esta aplicación y los selecciona',
+                        config : {
+                            info : false,
+                            autoWidth: true,
+                            lengthMenu : [20],
+                            ajax :{
+                                type : "POST",
+                                url :  urlmazo,
+                                dataSrc : 'data'
+                            },
+                            columnDefs: [
+                                {
+                                    targets: 0,
+                                    data: 'nombre',
+                                    render : function (data, type, row, meta){                             
+                                        return row.nombre.replace(' ', '&nbsp')
+                                    }
+                                },
+                                {
+                                    targets: 1,
+                                    data: 'id',
+                                    render : function (data, type, row, meta){
+                                        return `<input type="radio" name="mazo" value="${data}" id="mazo${data}">`
+                                    }
+                                },
+                            ],
+                            fnInitComplete: function(e){    
+                                $(app.webMap.datatable.mazos.dom).css({
+                                    'width': '100%',
+                                    'text-aling': 'center'
+                                });
+                            }
+                        }
+                    } 
+                }
+            });
+        },
+        buttons : {
+            seleccionar : {
+                label : 'Seleccionar',
+                className : 'btn-success',
+                callback: function(){
+                    const mazoSeleccionado = [...$('input[type=radio]')].filter((el)=>{
+                        if(el.checked){
+                            return el
+                        }
+                    });
+                    if(mazoSeleccionado.length>0){
+                        const mazo = $(mazoSeleccionado[0]).val();
+                        console.log(mazo)
+                        $.ajax({
+                            type: "POST",
+                            url: urlobtenermazo,
+                            data: {
+                                id_deck : mazo
+                            },
+                            dataType: "JSON",
+                            success: function (response) {
+                                if(response.data!=undefined){
+                                    const regexp = new RegExp('\=.+?\&', 'g')
+                                    const room_code = window.location.search.match(regexp)[0].replace('&', '').replace('=', '');
+                                    const objetoInitgame = {
+                                        type : 'start',
+                                        mazo : response.data,
+                                        user : user,
+                                        room : room_code
+                                    }
+                                    console.log(objetoInitgame);
+                                    app.webMap.event.eljuego.class.config.event.socket.send(JSON.stringify(objetoInitgame))
+                                }
+                            }
+                        });
+                    }else{
+                        window.location.reload();
+                    }
+                }
+            }
+        }
+    });
+}

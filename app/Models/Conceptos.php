@@ -53,7 +53,7 @@ class Conceptos extends AModel{
     }
 
     public function getcardsbydeck($id_deck, $id_user){
-        return $this->select('conceptos.nombre, conceptos.id')
+        return $this->select('conceptos.*')
             ->join('argumentario_conceptos', 'conceptos.id=argumentario_conceptos.id_concepto')
             ->join('argumentario', 'argumentario_conceptos.id_argumentario=argumentario.id')
             ->where('argumentario_conceptos.id_argumentario', $id_deck)

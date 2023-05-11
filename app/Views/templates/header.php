@@ -22,7 +22,7 @@
         </script>
     <script src="<?=base_url('/assets/js/custom/google.js')?>"></script>
     <?php endif;?>
-    <?php if(esc($path)=='user'):?>
+    <?php if(esc($path)=='user' || esc($path)=='videogame'):?>
         <script src="<?= base_url('/assets/js/custom/helper.js')?>"></script>
     <?php endif;?>
     <!--Css varios y css de librerías-->
@@ -65,7 +65,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav w-100">
             <?php if(esc($path)!='user' && esc($path)!='videogame'):?>
                 <li>
                     <a href="<?=base_url('master/landing/login/loadview')?>"><?=esc($languaje)['nav']['alta']?></a>
@@ -74,7 +74,13 @@
                     <a href="<?=base_url('master/landing/login/singin')?>"><?=esc($languaje)['nav']['login']?></a>
                 </li> 
                 <?php elseif(esc($path)=='videogame'):?>
-                    <a href="#">Surrender</a>
+                    <div class="mr-5">
+                        <a href="#">Surrender</a>
+                    </div>
+                    <div class="d-flex flex-column m-auto">
+                        <p style="width:200px">Puntos Jugador 1 : 0</p>
+                        <p style="width:200px">Puntos Jugador 2 : 0</p>
+                    </div>
                 <?php endif;?>
             </ul>
         </div>

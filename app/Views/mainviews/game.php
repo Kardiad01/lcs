@@ -26,6 +26,8 @@
 </style>
 <script>
     $(document).ready(()=>{
+        const regexp = new RegExp('\=.+?\&', 'g');
+        const room_code = window.location.search.match(regexp)[0].replace('&', '').replace('=', '');
         const app = new App({
             event : {
                 eljuego:{
@@ -36,96 +38,50 @@
                         url : 'http://localhost:8282',
                         config: [],
                         open: (ev)=>{
-                            console.log('QUE CORRE LA PARTIDA!!!')
-                            bootbox.dialog({
-                                title : '<h5>Elige tu mazo</h5>',
-                                message : `<table data-library-func="datatable-mazos">
-                                    <thead>
-                                        <th>Nombre</th>
-                                        <th>Seleccionar</th>
-                                    </thead>
-                                </table>`,
-                                closeButton: false,
-                                onShow : function(){
-                                    app.addComponent(document.querySelector('[data-library-func="datatable-mazos"]'), {
-                                        datatable : {
-                                            mazos: {
-                                                name : 'Datatabla que da mazos para esta aplicación y los selecciona',
-                                                config : {
-                                                    info : false,
-                                                    autoWidth: true,
-                                                    lengthMenu : [20],
-                                                    ajax :{
-                                                        type : "POST",
-                                                        url :  "<?=base_url('/master/user/user/decklist')?>",
-                                                        dataSrc : 'data'
-                                                    },
-                                                    columnDefs: [
-                                                        {
-                                                            targets: 0,
-                                                            data: 'nombre',
-                                                            render : function (data, type, row, meta){                             
-                                                                return row.nombre.replace(' ', '&nbsp')
-                                                            }
-                                                        },
-                                                        {
-                                                            targets: 1,
-                                                            data: 'id',
-                                                            render : function (data, type, row, meta){
-                                                                return `<input type="radio" name="mazo" value="${data}" id="mazo${data}">`
-                                                            }
-                                                        },
-                                                    ],
-                                                    fnInitComplete: function(e){    
-                                                        $(app.webMap.datatable.mazos.dom).css({
-                                                            'width': '100%',
-                                                            'text-aling': 'center'
-                                                        });
-                                                    }
-                                                }
-                                            } 
-                                        }
-                                    });
-                                },
-                                buttons : {
-                                    seleccionar : {
-                                        label : 'Seleccionar',
-                                        className : 'btn-success',
-                                        callback: function(){
-                                            const mazoSeleccionado = [...$('input[type=radio]')].filter((el)=>{
-                                                if(el.checked){
-                                                    return el
-                                                }
-                                            });
-                                            if(mazoSeleccionado.length>0){
-                                                const mazo = $(mazoSeleccionado[0]).val();
-                                                $.ajax({
-                                                    type: "POST",
-                                                    url: "<?=base_url('master/user/user/getcardsbydeck')?>",
-                                                    data: {
-                                                        id_deck : mazo
-                                                    },
-                                                    dataType: "JSON",
-                                                    success: function (response) {
-                                                        console.log(response)
-                                                    }
-                                                });
-                                                const regexp = new RegExp('\=.+?\&', 'g')
-                                                const room_code = window.location.search.match(regexp)[0].replace('&', '').replace('=', '');
-                                                app.webMap.event.eljuego.class.config.event.socket.send(`{"type":"start", "deck":"${mazo}", "user":"<?=esc($user)[0]['id']?>", "room":"${room_code}"}`)
-                                            }else{
-                                                window.location.reload();
-                                            }
-                                        }
-                                    }
-                                }
-                            });
+                            console.log('QUE CORRE LA PARTIDA!!!');
+                            app.webMap.event.eljuego.class.config.event.socket.send(`{"type":"askstatus", "user":"<?=esc($user)[0]['id']?>", "room":"${room_code}"}`);
                         },
                         message: (ev)=>{
-                            console.log(ev)
+                            const data = JSON.parse(ev.data);
+                            console.log(data)
+                            if(data.type=='init'){
+                                selectorDeck("<?=base_url('/master/user/user/decklist')?>" ,"<?=base_url('master/user/user/loaddeck')?>",  "<?=esc($user)[0]['id']?>", app);
+                            }
+                            if(data.type=='ready'){
+                                data.data.forEach((ele)=>{
+                                    $('.player-hand').append(`
+                                    <div id="card${ele.id}">
+                                        <h6 class="py-1">${ele.nombre}</h6>
+                                        <div class="img">
+                                            XDDDDDDDDDDDD
+                                        </div>
+                                        <div class="content">
+                                            <p>
+                                                <small>${ele.descripcion}</p>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    `);
+                                    console.log($(`card${ele.id}`));
+                                    $(`#card${ele.id}`).on('contextmenu', function(e){
+                                        e.preventDefault();
+                                        bootbox.alert({
+                                            title : `<h1>${ele.nombre}</h1>`,
+                                            message : `
+                                                <div>
+                                                    <p>${ele.descripcion}</p>
+                                                </div>
+                                            `
+                                        })
+                                    })
+                                    $(`#card${ele.id}`).on('click', function(e){
+                                        app.webMap.event.eljuego.class.config.event.socket.send();
+                                    })
+                                })
+                            }
                         },
                         close : (ev)=>{
-                            console.log(ev)
+                            window.close();
                         },
                         error : (ev)=>{
                             console.log(ev)
@@ -222,28 +178,7 @@
         <!--End board-->
         <!--Start player hand-->
         <div class="player-hand">
-            <div>
-                <h6 class="py-1">Nombre Carta</h6>
-                <div class="img">
-
-                </div>
-                <div class="content">
-                    <p>Win Condition escuela</p>
-                    <p>Efecto carta</p>
-                </div>
-            </div>
-            <div>
-
-            </div>
-            <div>
-
-            </div>
-            <div>
-
-            </div>
-            <div>
-
-            </div>
+            
         </div>
         <!--End player hand-->
     </article>
