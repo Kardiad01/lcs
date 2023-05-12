@@ -43,40 +43,14 @@
                         },
                         message: (ev)=>{
                             const data = JSON.parse(ev.data);
-                            console.log(data)
+                            console.log(data);
                             if(data.type=='init'){
                                 selectorDeck("<?=base_url('/master/user/user/decklist')?>" ,"<?=base_url('master/user/user/loaddeck')?>",  "<?=esc($user)[0]['id']?>", app);
                             }
-                            if(data.type=='ready'){
+                            if(data.type=='ready'){      
+                                toastr.info(`Turno de: ${("<?=esc($user)[0]['id']?>"===data.turno)?'tuyo':'rival'}`);                               
                                 data.data.forEach((ele)=>{
-                                    $('.player-hand').append(`
-                                    <div id="card${ele.id}">
-                                        <h6 class="py-1">${ele.nombre}</h6>
-                                        <div class="img">
-                                            XDDDDDDDDDDDD
-                                        </div>
-                                        <div class="content">
-                                            <p>
-                                                <small>${ele.descripcion}</p>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    `);
-                                    console.log($(`card${ele.id}`));
-                                    $(`#card${ele.id}`).on('contextmenu', function(e){
-                                        e.preventDefault();
-                                        bootbox.alert({
-                                            title : `<h1>${ele.nombre}</h1>`,
-                                            message : `
-                                                <div>
-                                                    <p>${ele.descripcion}</p>
-                                                </div>
-                                            `
-                                        })
-                                    })
-                                    $(`#card${ele.id}`).on('click', function(e){
-                                        app.webMap.event.eljuego.class.config.event.socket.send();
-                                    })
+                                    startMatch(ele, app, <?=esc($user)[0]['id']?>, data.turno, room_code);
                                 })
                             }
                         },

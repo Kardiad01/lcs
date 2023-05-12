@@ -164,3 +164,42 @@ const selectorDeck = (urlmazo, urlobtenermazo, user, app, room_code) =>{
         }
     });
 }
+const startMatch = (ele, app, id_session, turno, room_code) =>{
+    $('.player-hand').append(`
+        <div data-tipo="${ele}" id="card${ele.id}">
+            <h6 class="py-1">${ele.nombre}</h6>
+            <div class="img">
+                XDDDDDDDDDDDD
+            </div>
+            <div class="content">
+                <p>
+                    <small>${ele.descripcion}</p>
+                </p>
+            </div>
+        </div>
+        `);
+        //habilita el click derecho para ver la info de las cartas
+    $(`#card${ele.id}`).on('contextmenu', function(e){
+        e.preventDefault();
+        bootbox.alert({
+            title : `<h1>${ele.nombre}</h1>`,
+            message : `
+                <div>
+                    <p>${ele.descripcion}</p>
+                </div>
+            `
+        })
+    });
+    console.log(ele.tipo)
+    //condición para jugar carta.
+    if(id_session == turno && ele.tipo === 'concepto'){
+        $(`#card${ele.id}`).on('click', (e) => {
+            app.webMap.event.eljuego.class.config.event.socket.send(JSON.stringify({
+                type : 'conceptPlay',
+                id_carta : ele.id,
+                id_jugador : id_session,
+                room : room_code
+            }))
+        })
+    }            
+}
