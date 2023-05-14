@@ -129,7 +129,7 @@ a{
 
 .game{
     width: 100%;
-    height: 90vh;
+    height: 100vh;
 }
 
 /*
@@ -180,7 +180,7 @@ a{
 .game article{
     display: flex;
     flex-direction: column;
-    width: 75%;
+    width: 100%;
     height: 100%;
     border: 1px solid var(--secure-dark);
 }
@@ -201,7 +201,7 @@ a{
 }
 
 .game .opponent-board .concept-place, .game .player-board .concept-place{
-    width: 60%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     border: 1px solid var(--secure-dark);
@@ -222,12 +222,16 @@ a{
 
 .game .opponent-hand div{
     width: 25%;
+    max-width: 200px;
     background-image: var(--game-reverse);
     background-size: 100% 100%;
 }
 
-.game .player-hand div {
+.game .player-hand div,
+.game .player-board .concept-place div, 
+.game .opponent-board .concept-place div {
     width: 25%;
+    max-width: 200px;
     display: flex;
     flex-direction: column;
     justify-content: center;

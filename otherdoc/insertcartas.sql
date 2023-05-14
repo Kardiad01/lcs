@@ -247,21 +247,12 @@ create table if not exists jugador_libros(
 
 drop table if exists debate;
 CREATE TABLE debate (
-  id int UNSIGNED NOT NULL,
-  tema varchar(100) DEFAULT NULL,
-  tiempo_jugador1 int,
-  tiempo_jugador2 int,
-  puntos_conviccion_jugador1 int DEFAULT 0,
-  puntos_conviccion_jugador2 int DEFAULT 0,
-  id_jugador1 int UNSIGNED DEFAULT NULL,
-  id_jugador2 int UNSIGNED DEFAULT NULL,
-  id_argumentario_jugador1 int UNSIGNED DEFAULT NULL,
-  id_argumentario_jugador2 int UNSIGNED DEFAULT NULL,
-  estado_debate enum('con asientos','sin asientos') DEFAULT 'con asientos',
-  replicas_jugador1 int DEFAULT 4,
-  replicas_jugador2 int DEFAULT 4,
-  carta_senalada_jugador1 int UNSIGNED DEFAULT NULL,
-  carta_senalada_jugador2 int UNSIGNED DEFAULT NULL
+  id int UNSIGNED NOT NULL auto_increment,
+  id_jugador_retado int unsigned,
+  id_jugador_retante int unsigned,
+  recurso varchar(100);
+  foreign key id_jugador_retado references jugador(id),
+  foreign key id_jugador_retante references jugador(id)
 );
 
 drop table if exists conceptos_jugador;

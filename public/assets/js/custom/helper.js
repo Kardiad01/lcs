@@ -164,18 +164,21 @@ const selectorDeck = (urlmazo, urlobtenermazo, user, app, room_code) =>{
         }
     });
 }
+
+/**
+ * 
+ * Métodos del juego
+ * 
+ */
+
 const startMatch = (ele, app, id_session, turno, room_code) =>{
     $('.player-hand').append(`
-        <div data-tipo="${ele}" id="card${ele.id}">
-            <h6 class="py-1">${ele.nombre}</h6>
-            <div class="img">
-                XDDDDDDDDDDDD
-            </div>
-            <div class="content">
-                <p>
-                    <small>${ele.descripcion}</p>
-                </p>
-            </div>
+        <div data-tipo="${ele.tipo}" id="card${ele.id}">
+            <h6 class="py-1">${ele.nombre} <small class="border border-rounded"> ${ele.costo.substring(0, ele.costo.indexOf('@'))}</small></h6>
+            <p>Tipo: ${ele.tipo}</p>
+            <p class="mt-2" style="font-size:0.8rem">
+                <small>${ele.descripcion}</p>
+            </p>
         </div>
         `);
         //habilita el click derecho para ver la info de las cartas
@@ -195,11 +198,155 @@ const startMatch = (ele, app, id_session, turno, room_code) =>{
     if(id_session == turno && ele.tipo === 'concepto'){
         $(`#card${ele.id}`).on('click', (e) => {
             app.webMap.event.eljuego.class.config.event.socket.send(JSON.stringify({
-                type : 'conceptPlay',
+                type : 'concepto',
                 id_carta : ele.id,
                 id_jugador : id_session,
                 room : room_code
             }))
         })
     }            
+}
+
+const renderCartas = (data, app, id_session) =>{
+    $('.player-hand').html('');
+    $('.opponent-hand').html('');
+    $('.opponent-board').find('.concept-place').html('');
+    $('.player-board').find('.concept-place').html('');
+    //renderiza en mano
+    for(let x = 0; x<data.cartas_mano_oponente; x++){
+        $('.opponent-hand').append(`<div></div>`);
+    }
+    if(Array.isArray(data.mano)){
+        data.mano.forEach(ele => {
+            $('.player-hand').append(`
+            <div data-tipo="${ele.tipo}" id="card${ele.id}">
+                <h6 class="py-1">${ele.nombre} <small class="border border-rounded"> ${ele.costo.substring(0, ele.costo.indexOf('@'))}</small></h6>
+                <p>Tipo: ${ele.tipo}</p>
+                <p class="mt-2" style="font-size:0.8rem">
+                    <small>${ele.descripcion}</p>
+                </p>
+            </div>
+            `);
+        });
+    }else{
+        Object.keys(data.mano).forEach((carta)=>{
+            $('.player-hand').append(`
+            <div data-tipo="${data.mano[carta].tipo}" id="card${data.mano[carta].id}">
+                <h6 class="py-1">${data.mano[carta].nombre} <small class="border border-rounded"> ${data.mano[carta].costo.substring(0, data.mano[carta].costo.indexOf('@'))}</small></h6>
+                <p>Tipo: ${data.mano[carta].tipo}</p>
+                <p class="mt-2" style="font-size:0.8rem">
+                    <small>${data.mano[carta].descripcion}</p>
+                </p>
+            </div>
+            `);
+        });
+    }
+
+    //renderiza en mesa
+
+    data.mesa[data.rol].forEach((ele)=>{
+        $('.player-board').find('.concept-place').append(`
+        <div data-tipo="${ele.tipo}" id="card${ele.id}">
+            <h6 class="py-1">${ele.nombre} <small class="border border-rounded"> ${ele.costo}</small></h6>
+            <p>Tipo: ${ele.tipo}</p>
+            <p class="mt-2" style="font-size:0.8rem">
+                <small>${ele.descripcion}</p>
+            </p>
+        </div>
+        `)
+    })
+    data.mesa[data.oponente].forEach((ele)=>{
+        $('.opponent-board').find('.concept-place').append(`
+        <div data-tipo="${ele.tipo}" id="card${ele.id}">
+            <h6 class="py-1">${ele.nombre} <small class="border border-rounded"> ${ele.costo}</small></h6>
+            <p>Tipo: ${ele.tipo}</p>
+            <p class="mt-2" style="font-size:0.8rem">
+                <small>${ele.descripcion}</p>
+            </p>
+        </div>
+        `)
+    })
+    addEvents(data, app, id_session);
+}
+
+const addEvents = (data, app, id_session) =>{
+    //1º detectar si está en mesa o no
+    //2º añadir eventos para cartas de mesa
+    //3º añadir eventos paara cartas de mano
+    data.mesa[data.rol].forEach((ele)=>{
+        $('.player-board').find(`#card${ele.id}`).on('contextmenu', (e)=>{
+            e.stopPropagation();
+            e.preventDefault();
+            bootbox.alert({
+                title : `<h1>${ele.nombre}</h1>`,
+                message : `
+                    <div>
+                        <p>${ele.descripcion}</p>
+                    </div>
+                `
+            })
+        })
+    });
+    data.mesa[data.oponente].forEach((ele)=>{
+        $('.opponent-board').find(`#card${ele.id}`).on('contextmenu', (e)=>{
+            e.stopPropagation();
+            e.preventDefault();
+            bootbox.alert({
+                title : `<h1>${ele.nombre}</h1>`,
+                message : `
+                    <div>
+                        <p>${ele.descripcion}</p>
+                    </div>
+                `
+            })
+        })
+    });
+    if(Array.isArray(data.mano)){
+        data.mano.forEach((ele)=>{
+            $('.player-hand').find(`#card${ele.id}`).on('contextmenu', (e)=>{
+                e.stopPropagation();
+                e.preventDefault();
+                bootbox.alert({
+                    title : `<h1>${ele.nombre}</h1>`,
+                    message : `
+                        <div>
+                            <p>${ele.descripcion}</p>
+                        </div>
+                    `
+                })
+            })
+            $('.player-hand').find(`#card${ele.id}`).on('click', (e) => {
+                app.webMap.event.eljuego.class.config.event.socket.send(JSON.stringify({
+                    type : 'concepto',
+                    id_carta : ele.id,
+                    id_jugador : id_session,
+                    room : data.nombre_partida
+                }))
+            })
+        })
+    }else{
+        Object.keys(data.mano).forEach((ele)=>{
+            $('.player-hand').find(`#card${data.mano[ele].id}`).on('contextmenu', (e)=>{
+                e.stopPropagation();
+                e.preventDefault();
+                bootbox.alert({
+                    title : `<h1>${data.mano[ele].nombre}</h1>`,
+                    message : `
+                        <div>
+                            <p>${data.mano[ele].descripcion}</p>
+                        </div>
+                    `
+                })
+            })
+            $('.player-hand').find(`#card${data.mano[ele].id}`).on('click', (e) => {
+                app.webMap.event.eljuego.class.config.event.socket.send(JSON.stringify({
+                    type : 'concepto',
+                    id_carta : data.mano[ele].id,
+                    id_jugador : id_session,
+                    room : data.nombre_partida
+                }))
+            })
+        })
+    }
+    
 }

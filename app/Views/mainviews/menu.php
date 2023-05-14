@@ -347,6 +347,7 @@ $(document).ready(()=>{
                     fnDrawCallback: function(e){                        
                         $('[data-buy]').click(function(){
                             let table = $(app.webMap.datatable[0].dom).dataTable();
+                            let table2 = $(app.webMap.datatable[2].dom).dataTable();
                             $.ajax({
                                 type: "POST",
                                 url: "<?=base_url('master/user/user/buybook')?>",
@@ -359,6 +360,7 @@ $(document).ready(()=>{
                                     if(response.status==200){
                                         toastr.success("", "Compra realizada"); 
                                         table.api().ajax.reload();
+                                        table2.api().ajax.reload();
                                         $($('.money')[0]).html(`Fondos: ${response.data}`);
                                         $($('.money')[1]).html(`Fondos: ${response.data}`);                         
                                     }else{

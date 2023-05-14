@@ -1,6 +1,6 @@
 <!-- mediaquery para que se vea de lado en teléfono móvil-->
 <style>
-    @media screen and (max-width: 780px) and ( orientation: portrait ) {
+    @media screen and (max-width: 500px) and ( orientation: portrait ) {
         .game {
             display: none;
         }
@@ -43,16 +43,28 @@
                         },
                         message: (ev)=>{
                             const data = JSON.parse(ev.data);
-                            console.log(data);
+                            console.log(data.type, data);
                             if(data.type=='init'){
-                                selectorDeck("<?=base_url('/master/user/user/decklist')?>" ,"<?=base_url('master/user/user/loaddeck')?>",  "<?=esc($user)[0]['id']?>", app);
+                                selectorDeck("<?=base_url('/master/user/user/decklist')?>" ,"<?=base_url('master/user/user/loaddeck')?>",  "<?=esc($user)[0]['id']?>", app);   
                             }
                             if(data.type=='ready'){      
-                                toastr.info(`Turno de: ${("<?=esc($user)[0]['id']?>"===data.turno)?'tuyo':'rival'}`);                               
-                                data.data.forEach((ele)=>{
-                                    startMatch(ele, app, <?=esc($user)[0]['id']?>, data.turno, room_code);
-                                })
+                                toastr.info(`Turno de: ${("<?=esc($user)[0]['id']?>"===data.propietario_turno)?'tuyo':'rival'}`);                               
+                                data.mano.forEach((ele)=>{
+                                    startMatch(ele, app, <?=esc($user)[0]['id']?>, data.propietario_turno, room_code);
+                                })                                
                             }
+                            if(data.type=='concepto'){
+                                renderCartas(data, app, "<?=esc($user)[0]['id']?>");
+                            }
+                            if(data.type=='concepto' && data.propietario_turno!="<?=esc($user)[0]['id']?>"){
+                                //habilitar carta réplica
+                                //crear estado réplica
+                                //emitir al jugador que no ha jugado réplica una contraréplica.
+                            }
+                            //añadir jugar réplica
+                            //añadir jugar contrareplica
+                            //añadir fin turno
+                            //añadir fin partida
                         },
                         close : (ev)=>{
                             window.close();
@@ -66,10 +78,9 @@
         });
         console.log(app);
     })   
-</script>
-<!--Start videgoame-->
-<main>
-    <!-- Start chat and log-->
+    /**
+     * dejo comentado lo que sería el chat y el log por si no llego a tiempo
+     * <!-- Start chat and log-->
     <aside>
         <!--Start chat-->
         <div class="chat">
@@ -92,7 +103,37 @@
         <!--End chat-->
     </aside>
     <!-- End chat and log-->
+     <!--End concept place-->
+                
+                <!--Start answer-->
+                <div class="answer-place">
+    
+                </div>
+                <!--End answer-->
 
+                <!--Start deck-->
+                <div class="deck-place">
+    
+                </div>
+                <!--End deck-->
+                 <!--End concept place-->
+                
+                <!--Start answer-->
+                <div class="answer-place">
+    
+                </div>
+                <!--End answer-->
+
+                <!--Start deck-->
+                <div class="deck-place">
+    
+                </div>
+                <!--End deck-->
+     */
+</script>
+<!--Start videgoame-->
+<main>
+    
     <!-- Start game-->
     <article>
         <!--Start opponent hand-->
@@ -112,19 +153,6 @@
                 <div class="concept-place">
                     
                 </div>
-                <!--End concept place-->
-                
-                <!--Start answer-->
-                <div class="answer-place">
-    
-                </div>
-                <!--End answer-->
-
-                <!--Start deck-->
-                <div class="deck-place">
-    
-                </div>
-                <!--End deck-->
             </div>
             <!--End opponent board-->
              <!--Start player board-->
@@ -133,19 +161,6 @@
                 <div class="concept-place">
                     
                 </div>
-                <!--End concept place-->
-                
-                <!--Start answer-->
-                <div class="answer-place">
-    
-                </div>
-                <!--End answer-->
-
-                <!--Start deck-->
-                <div class="deck-place">
-    
-                </div>
-                <!--End deck-->
             </div>
             <!--End player board-->
         </div>
