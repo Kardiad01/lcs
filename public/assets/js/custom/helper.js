@@ -208,11 +208,19 @@ const startMatch = (ele, app, id_session, turno, room_code) =>{
 }
 
 const renderCartas = (data, app, id_session) =>{
+    console.warn('HEMOS ENTRADO EN SITIO CON CURVAAAAS')
+    console.log(data);
     $('.player-hand').html('');
     $('.opponent-hand').html('');
     $('.opponent-board').find('.concept-place').html('');
     $('.player-board').find('.concept-place').html('');
+    $('#puntos'+data.rol).html(`Puntos Jugador 1 : ${data.puntos_conviccion[data.rol]}`);
+    $('#puntos'+data.oponente).html(`Puntos Jugador 2 : ${data.puntos_conviccion[data.oponente]}`);
+    $('#mana'+data.rol).html(`Tiempo Jugador 1 : ${data.mana[data.rol]}`);
+    $('#mana'+data.oponente).html(`Tiempo Jugador 2 : ${data.mana[data.oponente]}`);
+    $('#turno').html(`${(data.propietario_turno === id_session)?'tu turno':'turno rival'}`);
     //renderiza en mano
+    console.log(data);
     for(let x = 0; x<data.cartas_mano_oponente; x++){
         $('.opponent-hand').append(`<div></div>`);
     }
@@ -317,7 +325,7 @@ const addEvents = (data, app, id_session) =>{
             })
             $('.player-hand').find(`#card${ele.id}`).on('click', (e) => {
                 app.webMap.event.eljuego.class.config.event.socket.send(JSON.stringify({
-                    type : 'concepto',
+                    type : ele.tipo,
                     id_carta : ele.id,
                     id_jugador : id_session,
                     room : data.nombre_partida
@@ -340,7 +348,7 @@ const addEvents = (data, app, id_session) =>{
             })
             $('.player-hand').find(`#card${data.mano[ele].id}`).on('click', (e) => {
                 app.webMap.event.eljuego.class.config.event.socket.send(JSON.stringify({
-                    type : 'concepto',
+                    type : data.mano[ele].tipo,
                     id_carta : data.mano[ele].id,
                     id_jugador : id_session,
                     room : data.nombre_partida

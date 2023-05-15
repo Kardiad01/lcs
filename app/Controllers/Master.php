@@ -33,7 +33,7 @@ class Master extends BaseController
     }
 
     public function game(){
-        if(model('Debate')->roomexists($this->get['play'])){
+        if(model('Debate')->roomexists($this->get['play']) && !empty($this->session->get('user'))){
             return view('templates/header', ['path'=>'videogame', 'user'=>$this->session->get('user'), 'languaje'=>$this->languaje])
                     .view('mainviews/game', ['path'=>'videogame', 'user'=>$this->session->get('user'), 'languaje'=>$this->languaje])
                     .view('templates/footer', ['path'=>'videogame', 'user'=>$this->session->get('user'), 'languaje'=>$this->languaje]);

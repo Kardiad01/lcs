@@ -314,6 +314,7 @@ a{
     list-style: none;
     margin-right: 4rem;
     padding: 1rem;
+    text-align: center;
 }
 
 .body header nav ul li, .sign header nav ul li, .game header nav ul li{

@@ -43,7 +43,7 @@
                         },
                         message: (ev)=>{
                             const data = JSON.parse(ev.data);
-                            console.log(data.type, data);
+                            //console.log(data.type, data);
                             if(data.type=='init'){
                                 selectorDeck("<?=base_url('/master/user/user/decklist')?>" ,"<?=base_url('master/user/user/loaddeck')?>",  "<?=esc($user)[0]['id']?>", app);   
                             }
@@ -55,16 +55,16 @@
                             }
                             if(data.type=='concepto'){
                                 renderCartas(data, app, "<?=esc($user)[0]['id']?>");
+                                /*vender como feature el jugar rápido y que no haya tiempo para responder, 
+                                no hay avisos para tontos o lo sueltas o te olvidas*/
                             }
-                            if(data.type=='concepto' && data.propietario_turno!="<?=esc($user)[0]['id']?>"){
-                                //habilitar carta réplica
-                                //crear estado réplica
-                                //emitir al jugador que no ha jugado réplica una contraréplica.
+                            if(data.type=='replica'){
+                                renderCartas(data,app, "<?=esc($user)[0]['id']?>");
                             }
-                            //añadir jugar réplica
                             //añadir jugar contrareplica
                             //añadir fin turno
                             //añadir fin partida
+                            //añadir inicio turno una vez pasado el primer turno
                         },
                         close : (ev)=>{
                             window.close();

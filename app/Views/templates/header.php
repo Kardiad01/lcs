@@ -78,8 +78,15 @@
                         <a href="#">Surrender</a>
                     </div>
                     <div class="d-flex flex-column m-auto">
-                        <p style="width:200px">Puntos Jugador 1 : 0</p>
-                        <p style="width:200px">Puntos Jugador 2 : 0</p>
+                        <p id="puntosretante" style="width:200px">Puntos Jugador 1 : 0</p>
+                        <p id="puntosretado" style="width:200px">Puntos Jugador 2 : 0</p>
+                    </div>
+                    <div class="d-flex flex-column m-auto">
+                        <p id="manaretante" style="width:200px">Mana Jugador 1 : 10</p>
+                        <p id="manaretado" style="width:200px">Mana Jugador 2 : 10</p>
+                    </div>
+                    <div>
+                        <p id="turno"> </p>
                     </div>
                 <?php endif;?>
             </ul>
