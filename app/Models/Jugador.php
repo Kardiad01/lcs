@@ -172,28 +172,32 @@ class Jugador extends AModel{
         return $this->db->query("SELECT *
         FROM chat
         JOIN jugador ON jugador.id = chat.id_hablante
-        WHERE chat.id_hablante = $id_usuario AND chat.id_oyente = $id_otrousuario
+        WHERE chat.id_hablante = ? AND chat.id_oyente = ?
         UNION
         SELECT *
         FROM chat 
         JOIN jugador ON jugador.id = chat.id_hablante
-        WHERE chat.id_hablante = $id_otrousuario AND chat.id_oyente = $id_usuario
+        WHERE chat.id_hablante = ? AND chat.id_oyente = ?
         ORDER BY fecha ASC;
-        ")->getResultArray();
+        ", [$id_usuario, $id_otrousuario, $id_otrousuario, $id_usuario])
+        ->getResultArray();
     }
 
     public function onlinefriends($id){
         return $this->db->query("
-        SELECT * 
-        FROM amigos
-        JOIN jugador ON jugador.id = amigos.id_solicitante
-        WHERE amigos.id_solicitado = $id and jugador.enlinea = 1
-        UNION 
-        SELECT *
+        SELECT jugador.id, jugador.nombre, jugador.enlinea 
         FROM amigos
         JOIN jugador ON jugador.id = amigos.id_solicitado
-        WHERE amigos.id_solicitante = $id and jugador.enlinea = 1
-    ")->getResultArray();
+        JOIN argumentario on argumentario.id_jugador = jugador.id
+        WHERE amigos.id_solicitante = ? and jugador.enlinea = 1 and argumentario.jugable = 1
+        UNION 
+        SELECT jugador.id, jugador.nombre, jugador.enlinea 
+        FROM amigos
+        JOIN jugador ON jugador.id = amigos.id_solicitante
+        JOIN argumentario on argumentario.id_jugador = jugador.id
+        WHERE amigos.id_solicitado = ? and jugador.enlinea = 1 and argumentario.jugable = 1
+    ", [$id, $id])
+    ->getResultArray();
     }
 
 }

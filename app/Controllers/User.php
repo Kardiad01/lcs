@@ -39,17 +39,7 @@ class User implements IViews {
         $this->customview(['path'=>'landing', 'languaje' => $this->languaje]);
     }
 
-    /**
-     * Funciones dentro de esto:
-     *  10º Matchmaking o formas de emparejamiento
-     */
-
-    // Play with frendsop
-
     public function playfriendsop(){
-        //Paso 0: crear nombre del fichero que llevará todo
-        //Paso 1: crear registro de partida en la bbdd
-        //Paso 2: pasar los campos de la bbdd 
         $roomName = md5(password_hash($this->salt.'_'.$this->post['id_opponent'].$this->session->get('user')[0]['id'], PASSWORD_BCRYPT));
         $dataRoom = model('Jugador')->newgamewithfriend([
             'id_jugador_retante' => $this->post['id_opponent'],
@@ -378,6 +368,12 @@ class User implements IViews {
             'final' => $this->post['length'],
             'data'=>model('Conceptos')->paginatedconcepts($requiredParamsToDT, $this->session->get('user')[0]['id'])
         ]);  
+    }
+
+    public function decksreadytoplaybyuser(){
+        if(!empty($this->session->get('user'))){
+            echo json_encode(['data'=>model('Argumentario')->availabledecksbyplayer($this->session->get('user')[0]['id'])]);
+        }
     }
 
     public function customview($params)

@@ -88,6 +88,9 @@
                     <div>
                         <p id="turno"> </p>
                     </div>
+                    <div>
+                        <button data-library-func="event-finturno" class="btn btn-info">Fin turno</button>
+                    </div>
                 <?php endif;?>
             </ul>
         </div>

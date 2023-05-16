@@ -43,23 +43,45 @@
                         },
                         message: (ev)=>{
                             const data = JSON.parse(ev.data);
-                            //console.log(data.type, data);
+                            console.log(data.type, data);
                             if(data.type=='init'){
-                                selectorDeck("<?=base_url('/master/user/user/decklist')?>" ,"<?=base_url('master/user/user/loaddeck')?>",  "<?=esc($user)[0]['id']?>", app);   
+                                selectorDeck("<?=base_url('/master/user/user/decksreadytoplaybyuser')?>" ,"<?=base_url('master/user/user/loaddeck')?>",  "<?=esc($user)[0]['id']?>", app);   
                             }
                             if(data.type=='ready'){      
-                                toastr.info(`Turno de: ${("<?=esc($user)[0]['id']?>"===data.propietario_turno)?'tuyo':'rival'}`);                               
-                                data.mano.forEach((ele)=>{
-                                    startMatch(ele, app, <?=esc($user)[0]['id']?>, data.propietario_turno, room_code);
-                                })                                
+                                toastr.info(`Turno de: ${("<?=esc($user)[0]['id']?>"===data.propietario_turno)?'tuyo':'rival'}`);
+                                if($('.player-board').find('.concept-place').children().length==0){
+                                    data.mano.forEach((ele)=>{
+                                        startMatch(ele, app, <?=esc($user)[0]['id']?>, data.propietario_turno, room_code);
+                                    })                                
+                                }
                             }
                             if(data.type=='concepto'){
                                 renderCartas(data, app, "<?=esc($user)[0]['id']?>");
                                 /*vender como feature el jugar rápido y que no haya tiempo para responder, 
                                 no hay avisos para tontos o lo sueltas o te olvidas*/
                             }
-                            if(data.type=='replica'){
+                            if(data.type=='replica' || data.type=='contrareplica' || data.type=='finturno'){
                                 renderCartas(data,app, "<?=esc($user)[0]['id']?>");
+                            }
+                            /*
+                            if(data.ganador=='' && data.type == 'finpartida'){
+                                alert("EMPATEEEEE");
+                            }*/
+                            if(data.type=='finpartida'){
+                                //Cuando se acabe se reconocerá al usuario que ha ganado y saldrá
+                                //Una modal con el mensaje que corresponda.
+                                if(data.ganador === 'empate'){
+                                    alert("empate");
+                                    return;
+                                }
+                                if(data.ganador!='' && data.ganador=="<?=esc($user)[0]['id']?>"){
+                                    alert('HAS GANADOOOOO!!');
+                                    return;
+                                }
+                                if(data.ganador!='' && data.ganador!="<?=esc($user)[0]['id']?>"){
+                                    alert('HAS PERDIDO OTRA VEZ SERÁÁÁÁÁÁ!');
+                                    return;
+                                }
                             }
                             //añadir jugar contrareplica
                             //añadir fin turno
@@ -74,6 +96,21 @@
                         }
                     }
                 },
+                finturno : {
+                    name : 'Botón que sirve para pasar de turno',
+                    config : {
+                        event : 'click',
+                        trigger : null,
+                        call : (e)=>{
+                            const endTurn = {
+                                type: 'finturno',
+                                room: room_code,
+                                id_jugador : "<?=esc($user)[0]['id']?>"
+                            };
+                            app.webMap.event.eljuego.class.config.event.socket.send(JSON.stringify(endTurn));
+                        }   
+                    }
+                }
             }
         });
         console.log(app);

@@ -253,8 +253,6 @@ $(document).ready(()=>{
                                 5:{
                                     nombre : 'Datatabla que habilita la pelea con amigos añadiendo nuevo componente',
                                     config : {
-                                        paging : false,
-                                        responsive: true,
                                         ajax: {
                                             type : "POST",
                                             url :  "<?=base_url('/master/user/user/onlinefriends')?>",

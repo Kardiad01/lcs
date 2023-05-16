@@ -56,6 +56,7 @@ class Argumentario extends AModel{
                 'id_concepto' => $card
             ]);
         }
+        $this->where('id', $id_deck)->set('jugable', 1)->update();
     }
 
     public function deletedeck($id_deck){
@@ -68,6 +69,13 @@ class Argumentario extends AModel{
         return $this->db->table('argumentario_conceptos')
             ->select()
             ->where('id_argumentario', $id_deck)
+            ->get()->getResultArray();
+    }
+
+    public function availabledecksbyplayer($id_user){
+        return $this->select('id, nombre')
+            ->where('id_jugador', $id_user)
+            ->where('jugable', 1)
             ->get()->getResultArray();
     }
 }

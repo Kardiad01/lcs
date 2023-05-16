@@ -151,7 +151,6 @@ const selectorDeck = (urlmazo, urlobtenermazo, user, app, room_code) =>{
                                         user : user,
                                         room : room_code
                                     }
-                                    console.log(objetoInitgame);
                                     app.webMap.event.eljuego.class.config.event.socket.send(JSON.stringify(objetoInitgame))
                                 }
                             }
