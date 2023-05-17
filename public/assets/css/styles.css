@@ -214,15 +214,15 @@ a{
 }
 
 .game .opponent-hand, .game .player-hand{
-    display: flex;
-    flex-direction: row;
+    position: relative;
     width: 100%;
-    height: 25%;
+    height: 150px;
 }
 
-.game .opponent-hand div{
-    width: 25%;
-    max-width: 200px;
+.game .opponent-hand div:nth-child(n){
+    position: absolute;
+    width: 100px;
+    height: 150px;
     background-image: var(--game-reverse);
     background-size: 100% 100%;
 }

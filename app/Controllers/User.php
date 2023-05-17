@@ -49,6 +49,10 @@ class User implements IViews {
         echo json_encode(['status'=>200, 'data'=>$dataRoom]);
     }
 
+    public function endgame(){
+        model('Debate')->where('recurso', $this->post['room'])->set('jugable', 0)->update();
+    }
+
     //User methods
 
     public function userprofile(){

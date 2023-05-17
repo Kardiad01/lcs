@@ -208,7 +208,6 @@ const startMatch = (ele, app, id_session, turno, room_code) =>{
 
 const renderCartas = (data, app, id_session) =>{
     console.warn('HEMOS ENTRADO EN SITIO CON CURVAAAAS')
-    console.log(data);
     $('.player-hand').html('');
     $('.opponent-hand').html('');
     $('.opponent-board').find('.concept-place').html('');
@@ -221,17 +220,13 @@ const renderCartas = (data, app, id_session) =>{
     //renderiza en mano
     console.log(data);
     for(let x = 0; x<data.cartas_mano_oponente; x++){
-        $('.opponent-hand').append(`<div></div>`);
+        $('.opponent-hand').append(`<div style="right:${25+x*10}%; z-index:${x};)"></div>`);        
     }
     if(Array.isArray(data.mano)){
         data.mano.forEach(ele => {
             $('.player-hand').append(`
-            <div data-tipo="${ele.tipo}" id="card${ele.id}">
-                <h6 class="py-1">${ele.nombre} <small class="border border-rounded"> ${ele.costo.substring(0, ele.costo.indexOf('@'))}</small></h6>
-                <p>Tipo: ${ele.tipo}</p>
-                <p class="mt-2" style="font-size:0.8rem">
-                    <small>${ele.descripcion}</p>
-                </p>
+            <div data-tipo="${ele.tipo}" id="card${ele.id}" style = "background-image:url(data:image/png;base64,${ele.img}) width:100px; height:150px; background-size:100% 100%;">
+                
             </div>
             `);
         });

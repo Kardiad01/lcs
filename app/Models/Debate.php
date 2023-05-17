@@ -13,8 +13,9 @@ class Debate extends AModel{
         $exists = false;
         (count($this->select()
         ->where('recurso', $roomCode)
+        ->where('jugable', 1)
         ->get()
-        ->getResultArray())>0)? $exists = true: $exists=false;
+        ->getResultArray())>0)? $exists = true: $exists = false;
         return $exists;
     }
 

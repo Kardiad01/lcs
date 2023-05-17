@@ -236,7 +236,7 @@ $(document).ready(()=>{
                 config: {
                     title : '<h2>Pelear con amigo</h2>',
                     message: `<div>
-                        <p>A LIARSE DE PUTASOS</p>
+                        <p>Esta es tu lista de amigos a los que puedes desafiar</p>
                         <table data-library-func="datatable-5"></table>
                     </div>`,
                     onShow: function(e){
@@ -244,7 +244,7 @@ $(document).ready(()=>{
                         $(e.currentTarget).find('.modal-content').css({
                             width:'50vw',
                             height:'50vh',
-                            minWidth: '500px'
+                            minWidth: '450px'
                         })
                         //console.log();
                         //se tiene que dar de alta a un componente getamigos
@@ -344,6 +344,7 @@ $(document).ready(()=>{
                     ],
                     fnDrawCallback: function(e){                        
                         $('[data-buy]').click(function(){
+                            $(this).prop('disabled', true);
                             let table = $(app.webMap.datatable[0].dom).dataTable();
                             let table2 = $(app.webMap.datatable[2].dom).dataTable();
                             $.ajax({
@@ -354,15 +355,17 @@ $(document).ready(()=>{
                                     id_user : $(this).data('user-id')
                                 },
                                 dataType: "JSON",
-                                success: function (response) {
+                                success: (response) => {
                                     if(response.status==200){
                                         toastr.success("", "Compra realizada"); 
                                         table.api().ajax.reload();
                                         table2.api().ajax.reload();
                                         $($('.money')[0]).html(`Fondos: ${response.data}`);
                                         $($('.money')[1]).html(`Fondos: ${response.data}`);                         
+                                        $(this).prop('disabled', false);
                                     }else{
-                                        toastr.error("", "Compra no completada")
+                                        toastr.error("", "Compra no completada");
+                                        $(this).prop('disabled', false);
                                     }
                                 }
                             });
@@ -476,6 +479,7 @@ $(document).ready(()=>{
                     ],
                     fnDrawCallback: function(e){                     
                         $('[data-read]').click(function(){
+                            $(this).prop('disabled', true);
                             $.ajax({
                                 type: "POST",
                                 url: "<?=base_url('master/user/user/readbook')?>",
@@ -483,7 +487,7 @@ $(document).ready(()=>{
                                     id_book : $(this).data('id')
                                 },
                                 dataType: "JSON",
-                                success: function (response) {
+                                success: (response) => {
                                     if(response.status==200){
                                         toastr.success("", "Concepto aprendido");
                                         setTimeout(()=>{
@@ -494,6 +498,7 @@ $(document).ready(()=>{
                                                 className: 'animate__animated animate__bounce'
                                             });
                                         },1500);
+                                        $(this).prop('disabled', false);
                                     }else{
                                         toastr.error("", response.msg)
                                     }

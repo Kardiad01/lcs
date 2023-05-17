@@ -42,8 +42,67 @@
                             app.webMap.event.eljuego.class.config.event.socket.send(`{"type":"askstatus", "user":"<?=esc($user)[0]['id']?>", "room":"${room_code}"}`);
                         },
                         message: (ev)=>{
+                            const beacon = {
+                                type : 'finpartida',
+                                room : room_code
+                            }
                             const data = JSON.parse(ev.data);
                             console.log(data.type, data);
+                            if(data.type=='finpartida'){
+                                renderCartas(data, app, "<?=esc($user)[0]['id']?>");                                
+                                ev.target.send(JSON.stringify(beacon));
+                                //Cuando se acabe se reconocerá al usuario que ha ganado y saldrá
+                                //Una modal con el mensaje que corresponda.
+                                if(data.ganador === 'empate'){
+                                    alert("empate");
+                                    //ajax que mande resultado y borre o cambie a finalizada
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "<?=base_url('master/user/user/endgame')?>",
+                                        data: {
+                                            room : room_code,
+                                        },
+                                        dataType: "JSON",
+                                        success: function (response) {
+                                            
+                                        }
+                                    });
+                                    window.close();
+                                    return;
+                                }
+                                if(data.ganador!='' && data.ganador=="<?=esc($user)[0]['id']?>"){
+                                    alert('HAS GANADOOOOO!!');
+                                    //ajas que mande resultado
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "<?=base_url('master/user/user/endgame')?>",
+                                        data: {
+                                            room : room_code,
+                                        },
+                                        dataType: "JSON",
+                                        success: function (response) {
+                                            
+                                        }
+                                    });
+                                    window.close();
+                                    return;
+                                }
+                                if(data.ganador!='' && data.ganador!="<?=esc($user)[0]['id']?>"){
+                                    alert('HAS PERDIDO OTRA VEZ SERÁÁÁÁÁÁ!');
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "<?=base_url('master/user/user/endgame')?>",
+                                        data: {
+                                            room : room_code,
+                                        },
+                                        dataType: "JSON",
+                                        success: function (response) {
+                                            
+                                        }
+                                    });
+                                    return;
+                                }
+                            }
                             if(data.type=='init'){
                                 selectorDeck("<?=base_url('/master/user/user/decksreadytoplaybyuser')?>" ,"<?=base_url('master/user/user/loaddeck')?>",  "<?=esc($user)[0]['id']?>", app);   
                             }
@@ -63,30 +122,10 @@
                             if(data.type=='replica' || data.type=='contrareplica' || data.type=='finturno'){
                                 renderCartas(data,app, "<?=esc($user)[0]['id']?>");
                             }
-                            /*
-                            if(data.ganador=='' && data.type == 'finpartida'){
-                                alert("EMPATEEEEE");
-                            }*/
-                            if(data.type=='finpartida'){
-                                //Cuando se acabe se reconocerá al usuario que ha ganado y saldrá
-                                //Una modal con el mensaje que corresponda.
-                                if(data.ganador === 'empate'){
-                                    alert("empate");
-                                    return;
-                                }
-                                if(data.ganador!='' && data.ganador=="<?=esc($user)[0]['id']?>"){
-                                    alert('HAS GANADOOOOO!!');
-                                    return;
-                                }
-                                if(data.ganador!='' && data.ganador!="<?=esc($user)[0]['id']?>"){
-                                    alert('HAS PERDIDO OTRA VEZ SERÁÁÁÁÁÁ!');
-                                    return;
-                                }
-                            }
-                            //añadir jugar contrareplica
-                            //añadir fin turno
-                            //añadir fin partida
-                            //añadir inicio turno una vez pasado el primer turno
+                            if(data.type=='finturno'){
+                                renderCartas(data,app, "<?=esc($user)[0]['id']?>");
+                            }                         
+                            
                         },
                         close : (ev)=>{
                             window.close();
