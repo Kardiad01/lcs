@@ -106,7 +106,7 @@
                 <div class="splide__track">
                     <ul class="splide__list">
                         <li class="splide__slide component" data-splide-hash="slide01">
-                            <img width="100%" height="100%" src="<?=base_url('/assets/img/BackHead.webp');?>" alt="">
+                            <img width="100%" height="100%" src="<?=base_url('/assets/img/carrousel1.jpg');?>" alt="">
                             <div>
                                 <p style="color:white">
                                     <?=esc($languaje)['carousel']['c1']?>
@@ -114,7 +114,7 @@
                             </div>
                         </li>
                         <li class="splide__slide component" data-splide-hash="slide02">
-                            <img width="100%" height="100%" src="<?=base_url('/assets/img/BackHead.webp');?>" alt="">
+                            <img width="100%" height="100%" src="<?=base_url('/assets/img/carrousel2.jpg');?>" alt="">
                             <div>
                                 <p style="color:white">
                                     <?=esc($languaje)['carousel']['c2']?>
@@ -122,7 +122,7 @@
                             </div>
                         </li>
                         <li class="splide__slide component" data-splide-hash="slide03">
-                            <img width="100%" height="100%" src="<?=base_url('/assets/img/BackHead.webp');?>" alt="">
+                            <img width="100%" height="100%" src="<?=base_url('/assets/img/carrousel3.jpg');?>" alt="">
                             <div>
                                 <p style="color:white">
                                     <?=esc($languaje)['carousel']['c3']?>

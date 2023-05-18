@@ -277,7 +277,7 @@ a{
 
 .body header{
     width: 100%;
-    height: 150vh;
+    height: 120vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -308,7 +308,7 @@ a{
 }
 
 .body header nav ul, .sign header nav ul, .game header nav ul{
-    width: 25%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     list-style: none;
@@ -322,15 +322,17 @@ a{
     justify-content: center;
     align-items: center;
     text-align: center;
-    width: 20%;
+    width: 50%;
+    
 }
 
 .body li a, .sign li a, .menu li a, .game li a{
     font-style: none;
+    width: 100%;
     color: var(--secondary-yellow-1);
 }
 
-.body li:hover, .sign li:hover, .game li:hover{
+.body nav li:hover, .sign nav li:hover, .game nav li:hover{
     border-bottom: 1px solid var(--secondary-yellow-2);
 }
 
@@ -396,6 +398,7 @@ a{
 
 .carrousel{
     width: 90%;
+    max-width: 1200px;
     margin-bottom: 1rem;
     border: 2px solid var(--main-yellow);
 }

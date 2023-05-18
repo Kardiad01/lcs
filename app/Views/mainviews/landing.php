@@ -40,16 +40,20 @@
                 <img src="<?=base_url('assets/img/otherbackground.png')?>">
             </div>
             <div class="section-body">
-                <h3><?=esc($languaje)['ourgame']['o2']?></h3>
-                <p><?=esc($languaje)['ourgame']['os2']?></p>
+                <h3><?=esc($languaje)['ourgame']['o3']?></h3>
+                <p><?=esc($languaje)['ourgame']['os3']?></p>
             </div>
         </section>
     </article>
     <article class="cards-of-game">
         <h3> <?=esc($languaje)['ourcards']['head']?></h3>
         <section>
-            <div>
-
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-6">
+                    <img src="<?=base_url('/assets/img/cartas/'.rand(1, 48).'.png')?>" alt="">
+                </div>
+                <div class="col-3"></div>
             </div>
         </section>
     </article>
