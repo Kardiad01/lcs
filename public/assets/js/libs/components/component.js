@@ -10,35 +10,38 @@ class Component {
         }
     };
     config = {
-      date : {
-         generate : this.date
-     },
-      modal: {
-         generate : this.modal
-      },
-      datatable: {
-         generate : this.datatable
-      },
-      form : {
-        generate : this.dataExtract,
-        send : this.send
-      },
-      buttonAjax : {
-        generate : this.ajax,
-      },
-      carrousel: {
-        generate : this.carrousel,
-        others : this.others
-      },
-      animated : {
-        generate : this.animated
-      },
-      button : {
-        generate : this.button
-      },
-      event : {
-        generate: this.event
-      }
+        animated:{
+            generate : this.animated
+        },
+        date : {
+            generate : this.date
+        },
+        modal: {
+            generate : this.modal
+        },
+        datatable: {
+            generate : this.datatable
+        },
+        form : {
+            generate : this.dataExtract,
+            send : this.send
+        },
+        buttonAjax : {
+            generate : this.ajax,
+        },
+        carrousel: {
+            generate : this.carrousel,
+            others : this.others
+        },
+        animated : {
+            generate : this.animated
+        },
+        button : {
+            generate : this.button
+        },
+        event : {
+            generate: this.event
+        }
     };
 
     constructor(component, domElement, config){
@@ -109,6 +112,9 @@ class Component {
     }
 
     animated(config){
+        if(this.domElement!=undefined){
+            config.targets = this.domElement
+        }
         anime(config)
     }
 

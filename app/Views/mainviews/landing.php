@@ -1,62 +1,5 @@
 <main>
-    <article class="news">
-        <h3><?=esc($languaje)['news']['n1']?></h3>
-        <?php foreach(esc($languaje)['news'] as $key=>$value) :
-            if($key!='n1') :
-            ?>
-            <div class="new">
-               <img class="new-img" src="<?=base_url('assets/img/BackHead.webp')?>" alt="">
-               <div class="new-body">
-                  <p>
-                    <?=$value?>
-                  </p>
-               </div> 
-            </div>
-            <?php endif;?>
-        <?php endforeach;?>
-    </article>
-    <article class="presentation">
-        <h2 class="text-center mt-3"> <?=esc($languaje)['ourgame']['head']?></h2>
-        <section>
-            <div class="section-image">
-                <img src="<?=base_url('assets/img/otherbackground.png')?>">
-            </div>
-            <div class="section-body">
-                <h3><?=esc($languaje)['ourgame']['o1']?></h3>
-                <p><?=esc($languaje)['ourgame']['os1']?></p>
-            </div>
-        </section>
-        <section>
-            <div class="section-body">
-                <h3><?=esc($languaje)['ourgame']['o2']?></h3>
-                <p><?=esc($languaje)['ourgame']['os2']?></p>
-            </div>
-            <div class="section-image">
-                <img src="<?=base_url('assets/img/otherbackground.png')?>">
-            </div>
-        </section>
-        <section>
-            <div class="section-image">
-                <img src="<?=base_url('assets/img/otherbackground.png')?>">
-            </div>
-            <div class="section-body">
-                <h3><?=esc($languaje)['ourgame']['o3']?></h3>
-                <p><?=esc($languaje)['ourgame']['os3']?></p>
-            </div>
-        </section>
-    </article>
-    <article class="cards-of-game">
-        <h3> <?=esc($languaje)['ourcards']['head']?></h3>
-        <section>
-            <div class="row">
-                <div class="col-3"></div>
-                <div class="col-6">
-                    <img src="<?=base_url('/assets/img/cartas/'.rand(1, 48).'.png')?>" alt="">
-                </div>
-                <div class="col-3"></div>
-            </div>
-        </section>
-    </article>
+   <?php echo html_entity_decode(str_replace('RANDCARD', base_url('/assets/img/cartas/'.rand(1, 48).'.png'), esc($languaje)['main']))?>  
 </main>
 <script>
     $(document).ready(()=>{
@@ -77,7 +20,7 @@
                                 next  : 'splide__arrow--next',
                         },
                         others: (dom)=>{
-                            dom.on( 'pagination:mounted', function ( data ) {
+                            /*dom.on( 'pagination:mounted', function ( data ) {
                                 //this line paint div container dots
                                 data.list.classList.add( 'splide__pagination' );
                                 data.items.forEach( function ( item ) {
@@ -92,11 +35,59 @@
                                 var end  = dom.Components.Controller.getEnd() + 1;
                                 var rate = Math.min( ( dom.index + 1 ) / end, 1 );
                                 bar.style.width = String( 100 * rate ) + '%';
-                            } );
+                            } );*/
                         }
                     }
                 }
+            },
+            event:{
+                lang : {
+                    name : "Combo que te permite cambiar de lenguaje de la landing",
+                    config : {
+                        event : 'change',
+                        call : (e)=>{
+                            window.location.href = "<?=base_url()?>?lang="+e.target.value;
+                        }
+                    }
+                }
+            },
+            animated: {
+                text : {
+                    name : "welcome animado",
+                    config : {
+                        translateX: -2500,
+                        direction: 'alternate',
+                        delay: function(el, i, l) {
+                            return i * 200;
+                        },
+                        endDelay: function(el, i, l) {
+                            return (l - i) * 200;
+                        }
+                    }
+                },
+                carousel : {
+                    name : "Carrousel animado",
+                    config : {
+                        translateX: 2500,
+                        direction: 'alternate',
+                        delay: function(el, i, l) {
+                            return i * 300;
+                        },
+                        endDelay: function(el, i, l) {
+                            return (l - i) * 300;
+                        }
+                    }
+                },
+                news : {
+                    name : "Noticias animadas",
+                    config: {
+                        translateX: -3000,
+                        direction: 'alternate',
+                        easing: 'easeInOutQuad'
+                    }
+                }
             }
+                
         });
     })
 </script>

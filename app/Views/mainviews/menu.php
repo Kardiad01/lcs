@@ -1,3 +1,237 @@
+
+<main class="pc-body d-flex flex-column aling-items-center justify-content-center">
+<div class="text-center user-header">
+    <div class="user-img">
+
+    </div>
+    <div class="user-title">
+        <h3>Usuario: <?=esc($user[0]['nombre'])?></h3>
+        <h4 class="money">Fondos: <?=esc($user[0]['dinero'])?></h4>
+    </div>
+</div>
+<!-- Button trigger modal -->
+<?php foreach(esc($languaje['usermenu']) as $key=>$value):?>
+    <?php if($key!='exit'):?>
+<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#<?=$key?>">
+    <?=$value?>
+</button>
+    <?php endif;?>
+
+<!-- Modal -->
+<?php if($key=='play'):?>
+    <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div>
+                <h3>Selecciona como quieres jugar</h3>
+                <div class="d-flex flex-colum">
+                    <button class="btn" data-library-func="modal-2">Online</button>
+                    <button class="btn" data-library-func="modal-3">Con amigo</button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+<?php endif;?>
+<?php if($key=='viewprofile'):?>
+    <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form data-library-func="form-0" action="<?=base_url('master/user/user/userprofile')?>" class="d-flex flex-column">
+                <div>
+                    <label class="form-label" for="<?=esc($languaje)['profile']['playername']?>"><?=esc($languaje)['profile']['playername']?></label>
+                    <input data-get type="text" class="form-control" id="<?=esc($languaje)['profile']['playername']?>" name="nombre" value="<?=esc($user)[0]['nombre']?>">
+                </div>
+                <div>
+                    <label class="form-label" for="<?=esc($languaje)['profile']['password']?>"><?=esc($languaje)['profile']['password']?></label>
+                    <input data-get type="password" class="form-control" id="<?=esc($languaje)['profile']['password']?>" name="contrasena" value="" placeholder="********">
+                </div>
+                <div>
+                    <label class="form-label" for="<?=esc($languaje)['profile']['image']?>"><?=esc($languaje)['profile']['image']?></label>
+                    <input data-get type="file" class="form-control" id="<?=esc($languaje)['profile']['image']?>" name="img_perfil">
+                </div>
+                <div>
+                    <label class="form-label" for="<?=esc($languaje)['profile']['email']?>"><?=esc($languaje)['profile']['email']?></label>
+                    <input data-get type="mail" class="form-control" id="<?=esc($languaje)['profile']['email']?>" name="direccion" value="<?=esc($user)[0]['direccion']?>">
+                </div>
+                <div class="mt-4 d-flex justify-content-around">
+                    <div class="col-4">
+                        <button type="button" class="btn btn-warning" data-send> Actualizar Datos </button>
+                    </div>
+                    <div class="col-4">
+                        <button id="delete-acount" data-library-func="modal-0" data-id="<?=esc($user)[0]['id']?>" type="button" class="btn btn-danger"> Borrar cuenta </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+<?php endif;?>
+<?php if($key=='buybooks'):?>
+    <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p class="money"></p>
+            <table data-library-func="datatable-0" class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Titulo</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+</div>
+<?php endif;?>
+<?php if($key=='buildarguments'):?>
+    <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <h5 class="text-center col-11">Listado de mazos creados</h5>
+                <button data-library-func="modal-1" class="btn btn-primary col-1">+</button>
+            </div>
+            <div class="w-100">
+                <table data-library-func="datatable-3">
+                     <thead>
+                         <tr>
+                             <th>Nombre</th>
+                             <th>Acciones</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+     
+                     </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+<?php endif;?>
+<?php if($key=='friendlist'):?>
+    <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid row">
+                <div class="col-md-6 col-sm-12">
+                    <h5>Usuarios del juego</h5>
+                    <table data-library-func="datatable-1" class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <h5>Amigos</h5>
+                    <table  data-library-func="datatable-4" class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Acciones</th>
+                                <th>En línea</th>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+<?php endif;?>
+<?php if($key=='readbook'):?>
+    <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        <table data-library-func="datatable-2" class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Titulo</th>
+                        <th>Autor</th>
+                        <th>Apellidos</th>
+                        <th>Disciplina</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+</div>
+<?php endif;?>
+<?php if($key == 'getmorecash'):?>
+    <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            ¿Cuanto vas a pagar?
+        </div>
+        </div>
+    </div>
+</div>
+<?php endif;?>
+<?php if($key=='exit'):?>
+    <a class="btn" href="<?=base_url('/master/user/user/logout')?>"><?=$value?></a>
+<?php endif;?>
+<?php endforeach;?>
+
+</main>
+
 <script>
 $(document).ready(()=>{
     
@@ -706,235 +940,3 @@ $(document).ready(()=>{
     //console.log(app);
 })
 </script>
-<main class="pc-body d-flex flex-column aling-items-center justify-content-center">
-<div class="text-center user-header">
-    <div class="user-img">
-
-    </div>
-    <div class="user-title">
-        <h3>Usuario: <?=esc($user[0]['nombre'])?></h3>
-        <h4 class="money">Fondos: <?=esc($user[0]['dinero'])?></h4>
-    </div>
-</div>
-<!-- Button trigger modal -->
-<?php foreach(esc($languaje['usermenu']) as $key=>$value):?>
-    <?php if($key!='exit'):?>
-<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#<?=$key?>">
-    <?=$value?>
-</button>
-    <?php endif;?>
-
-<!-- Modal -->
-<?php if($key=='play'):?>
-    <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <div>
-                <h3>Selecciona como quieres jugar</h3>
-                <div class="d-flex flex-colum">
-                    <button class="btn" data-library-func="modal-2">Online</button>
-                    <button class="btn" data-library-func="modal-3">Con amigo</button>
-                </div>
-            </div>
-        </div>
-        </div>
-    </div>
-</div>
-<?php endif;?>
-<?php if($key=='viewprofile'):?>
-    <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <form data-library-func="form-0" action="<?=base_url('master/user/user/userprofile')?>" class="d-flex flex-column">
-                <div>
-                    <label class="form-label" for="<?=esc($languaje)['profile']['playername']?>"><?=esc($languaje)['profile']['playername']?></label>
-                    <input data-get type="text" class="form-control" id="<?=esc($languaje)['profile']['playername']?>" name="nombre" value="<?=esc($user)[0]['nombre']?>">
-                </div>
-                <div>
-                    <label class="form-label" for="<?=esc($languaje)['profile']['password']?>"><?=esc($languaje)['profile']['password']?></label>
-                    <input data-get type="password" class="form-control" id="<?=esc($languaje)['profile']['password']?>" name="contrasena" value="" placeholder="********">
-                </div>
-                <div>
-                    <label class="form-label" for="<?=esc($languaje)['profile']['image']?>"><?=esc($languaje)['profile']['image']?></label>
-                    <input data-get type="file" class="form-control" id="<?=esc($languaje)['profile']['image']?>" name="img_perfil">
-                </div>
-                <div>
-                    <label class="form-label" for="<?=esc($languaje)['profile']['email']?>"><?=esc($languaje)['profile']['email']?></label>
-                    <input data-get type="mail" class="form-control" id="<?=esc($languaje)['profile']['email']?>" name="direccion" value="<?=esc($user)[0]['direccion']?>">
-                </div>
-                <div class="mt-4 d-flex justify-content-around">
-                    <div class="col-4">
-                        <button type="button" class="btn btn-warning" data-send> Actualizar Datos </button>
-                    </div>
-                    <div class="col-4">
-                        <button id="delete-acount" data-library-func="modal-0" data-id="<?=esc($user)[0]['id']?>" type="button" class="btn btn-danger"> Borrar cuenta </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        </div>
-    </div>
-</div>
-<?php endif;?>
-<?php if($key=='buybooks'):?>
-    <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <p class="money"></p>
-            <table data-library-func="datatable-0" class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Titulo</th>
-                        <th>Precio</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-        </div>
-    </div>
-</div>
-<?php endif;?>
-<?php if($key=='buildarguments'):?>
-    <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <div class="row">
-                <h5 class="text-center col-11">Listado de mazos creados</h5>
-                <button data-library-func="modal-1" class="btn btn-primary col-1">+</button>
-            </div>
-            <div class="w-100">
-                <table data-library-func="datatable-3">
-                     <thead>
-                         <tr>
-                             <th>Nombre</th>
-                             <th>Acciones</th>
-                         </tr>
-                     </thead>
-                     <tbody>
-     
-                     </tbody>
-                </table>
-            </div>
-        </div>
-        </div>
-    </div>
-</div>
-<?php endif;?>
-<?php if($key=='friendlist'):?>
-    <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <div class="container-fluid row">
-                <div class="col-md-6 col-sm-12">
-                    <h5>Usuarios del juego</h5>
-                    <table data-library-func="datatable-1" class="table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-        
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-6 col-sm-12">
-                    <h5>Amigos</h5>
-                    <table  data-library-func="datatable-4" class="table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Acciones</th>
-                                <th>En línea</th>
-                        </thead>
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        </div>
-    </div>
-</div>
-<?php endif;?>
-<?php if($key=='readbook'):?>
-    <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-        <table data-library-func="datatable-2" class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Titulo</th>
-                        <th>Autor</th>
-                        <th>Apellidos</th>
-                        <th>Disciplina</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
-        </div>
-        </div>
-    </div>
-</div>
-<?php endif;?>
-<?php if($key == 'getmorecash'):?>
-    <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            ¿Cuanto vas a pagar?
-        </div>
-        </div>
-    </div>
-</div>
-<?php endif;?>
-<?php if($key=='exit'):?>
-    <a class="btn" href="<?=base_url('/master/user/user/logout')?>"><?=$value?></a>
-<?php endif;?>
-<?php endforeach;?>
-
-</main>

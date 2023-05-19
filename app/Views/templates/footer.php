@@ -1,15 +1,21 @@
 <?php if(esc($path)=='landing'):?>
 <footer>
+    <?php  
+        $actual = '';
+        if($current_lang === ''){
+            $actual = 'es';
+        }else{
+            $actual = $current_lang;
+        }
+    ?>
     <div class="languaje">
-        <select class="form-select">
-        <?php $idiomas = glob(FCPATH.'/assets/languajedata/*.txt'); 
-        $currentLanguaje = strtolower(esc($languaje)['meta']['meta']);
-        echo $currentLanguaje;
+        <select class="form-select" data-library-func="event-lang">
+        <?php $idiomas = glob(FCPATH.'/assets/languajedata/*.html'); 
         foreach($idiomas as $idioma):
             preg_match('/\/\w+\./', $idioma, $res);
             $lang =  preg_replace('/(\.|\/)/', '', $res[0]);
             ?>
-            <option <?=($lang==strtolower($currentLanguaje))?'selected':''?>><?=$lang?></option>
+            <option <?=($lang==strtolower($actual))?'selected':''?>><?=$lang?></option>
         <?php endforeach; ?>
         </select>
     </div>

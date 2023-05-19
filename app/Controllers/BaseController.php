@@ -50,6 +50,7 @@ abstract class BaseController extends Controller
     protected  $class;
     protected  $method;
     protected  $languaje;
+    protected  $current_languaje;
     /**
      * Constructor.
      */
@@ -57,12 +58,14 @@ abstract class BaseController extends Controller
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
+        
         $this->session = \Config\Services::session();
         $this->uri = $this->request->getUri()->getSegments();
         $this->post = $this->request->getPost();
         $this->get = $this->request->getGet();
         $this->class = (isset($this->uri[2]))?'App\Controllers\\'.ucfirst($this->uri[2]):'';
         $this->method = $this->uri[3] ?? '';
-        $this->languaje = json_decode((new Languaje())->init(), true);
+        $this->current_languaje = (isset($this->get['lang']))?$this->get['lang']:'';
+        $this->languaje = (new Languaje($this->current_languaje))->init();
     }
 }

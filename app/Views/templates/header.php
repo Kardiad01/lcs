@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="<?=strtolower(esc($languaje)['meta'])?>">
 <head>
     <base href="<?php echo base_url('lcs/lcs/public');?>">
     <meta charset="UTF-8">
@@ -59,7 +60,7 @@
     <header>
     <nav class="navbar navbar-expand-md">
         <h2>
-            <a class="navbar-brand brand-lcs" href="<?=(esc($path)=='user')?base_url('master/user/user/loadview'):base_url('master/landing/')?>">LCS</a>
+            <a class="navbar-brand brand-lcs" href="<?=(esc($path)=='user')?base_url('master/user/user/loadview'):base_url('master/landing')?>?lang=es">LCS</a>
         </h2>
         <button class="navbar-toggler mr-5" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -67,12 +68,7 @@
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav w-100">
             <?php if(esc($path)!='user' && esc($path)!='videogame'):?>
-                <li>
-                    <a href="<?=base_url('master/landing/login/loadview')?>"><?=esc($languaje)['nav']['alta']?></a>
-                </li>
-                <li>
-                    <a href="<?=base_url('master/landing/login/singin')?>"><?=esc($languaje)['nav']['login']?></a>
-                </li> 
+                <?=html_entity_decode(esc($languaje)['combotoform'])?>
                 <?php elseif(esc($path)=='videogame'):?>
                     <div class="mr-5">
                         <a href="#">Surrender</a>
@@ -96,47 +92,7 @@
         </div>
     </nav>
         <?php if(esc($path)=='landing'):?>
-        <div class="welcome">
-            <p>
-                <?=esc($languaje)['header']['header']?>
-            </p>
-        </div>
-        <div class="carrousel">
-            <div class="splide" data-library-func="carrousel-0">
-                <div class="splide__track">
-                    <ul class="splide__list">
-                        <li class="splide__slide component" data-splide-hash="slide01">
-                            <img width="100%" height="100%" src="<?=base_url('/assets/img/carrousel1.jpg');?>" alt="">
-                            <div>
-                                <p style="color:white">
-                                    <?=esc($languaje)['carousel']['c1']?>
-                                </p>
-                            </div>
-                        </li>
-                        <li class="splide__slide component" data-splide-hash="slide02">
-                            <img width="100%" height="100%" src="<?=base_url('/assets/img/carrousel2.jpg');?>" alt="">
-                            <div>
-                                <p style="color:white">
-                                    <?=esc($languaje)['carousel']['c2']?>
-                                </p>
-                            </div>
-                        </li>
-                        <li class="splide__slide component" data-splide-hash="slide03">
-                            <img width="100%" height="100%" src="<?=base_url('/assets/img/carrousel3.jpg');?>" alt="">
-                            <div>
-                                <p style="color:white">
-                                    <?=esc($languaje)['carousel']['c3']?>
-                                </p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="splide__progress">
-                        <div class="splide__progress__bar">
-                    </div>
-                </div>
-            </div>
-        </div>
+            <?=html_entity_decode(esc($languaje)['combotocarousel'])?>
         <?php endif;?>
     <?php endif;?>
 </header>

@@ -19,7 +19,7 @@ class Login implements IViews{
         $this->post = $this->request->getPost();
         $this->get = $this->request->getGet();
         $this->session = \Config\Services::session();
-        $this->languaje = json_decode((new Languaje())->init(), true);
+        $this->languaje = (new Languaje($this->get['lang']))->init();
     }
 
     public function loadview(){

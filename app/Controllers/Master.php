@@ -15,7 +15,7 @@ class Master extends BaseController
         }else{
             return view('templates/header', ['path'=>'landing', 'languaje'=>$this->languaje])
                     .view('mainviews/landing', ['path'=>'landing', 'languaje'=>$this->languaje])
-                    .view('templates/footer', ['path'=>'landing', 'languaje'=>$this->languaje]);
+                    .view('templates/footer', ['path'=>'landing', 'languaje'=>$this->languaje, 'current_lang'=>$this->current_languaje]);
         }
     }
     public function user(){
