@@ -7,14 +7,16 @@ class Languaje{
     private $languajeAvailable = [];
     private $langTo = '';
     private $baseLang = 'es';
+    public $seed;
 
     public function __construct($lang = null)
     {
-        ($lang==null)? $this->langTo = $this->baseLang : $this->langTo = $lang;
+        ($lang==null)? $this->langTo = $this->baseLang : $this->langTo = strtolower($lang);
         $this->languajeAvailable = array_map(function($element){
             preg_match('/\w+\./', $element, $match);
             return str_replace('.', '', $match);
         }, glob(FCPATH."\assets\languajedata\\*.html"));
+        $this->seed = $this->getSeed();
     }
 
     public function init(){
@@ -59,9 +61,8 @@ class Languaje{
         file_put_contents(FCPATH."\assets\languajedata\\".$this->langTo.".html", $result);
     }
 
-    private function getWrittedHtml(){
+    private function getSeed(){
         $translatedData = explode('|', file_get_contents(FCPATH."\assets\languajedata\\es.txt"));
-        $html = [];
         $seed = [
             'meta' => [
                 'meta' => $translatedData[0]
@@ -160,6 +161,12 @@ class Languaje{
                 'friends' => $translatedData[47]
             ]
         ];
+        return $seed;
+    }
+
+    private function getWrittedHtml(){
+        $html = [];
+        $seed = $this->getSeed();
         $newsLoop = '';
         foreach($seed['news'] as $key=>$new){
             if($key!='n1'){

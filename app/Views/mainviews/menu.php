@@ -1,6 +1,8 @@
-
-<main class="pc-body d-flex flex-column aling-items-center justify-content-center">
-<div class="text-center user-header">
+<video class="pc-background" src="<?=base_url('/assets/video/bak.mp4')?>" autoplay loop preload="true"></video>
+<div class="menuimage"></div>
+<main class="pc-body d-flex flex-column aling-items-center justify-content-center position-absolute">
+    <div class="text-center user-header">
+    <div class="border-user"></div>
     <div class="user-img">
 
     </div>
@@ -12,7 +14,7 @@
 <!-- Button trigger modal -->
 <?php foreach(esc($languaje['usermenu']) as $key=>$value):?>
     <?php if($key!='exit'):?>
-<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#<?=$key?>">
+<button type="button" class="btn option" data-bs-toggle="modal" data-bs-target="#<?=$key?>">
     <?=$value?>
 </button>
     <?php endif;?>
@@ -41,7 +43,7 @@
 <?php endif;?>
 <?php if($key=='viewprofile'):?>
     <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
@@ -81,7 +83,7 @@
 <?php endif;?>
 <?php if($key=='buybooks'):?>
     <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
@@ -107,7 +109,7 @@
 <?php endif;?>
 <?php if($key=='buildarguments'):?>
     <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
@@ -138,7 +140,7 @@
 <?php endif;?>
 <?php if($key=='friendlist'):?>
     <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
@@ -183,7 +185,7 @@
 <?php endif;?>
 <?php if($key=='readbook'):?>
     <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
@@ -212,7 +214,7 @@
 <?php endif;?>
 <?php if($key == 'getmorecash'):?>
     <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
@@ -226,7 +228,7 @@
 </div>
 <?php endif;?>
 <?php if($key=='exit'):?>
-    <a class="btn" href="<?=base_url('/master/user/user/logout')?>"><?=$value?></a>
+    <button class="btn option" data-library-func="event-cierrasesiones"><?=$value?></button>
 <?php endif;?>
 <?php endforeach;?>
 
@@ -234,12 +236,41 @@
 
 <script>
 $(document).ready(()=>{
-    
+    const pantalla = {
+        width : $(window).width(),
+        height : $(window).height()
+    }
+    $('.menuimage').css({
+        'position' : 'relative',
+        'width' : pantalla.width*0.6,
+        'height' : pantalla.height*0.8,
+        'background-image' : 'url("<?=base_url('/assets/img/menuimg.JPG')?>")',
+        'opacity' : 0.9,
+        'z-index': -1,
+        'background-size' : '100% 100%',
+        'border' : '2px solid gold',
+        'min-width' : '300px',
+        'min-height' : '653px',
+    })
+
     //Redimensionar imagen desde el background, para imagen de perfil
+    $('.user-img').css({
+        'width' :  pantalla.width/4.5,
+        'height' : pantalla.height/4.5,
+        'border-radius' : '50%',
+        'background-image' : 'url("<?=esc($user[0]['img_perfil'])?>")',
+        'background-color': 'black',
+        'background-size' : '100% 100%',
+        'maxWidth' : '250px',
+        'maxHeight' : '250px',
+        'margin' : 'auto',
+        'repeat' : 'no-repeat',
+        'z-index' : 0
+    });
     const app = new App({
         event : {
             0:{
-                name : 'observer de pruebas que de momento te da las friend request',
+                name : 'observer de pruebas que no hace nada pero mira que gonito',
                 config: {
                     event : 'observer',
                     trigger : document.querySelector('.user-img'),
@@ -249,6 +280,23 @@ $(document).ready(()=>{
                     },
                     call : function(e){
                         //Bonitas líneas de código que sólo van a servir de como lanzaría un observer                        
+                    }
+                }
+            },
+            cierrasesiones:{
+                name : 'cierra sesiones',
+                config: {
+                    event : 'click', 
+                    call : async()=>{
+                        alert('se clicó');
+                        const conn = await fetch("<?=base_url('/master/user/user/logout')?>");
+                        const res = await conn.json();
+                        if(res.status===200){
+                            toastr.success(res.msg);
+                            setTimeout(()=>{
+                                window.location.replace("<?=base_url()?>");
+                            }, 1000)
+                        }
                     }
                 }
             },
@@ -928,15 +976,9 @@ $(document).ready(()=>{
             }
         }
     });
+    console.log(app)
     //para prod o lo que sea las imágenes no se ven porque falta un /public
-    $('.user-img').css({
-        'background-image' : 'url("<?=esc($user[0]['img_perfil'])?>")',
-        'background-color': 'black',
-        'width' : '300px',
-        'height' : '300px',
-        'background-size' : '100% 100%',
-        'border-radius' : '50%'
-    });
+    
     //console.log(app);
 })
 </script>

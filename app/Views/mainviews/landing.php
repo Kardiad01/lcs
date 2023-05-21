@@ -3,12 +3,16 @@
 </main>
 <script>
     $(document).ready(()=>{
+        const windowSize = {
+            width: $(window).width(),
+            height: $(window).height()
+        }
         const app = new App({
             carrousel:{
                 0: {
                     config: {
-                        width: '100vw',
-                        height: '500px',
+                        width:  windowSize.width,
+                        height: windowSize.height/2.5,
                         autoplay: true,
                         type   : 'loop',
                         rewind : true,
@@ -50,44 +54,7 @@
                         }
                     }
                 }
-            },
-            animated: {
-                text : {
-                    name : "welcome animado",
-                    config : {
-                        translateX: -2500,
-                        direction: 'alternate',
-                        delay: function(el, i, l) {
-                            return i * 200;
-                        },
-                        endDelay: function(el, i, l) {
-                            return (l - i) * 200;
-                        }
-                    }
-                },
-                carousel : {
-                    name : "Carrousel animado",
-                    config : {
-                        translateX: 2500,
-                        direction: 'alternate',
-                        delay: function(el, i, l) {
-                            return i * 300;
-                        },
-                        endDelay: function(el, i, l) {
-                            return (l - i) * 300;
-                        }
-                    }
-                },
-                news : {
-                    name : "Noticias animadas",
-                    config: {
-                        translateX: -3000,
-                        direction: 'alternate',
-                        easing: 'easeInOutQuad'
-                    }
-                }
-            }
-                
+            }                
         });
     })
 </script>

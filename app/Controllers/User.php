@@ -22,7 +22,8 @@ class User implements IViews {
         $this->get = $this->request->getGet();
         $this->files = $this->request->getFiles();
         $this->session = \Config\Services::session();
-        $this->languaje = (new Languaje($this->get['lang']))->init();
+        $lang = (!isset($this->get['lang']))?'es':$this->get['lang'];
+        $this->languaje = (new Languaje($lang))->seed;
     }
 
     public function loadview(){
@@ -36,7 +37,7 @@ class User implements IViews {
     public function logout(){
         model('Jugador')->set('enlinea', 0)->where('id', $this->session->get('user')[0]['id'])->update();
         $this->session->set('user', []);
-        $this->customview(['path'=>'landing', 'languaje' => $this->languaje]);
+        echo json_encode(['status'=>200, 'msg'=>'desconexión exitosa']);
     }
 
     public function playfriendsop(){

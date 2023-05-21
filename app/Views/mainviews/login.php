@@ -99,11 +99,11 @@
     <div class="form-head">
         <h2>Recupera tu cuenta</h2>
     </div>
-    <div class="form-body">
+    <div class="form-body py-5">
         <label for="mail" class="form-label">Introduce tu correo</label>
         <input type="mail" class="form-control" id="mail" name="mail" placeholder="Correo de registro" data-get>
     </div>
-    <div class="form-footer">
+    <div class="form-footer py-5">
         <div>
             <button class="btn btn-colorized w-75" data-send>Recuperar Cuenta</button>
         </div>

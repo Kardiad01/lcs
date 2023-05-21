@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-
-<html lang="<?=strtolower(esc($languaje)['meta'])?>">
+<html lang="es">
 <head>
     <base href="<?php echo base_url('lcs/lcs/public');?>">
     <meta charset="UTF-8">

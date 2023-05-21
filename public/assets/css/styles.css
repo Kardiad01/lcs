@@ -79,8 +79,10 @@ a{
     --head-back : url('../img/BackHead.webp');
     --sign-back: url('../img/fondo.jpg');
     --sing-icon: url('../img/login.png');
-    --user-pc : url('../img/pc.png');
+    --user-pc : url('../img/menubackground.jpg');
     --game-reverse : url('../img/reverse-cards.JPG');
+    --game-menu: url('../img/menubackground.jpg');
+    --modal-back: url('../img/fondomodal.jpg');
 }
 
     /*
@@ -125,11 +127,23 @@ a{
     align-items: center;
     width: 100%;
     height: 100vh;
+    border: 2rem solid black;
+    background-color: var(--main-blue);
 }
 
 .game{
     width: 100%;
     height: 100vh;
+}
+
+.pc-background{
+    position: absolute;
+    z-index: -2;
+    top : 1rem;
+    left: 1rem;
+    width: calc(100% - 2rem);
+    height: calc(100% - 2rem);
+    object-fit: cover;
 }
 
 /*
@@ -457,11 +471,11 @@ a{
 
 .sign main{
     display: flex;
+    height: 100%;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100%;
 }
 
 /*
@@ -470,7 +484,6 @@ a{
 
 .user main{
     width: 100%;
-    height: 100%;
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -501,6 +514,7 @@ a{
     justify-content: center;
     align-items: center;
     opacity: 0.8;
+    z-index: 1;
     color: var(--secure-light)
 }
 
@@ -689,7 +703,7 @@ a{
 
 .sign .form{
     width: 50%;
-    height: 60%;
+    min-width: 300px;
     background-color: rgba(0, 0, 0, 0.7);
     border-radius: 2rem;
     display: flex;
@@ -703,10 +717,17 @@ a{
     color: var(--main-yellow);
 }
 
+.sign .form a{
+    text-decoration: none;
+    text-align: center;
+    margin: 1rem;
+    align-self: center;
+}
+
 .sign .form .form-body{
     margin-top: 2rem;
     width: 85%;
-    height: 40%;
+    min-width: 250px;
     max-width: 750px;
     display: flex;
     flex-direction: column;
@@ -717,8 +738,8 @@ a{
 
 .sign .form .form-footer{
     width: 100%;
+    min-width: 300px;
     max-width: 750px;
-    height: 40%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -929,6 +950,39 @@ a{
 
 /*
 =====================================================
+=                      Menu                         =
+=====================================================
+*/
+
+.user .pc-body .option{
+    color: wheat;
+}
+
+.user .pc-body .option:hover{
+    color: black;
+}
+.user .pc-body{
+    width: 50%;
+    border-radius: 30%;
+    color: wheat;
+}
+
+
+/*
+=====================================================
+=                      MODAL                        =
+=====================================================
+*/
+
+.modal-content{
+    background-image: var(--modal-back);
+    background-size: 100% 100%;
+    background-color: rgba(67, 51, 51, 0.5)!important;
+    color: var(--secure-dark);
+}
+
+/*
+=====================================================
 =                       Media                       =
 =====================================================
 */
@@ -988,6 +1042,10 @@ a{
 
 @media (max-width:400px) {
 
+    .user .pc-body{
+        font-size: 0.7rem;
+    }
+
     .body .presentation section .section-image img{
         max-width: 250px;
         min-width: 100px;
@@ -1003,10 +1061,32 @@ a{
         width: 100%;
     }
     .body .welcome{
-        width: 100%;
+        width: 90%;
         height: 30%;
+    }
+    nav{
+        position: relative;
+        z-index: 3;
     }
 }
 
+@media (max-height:790px) {
+    .body .news .new{
+        width: 250px;
+        height: 250px;
+    }
+}
 
+@media (max-height:655px) {
+    .body .news .new{
+        width: 200px;
+        height: 200px;
+        font-size: 0.7rem;
+    }
+}
 
+@media (max-height:528px) {
+    .body .news{
+        display: none;
+    }
+}
