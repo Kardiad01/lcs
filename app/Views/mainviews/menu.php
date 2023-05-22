@@ -94,7 +94,6 @@
             <table data-library-func="datatable-0" class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Titulo</th>
                         <th>Precio</th>
                         <th>Acciones</th>
@@ -116,9 +115,9 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <div class="row">
-                <h5 class="text-center col-11">Listado de mazos creados</h5>
-                <button data-library-func="modal-1" class="btn btn-primary col-1">+</button>
+            <div class="row d-flex flex-row">
+                <h5 class="text-center col-10">Listado de mazos creados</h5>
+                <button data-library-func="modal-1" class="btn btn-out-primary col-1" style="max-width: fit-content;"><i class="fa-solid fa-plus"></i></button>
             </div>
             <div class="w-100">
                 <table data-library-func="datatable-3">
@@ -140,7 +139,7 @@
 <?php endif;?>
 <?php if($key=='friendlist'):?>
     <div class="modal fade" id="<?=$key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-fullscreen-xl-down">
         <div class="modal-content">
         <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel"><?=$value?></h1>
@@ -153,7 +152,6 @@
                     <table data-library-func="datatable-1" class="table">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Nombre</th>
                                 <th>Acciones</th>
                             </tr>
@@ -195,10 +193,8 @@
         <table data-library-func="datatable-2" class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Titulo</th>
                         <th>Autor</th>
-                        <th>Apellidos</th>
                         <th>Disciplina</th>
                         <th>Acciones</th>
                     </tr>
@@ -236,6 +232,8 @@
 
 <script>
 $(document).ready(()=>{
+
+    //parte de estilos gestionada con jq
     const pantalla = {
         width : $(window).width(),
         height : $(window).height()
@@ -253,7 +251,6 @@ $(document).ready(()=>{
         'min-height' : '653px',
     })
 
-    //Redimensionar imagen desde el background, para imagen de perfil
     $('.user-img').css({
         'width' :  pantalla.width/4.5,
         'height' : pantalla.height/4.5,
@@ -267,6 +264,9 @@ $(document).ready(()=>{
         'repeat' : 'no-repeat',
         'z-index' : 0
     });
+
+    //Aplicación
+
     const app = new App({
         event : {
             0:{
@@ -288,7 +288,6 @@ $(document).ready(()=>{
                 config: {
                     event : 'click', 
                     call : async()=>{
-                        alert('se clicó');
                         const conn = await fetch("<?=base_url('/master/user/user/logout')?>");
                         const res = await conn.json();
                         if(res.status===200){
@@ -518,16 +517,17 @@ $(document).ready(()=>{
                 config: {
                     title : '<h2>Pelear con amigo</h2>',
                     message: `<div>
-                        <p>Esta es tu lista de amigos a los que puedes desafiar</p>
-                        <table data-library-func="datatable-5"></table>
+                        <p>Estos son los amigos que se encuentran en línea para desafío</p>
+                        <table data-library-func="datatable-5">
+                            <thead>
+                                <th>Jugador</th>
+                                <th>Acciones</th>
+                            </thead>
+                        </table>
                     </div>`,
+                    className : 'modal-xl',
                     onShow: function(e){
                         console.log( $(e.currentTarget).find('.modal-content'))
-                        $(e.currentTarget).find('.modal-content').css({
-                            width:'50vw',
-                            height:'50vh',
-                            minWidth: '450px'
-                        })
                         //console.log();
                         //se tiene que dar de alta a un componente getamigos
                         app.addComponent(document.querySelector('[data-library-func="datatable-5"]'), {
@@ -558,26 +558,17 @@ $(document).ready(()=>{
                                                     </td>
                                                     `;
                                                 }
-                                            },
-                                            {
-                                                targets: 2,
-                                                data: 'enlinea',
-                                                render : function(data, type, row, meta){                                
-                                                    if(data==1){
-                                                        return `
-                                                        <span class="badge bg-success">&nbsp</span>
-                                                        `
-                                                    }
-                                                    return `
-                                                        <span class="badge bg-danger">&nbsp</span>
-                                                    `;
-                                                }
                                             }
                                         ],
                                         fnDrawCallback : function(){
                                             $('[data-duel]').unbind('click');
                                             $('[data-duel]').click(function(e){
                                                 app.webMap.event[1].class.config.event.socket.send(`{"type": "duelrequest","id": "${$(this).data('duel')}", "username":"<?=esc($user)[0]['nombre']?>", "id_opponent":"<?=esc($user)[0]['id']?>"}`);
+                                            });
+                                            $('table').css({
+                                                "width": '100%',
+                                                "min-width" : '300px',
+                                                "max-width" : '1000px',
                                             });
                                         }
                                     }
@@ -602,23 +593,17 @@ $(document).ready(()=>{
                         {
                             targets: 0,
                             render : function (data, type, row, meta){
-                                return row.id
+                                return row.titulo
                             }
                         },
                         {
                             targets: 1,
                             render : function (data, type, row, meta){
-                                return row.titulo
-                            }
-                        },
-                        {
-                            targets: 2,
-                            render : function (data, type, row, meta){
                                 return row.precio
                             }
                         },
                         {
-                            targets: 3,
+                            targets: 2,
                             render : function (data, type, row, meta){
                                 return row.acciones;
                             }
@@ -671,18 +656,12 @@ $(document).ready(()=>{
                     columnDefs: [
                         {
                             targets: 0,
-                            render : function (data, type, row, meta){
-                                return row.id
-                            }
-                        },
-                        {
-                            targets: 1,
                             render : function (data, type, row, meta){                                
                                 return row.nombre
                             }
                         },                       
                         {
-                            targets: 2,
+                            targets: 1,
                             render : function (data, type, row, meta){
                                 return row.acciones
                             }
@@ -725,35 +704,23 @@ $(document).ready(()=>{
                         {
                             targets: 0,
                             render : function (data, type, row, meta){
-                                return row.id
+                                return row.titulo
                             }
                         },
                         {
                             targets: 1,
                             render : function (data, type, row, meta){
-                                return row.titulo
+                                return row.autor + ' ' + row.apellidos
                             }
                         },
                         {
                             targets: 2,
-                            render : function (data, type, row, meta){
-                                return row.autor
-                            }
-                        },
-                        {
-                            targets: 3,
-                            render : function (data, type, row, meta){                                
-                                return row.apellidos
-                            }
-                        },
-                        {
-                            targets: 4,
                             render : function (data, type, row, meta){                                
                                 return row.disciplina
                             }
                         },
                         {
-                            targets: 5,
+                            targets: 3,
                             render : function (data, type, row, meta){                                
                                 return row.acciones
                             }
@@ -813,8 +780,8 @@ $(document).ready(()=>{
                             data: 'id',
                             render : function (data, type, row, meta){
                                 return `
-                                    <a class="btn btn-warning" href="<?=base_url('master/user/user/deckbuilder')?>?id=${row.id}" target="_blank">Editar Mazo</a>
-                                    <button class="btn btn-danger" data-argumentario-delete-id="${row.id}">Eliminar Mazo</button>
+                                    <a class="btn btn-warning" href="<?=base_url('master/user/user/deckbuilder')?>?id=${row.id}" target="_blank"><i class="fa-solid fa-file-pen"></i></a>
+                                    <button class="btn btn-danger" data-argumentario-delete-id="${row.id}"><i class="fa-solid fa-trash"></i></button>
                                 `;
                             }
                         },
@@ -976,9 +943,12 @@ $(document).ready(()=>{
             }
         }
     });
-    console.log(app)
     //para prod o lo que sea las imágenes no se ven porque falta un /public
-    
+    $('table').css({
+        "width": '100%',
+        "min-width" : '300px',
+        "max-width" : '1000px',
+    });
     //console.log(app);
 })
 </script>

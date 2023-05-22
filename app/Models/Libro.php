@@ -26,7 +26,7 @@ class Libro extends AModel{
             ->limit($requiredParamsToDT['inicio'], $requiredParamsToDT['longitud'])
             ->get()->getResultArray();
         foreach($paginatedBooks as $value){
-            $value['acciones'] = '<button class="btn btn-success" data-buy data-user-id="'.$session['id'].'"  data-id="' . $value['id'] . '">Comprar</button>';
+            $value['acciones'] = '<button class="btn btn-success" data-buy data-user-id="'.$session['id'].'"  data-id="' . $value['id'] . '"><i class="fa-solid fa-money-bill"></i></button>';
             $results[] = $value;
         }
         return $results;

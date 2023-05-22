@@ -43,6 +43,13 @@
     <script src="<?=base_url('/assets/js/libs/splider/dist/js/splide.min.js');?>"></script>
     <script src="<?=base_url('/assets/js/libs/components/component.js');?>"></script>
     <script src="<?=base_url('/assets/js/libs/components/profile.js');?>"></script>
+    <script>
+         $('table').css({
+            "width": '100%',
+            "min-width" : '300px',
+            "max-width" : '1000px',
+        });
+    </script>
     <link rel="stylesheet" href="<?=base_url('/assets/css/styles.css');?>">
 </head>
 <body class="<?php 
@@ -54,6 +61,8 @@
         echo 'user';
     }else if(esc($path)=='videogame'){
         echo 'game';
+    }else if(esc($path)=='deckbuilder'){
+        echo 'deck';
     }?>">
     <?php if(esc($path)!='user' && esc($path)!='deckbuilder'):?>
     <header>
@@ -69,9 +78,6 @@
             <?php if(esc($path)!='user' && esc($path)!='videogame'):?>
                 <?=html_entity_decode(esc($languaje)['combotoform'])?>
                 <?php elseif(esc($path)=='videogame'):?>
-                    <div class="mr-5">
-                        <a href="#">Surrender</a>
-                    </div>
                     <div class="d-flex flex-column m-auto">
                         <p id="puntosretante" style="width:200px">Puntos Jugador 1 : 0</p>
                         <p id="puntosretado" style="width:200px">Puntos Jugador 2 : 0</p>
@@ -81,7 +87,7 @@
                         <p id="manaretado" style="width:200px">Mana Jugador 2 : 10</p>
                     </div>
                     <div>
-                        <p id="turno"> </p>
+                        <p id="turno"></p>
                     </div>
                     <div>
                         <button data-library-func="event-finturno" class="btn btn-info">Fin turno</button>

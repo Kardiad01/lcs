@@ -311,13 +311,13 @@ class User implements IViews {
     public function loaddeck(){
         if(!empty($this->session->get('user'))){
             echo json_encode(['data'=>model('Conceptos')->getcardsbydeck($this->post['id_deck'],$this->session->get('user')[0]['id'])]);
+        }else{
+            echo 'buena esa amijo';
         }
     }
 
     public function deletedeck(){
-        model('Argumentario')
-            ->where('id', $this->post['id_deck'])
-            ->delete();
+        model('Argumentario')->deletedeck($this->post['id_deck']);
         echo json_encode(['status'=>200, 'data'=>model('Argumentario')->getalldecksofaplayer($this->session->get('user')[0]['id'])]);
     }
 

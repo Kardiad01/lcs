@@ -63,6 +63,7 @@ class Argumentario extends AModel{
         $this->db->table('argumentario_conceptos')
             ->where('id_argumentario', $id_deck)
             ->delete();
+        $this->where('id', $id_deck)->delete();
     }
     
     public function deckwithcards($id_deck){        

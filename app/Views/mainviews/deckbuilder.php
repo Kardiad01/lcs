@@ -31,9 +31,9 @@
                                 },
                                 {
                                     targets: 2,
-                                    data: 'descripcion',
+                                    data: 'id',
                                     render : function (data, type, row, meta){
-                                        return row.descripcion
+                                        return `<img src="<?=base_url('/assets/img/cartas/')?>${data}.png">`;
                                     }
                                 },
                                 {
@@ -91,10 +91,10 @@
                                         window.localStorage.setItem('deck-'+id, JSON.stringify(mazoLocal));
                                         $(this).parent().parent().remove();
                                         $('#cardcount').html(mazoLocal.cartas.length+'/20');
-                                        $(app.webMap.datatable.conceptos.dom).dataTable().api().ajax.reload()
+                                        //$(app.webMap.datatable.conceptos.dom).dataTable().api().ajax.reload()
                                     })
                                     $('#cardcount').html(mazoLocal.cartas.length+'/20');
-                                    $(app.webMap.datatable.conceptos.dom).dataTable().api().ajax.reload()
+                                    //$(app.webMap.datatable.conceptos.dom).dataTable().api().ajax.reload()
                                 })
                                 $('[data-read]').click(function(){                                                                        
                                     const text = data.find((ele)=>{
@@ -190,23 +190,40 @@
                             }
                         }
                     }
+                },
+                event : {
+                    cerrar : {
+                        name : 'cerrar ventana',
+                        config : {
+                            event : 'click',
+                            call : (e)=>{
+                                window.close();
+                            }
+                        }
+                    }
+
                 }
             }
         );
+    $('table').css({
+        "width": '100%',
+    });
+        console.log(app)
     })
+
 </script>
 <h1 class="text-center">
     <?=esc($deck[0]['nombre'])?>
 </h1>
 <div class="container-fluid d-flex flex-row deckbuilder mt-2 border">
         <div class="col-8">
-            <h2>Cartas</h2>
+            <h2>Conceptos Adquiridos</h2>
             <table data-library-func="datatable-conceptos" class="table">
                 <thead>
                     <tr>
                         <th>Nombre</th>
                         <th>Costo</th>
-                        <th>Efecto</th>
+                        <th>Concepto</th>
                         <th>Tipo</th>
                         <th>Añadir</th>
                     </tr>
@@ -218,7 +235,7 @@
         </div>
         <div class="col-4 text-center border seleccion">
             <div>
-                <h2>Seleccionadas</h2>
+                <h2>Conceptos seleccionados</h2>
                 <p id="cardcount">0/20</p>
             </div>
             <div class="listado">
@@ -237,5 +254,6 @@
         </div>
     </div>
     <div class="acciones">
-        <button id="senddeck" class="btn btn-success">Guardar Cambios</button>
+        <button id="senddeck" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i></button>
+        <button id="close" class="btn btn-danger" data-library-func="event-cerrar"><i class="fa-solid fa-xmark"></i></button>
     </div>
