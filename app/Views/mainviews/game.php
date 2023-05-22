@@ -1,13 +1,5 @@
 <!-- mediaquery para que se vea de lado en teléfono móvil-->
 <style>
-    @media screen and (max-width: 500px) and ( orientation: portrait ) {
-        .game {
-            display: none;
-        }
-        .advise{
-            display: block;
-        }   
-    }
     .dataTables_wrapper{
         width: 100%;
         margin: 0;
@@ -46,6 +38,7 @@
                                 type : 'finpartida',
                                 room : room_code
                             }
+                            const baseUrl = window.location.origin;
                             const data = JSON.parse(ev.data);
                             console.log(data.type, data);
                             if(data.type=='finpartida'){
@@ -110,15 +103,33 @@
                             if(data.type=='ready'){      
                                 toastr.info(`Turno de: ${("<?=esc($user)[0]['id']?>"===data.propietario_turno)?'tuyo':'rival'}`);
                                 if($('.player-board').find('.concept-place').children().length==0){
+                                    let cont =0;
                                     data.mano.forEach((ele)=>{
-                                        startMatch(ele, app, <?=esc($user)[0]['id']?>, data.propietario_turno, room_code);
-                                    })                                
+                                        startMatch(ele, app, <?=esc($user)[0]['id']?>, data.propietario_turno, room_code, data, cont);
+                                        cont++;
+                                    })                
+                                    for(let x = 0; x<data.cartas_mano_oponente; x++){
+                                        $('.opponent-hand').append(`<div style="right:${25+x*10}%; z-index:${x};"></div>`);        
+                                    }
+                                    data.mano.forEach((ele)=>{
+                                        $('.player-hand').find(`#card${ele.id}`).on('contextmenu', (e)=>{
+                                            e.stopPropagation();
+                                            e.preventDefault();
+                                            bootbox.alert({
+                                                title : `<h1>${ele.nombre}</h1>`,
+                                                message : `
+                                                    <div class="info">
+                                                        <img src="${baseUrl}/assets/img/cartas/${ele.id}.png">
+                                                    </div>
+                                                `
+                                            })
+                                        })
+                                    })
+                                    $('#turno').html(`${(data.propietario_turno == <?=esc($user)[0]['id']?>)?'tu turno':'turno rival'}`);                
                                 }
                             }
                             if(data.type=='concepto'){
                                 renderCartas(data, app, "<?=esc($user)[0]['id']?>");
-                                /*vender como feature el jugar rápido y que no haya tiempo para responder, 
-                                no hay avisos para tontos o lo sueltas o te olvidas*/
                             }
                             if(data.type=='replica' || data.type=='contrareplica' || data.type=='finturno'){
                                 renderCartas(data,app, "<?=esc($user)[0]['id']?>");
@@ -215,11 +226,7 @@
     <article>
         <!--Start opponent hand-->
         <div class="opponent-hand">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+
         </div>
         <!--End opponent hand-->
         <!--Start board-->
