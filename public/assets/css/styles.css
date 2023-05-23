@@ -83,6 +83,7 @@ a{
     --game-reverse : url('../img/reverse-cards.JPG');
     --game-menu: url('../img/menubackground.jpg');
     --modal-back: url('../img/fondomodal.jpg');
+    --board-back : url('../img/tablerofondo.jpg');
 }
 
     /*
@@ -131,11 +132,6 @@ a{
     background-color: var(--main-blue);
 }
 
-.game{
-    width: 100%;
-    height: 100vh;
-}
-
 .pc-background{
     position: absolute;
     z-index: -2;
@@ -151,12 +147,25 @@ a{
 =                       game                   =
 =====================================================
 */
+.game{
+    width: 100%;
+    height: 100vh;
+    background-image: var(--board-back);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+.game::-webkit-scrollbar{
+    display: none;
+}
 
 .game main {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 90%;
+    height: 100%;
+    background-image: var(--board-back);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
 
 .game article{
@@ -164,6 +173,9 @@ a{
     flex-direction: column;
     width: 100%;
     height: 100%;
+     background-image: var(--board-back);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
 
 .game .board{
@@ -173,39 +185,43 @@ a{
     height: 70%;
 }
 
-.game .board .opponent-board, .game .board .player-board{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    height: 50%;
-}
-
-.game .opponent-board .concept-place, .game .player-board .concept-place{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-}
-
-.game .opponent-hand, .game .player-hand{
+.game .board .opponent-board, 
+.game .board .player-board{
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
+    flex : 0.5 0.5 auto;
     width: 100%;
-    height: 150px;
+    height: 60%;
 }
 
-.game .opponent-hand div{
-    width: 100px;
-    height: 150px;
+.game .opponent-board .concept-place, 
+.game .player-board .concept-place{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.game .opponent-hand, 
+.game .player-hand{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 18%;
 }
 
 .game .player-hand div img{
-    width: 100px;
+    width: 100%;
     height: 150px;
 }
 
 .game .opponent-hand div:nth-child(n){
-    position: absolute;
     width: 100px;
     height: 150px;
     background-image: var(--game-reverse);
@@ -214,17 +230,19 @@ a{
 
 .game .player-board .concept-place div, 
 .game .opponent-board .concept-place div {
-    width: 150px;
+    min-width: 100px;
+    width: 10%;
+    height: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex: 0.5 0.5 auto;
 }
+
 
 .game .player-board .concept-place div img,
 .game .opponent-board .concept-place div img {
-    width: 150px;
-    height: 200px;
+    width: 100px;
+    height: 150px;
     border: 1px solid var(--main-yellow);
 }
 

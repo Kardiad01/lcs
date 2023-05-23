@@ -1,3 +1,8 @@
+const baseUrl = window.location.origin;
+const pantalla = {
+    width: window.innerWidth,
+    height: window.innerHeight
+}
 const getUserFriendRequest = (url, urlsi, urlno, app)=>{
     $.ajax({
         type: "POST",
@@ -173,7 +178,7 @@ const selectorDeck = (urlmazo, urlobtenermazo, user, app, room_code) =>{
 const startMatch = (ele, app, id_session, turno, room_code, data, x) =>{
     const baseUrl = window.location.origin;  
     $('.player-hand').append(`
-        <div data-tipo="${ele.tipo}" id="card${ele.id}" style="right:${25+x*10}%; z-index:${x};">
+        <div data-tipo="${ele.tipo}" id="card${ele.id}" style="right:${x*5}%; z-index:${x};">
             <img src="${baseUrl}/assets/img/cartas/${ele.id}.png">
         </div>
     `);
@@ -189,6 +194,7 @@ const startMatch = (ele, app, id_session, turno, room_code, data, x) =>{
     }            
 }
 
+/**EL bueno */
 const renderCartas = (data, app, id_session) =>{
     console.warn('HEMOS ENTRADO EN SITIO CON CURVAAAAS')
     const baseUrl = window.location.origin;
@@ -201,42 +207,41 @@ const renderCartas = (data, app, id_session) =>{
     $('#mana'+data.rol).html(`Tiempo Jugador 1 : ${data.mana[data.rol]}`);
     $('#mana'+data.oponente).html(`Tiempo Jugador 2 : ${data.mana[data.oponente]}`);
     $('#turno').html(`${(data.propietario_turno === id_session)?'tu turno':'turno rival'}`);
+
     //renderiza en mano
-    console.log(data);
+
     for(let x = 0; x<data.cartas_mano_oponente; x++){
-        $('.opponent-hand').append(`<div style="right:${25+x*10}%; z-index:${x};"></div>`);        
+        $('.opponent-hand').append(`<div></div>`); 
     }
-    let x=0;
+
     if(Array.isArray(data.mano)){
-        data.mano.forEach(ele => {
+        data.mano.forEach((ele, i) => {
             $('.player-hand').append(`
-            <div data-tipo="${ele.tipo}" id="card${ele.id}" style="right:${25+x*10}%; z-index:${x};">
-                <img src="${baseUrl}/assets/img/cartas/${ele.id}.png">
+            <div data-tipo="${ele.tipo}" id="card${ele.id}">
+               <img src="${baseUrl}/assets/img/cartas/${ele.id}.png">
             </div>
             `);
-            x++;
         });
     }else{
-        Object.keys(data.mano).forEach((carta)=>{
+        Object.keys(data.mano).forEach((carta, i)=>{
             $('.player-hand').append(`
-            <div data-tipo="${data.mano[carta].tipo}" id="card${data.mano[carta].id} style="right:${25+x*10}%; z-index:${x};">
+            <div data-tipo="${data.mano[carta].tipo}" id="card${data.mano[carta].id}">
                 <img src="${baseUrl}/assets/img/cartas/${data.mano[carta].id}.png">
             </div>
             `);
-            x++;
         });
     }
 
     //renderiza en mesa
 
-    data.mesa[data.rol].forEach((ele)=>{
+    data.mesa[data.rol].forEach((ele, i)=>{
         $('.player-board').find('.concept-place').append(`
         <div data-tipo="${ele.tipo}" id="card${ele.id}">
             <img src="${baseUrl}/assets/img/cartas/${ele.id}.png">
         </div>
         `)
     })
-    data.mesa[data.oponente].forEach((ele)=>{
+    data.mesa[data.oponente].forEach((ele, i)=>{
         $('.opponent-board').find('.concept-place').append(`
         <div data-tipo="${ele.tipo}" id="card${ele.id}">
             <img src="${baseUrl}/assets/img/cartas/${ele.id}.png">
@@ -247,26 +252,49 @@ const renderCartas = (data, app, id_session) =>{
 }
 
 const addEvents = (data, app, id_session) =>{
-    //1º detectar si está en mesa o no
-    //2º añadir eventos para cartas de mesa
-    //3º añadir eventos paara cartas de mano
-    data.mano.forEach((ele)=>{
-        $('.player-hand').find(`#card${ele.id}`).on('contextmenu', (e)=>{
+    data.mesa[data.rol].forEach((ele)=>{
+        $('.player-board').find(`#card${ele.id}`).on('contextmenu',  function(e){
             e.stopPropagation();
             e.preventDefault();
             bootbox.alert({
                 title : `<h1>${ele.nombre}</h1>`,
                 message : `
-                    <div class="info">
+                    <div>
                         <img src="${baseUrl}/assets/img/cartas/${ele.id}.png">
                     </div>
                 `
             })
         })
-    })
+    });
+    data.mesa[data.oponente].forEach((ele)=>{
+        $('.opponent-board').find(`#card${ele.id}`).on('contextmenu',  function(e){
+            e.stopPropagation();
+            e.preventDefault();
+            bootbox.alert({
+                title : `<h1>${ele.nombre}</h1>`,
+                message : `
+                    <div>
+                        <img src="${baseUrl}/assets/img/cartas/${ele.id}.png">
+                    </div>
+                `
+            })
+        })
+    });
     if(Array.isArray(data.mano)){
         data.mano.forEach((ele)=>{
-            $('.player-hand').find(`#card${ele.id}`).on('click', (e) => {
+            $('.player-hand').find(`#card${ele.id}`).on('contextmenu',  function(e){
+                e.stopPropagation();
+                e.preventDefault();
+                bootbox.alert({
+                    title : `<h1>${ele.nombre}</h1>`,
+                    message : `
+                        <div>
+                            <img src="${baseUrl}/assets/img/cartas/${ele.id}.png">
+                        </div>
+                    `
+                })
+            })
+            $('.player-hand').find(`#card${ele.id}`).on('click',  function(e){
                 app.webMap.event.eljuego.class.config.event.socket.send(JSON.stringify({
                     type : ele.tipo,
                     id_carta : ele.id,
@@ -277,9 +305,21 @@ const addEvents = (data, app, id_session) =>{
         })
     }else{
         Object.keys(data.mano).forEach((ele)=>{
-            $('.player-hand').find(`#card${data.mano[ele].id}`).on('click', (e) => {
+            $('.player-hand').find(`#card${data.mano[ele].id}`).on('contextmenu',  function(e){
+                e.stopPropagation();
+                e.preventDefault();
+                bootbox.alert({
+                    title : `<h1>${data.mano[ele].nombre}</h1>`,
+                    message : `
+                        <div>
+                            <img src="${baseUrl}/assets/img/cartas/${data.mano[ele].id}.png">
+                        </div>
+                    `
+                })
+            })
+            $('.player-hand').find(`#card${data.mano[ele].id}`).on('click', function(e){
                 app.webMap.event.eljuego.class.config.event.socket.send(JSON.stringify({
-                    type : data.mano[ele].tipo,
+                    type :   data.mano[ele].tipo,
                     id_carta : data.mano[ele].id,
                     id_jugador : id_session,
                     room : data.nombre_partida
@@ -287,5 +327,4 @@ const addEvents = (data, app, id_session) =>{
             })
         })
     }
-    
 }
