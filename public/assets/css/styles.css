@@ -1,0 +1,1115 @@
+/*
+=====================================================
+=                 Style resets                      =
+=====================================================
+*/
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+.body::-webkit-scrollbar{
+    display: none;
+}
+
+a{
+    text-decoration: none;
+}
+/*
+=====================================================
+=                 CSS Variables                     =
+=====================================================
+*/
+:root{
+    /*
+    =====================
+        Main Colors
+    =====================
+    */
+    --main-red:#A86931;
+    --main-blue: #1D98B3;
+    --main-yellow: #F0B100;
+    /*
+    ==========================
+        Red secondary colors
+    ==========================
+    */
+    --secondary-red-1: #B58C2B;
+    --secondary-red-2: #BF5D2E;
+    --secondary-red-3: #BF862E;
+    --secondary-red-4: #A86931;
+    --secondary-red-5: #B5442B;
+    --secondary-red-5: #F59847;
+    --secondary-red-6: #754922;
+    --secondary-red-7: #4020A8;
+    --secondary-red-8: #332E33;
+    /*
+    ==========================
+        Blue secondary colors
+    ==========================
+    */
+    --secondary-blue-1:#2B9EB5;
+    --secondary-blue-2:#3193A8;
+    --secondary-blue-3:#1546BF;
+    --secondary-blue-4:#14B378;
+    /*
+    =============================
+        Yellow secondary colors
+    =============================
+    */
+    --secondary-yellow-1:#D9B70B;
+    --secondary-yellow-2:#D98D0B;
+    --secondary-yellow-3:#0024A3;
+    --secondary-yellow-4:#0035F0;
+    --secondary-yellow-5:#0CB6F0;
+    --secondary-yellow-6:#D69D00;
+    /*
+    =============================
+        Secure Color
+    =============================
+    */
+    --secure-light : #fffdfd;
+    --secure-dark : #000000; 
+    /*
+    =============================
+        Images
+    =============================
+    */
+    --head-back : url('../img/BackHead.webp');
+    --sign-back: url('../img/fondo.jpg');
+    --sing-icon: url('../img/login.png');
+    --user-pc : url('../img/menubackground.jpg');
+    --game-reverse : url('../img/reverse-cards.JPG');
+    --game-menu: url('../img/menubackground.jpg');
+    --modal-back: url('../img/fondomodal.jpg');
+    --board-back : url('../img/tablerofondo.jpg');
+}
+
+    /*
+    =============================
+        Fonts
+    =============================
+    */
+    @font-face {
+        font-family: 'roboto';
+        src: url('./Assets/fonts/Roboto-Regular.ttf');
+    }
+    @font-face {
+        font-family: 'cormorant';
+        src: url('./Assets/fonts/CormorantGaramond-Regular.ttf');
+    }
+    @font-face {
+        font-family: 'cinzel';
+        src: url('../fonts/Cinzel-VariableFont_wght.ttf');
+    }
+
+/*
+=====================================================
+=                 Master Class                      =
+=====================================================
+*/
+
+.sign{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: var(--sign-back);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.user{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    border: 2rem solid black;
+    background-color: var(--main-blue);
+}
+
+.pc-background{
+    position: absolute;
+    z-index: -2;
+    top : 1rem;
+    left: 1rem;
+    width: calc(100% - 2rem);
+    height: calc(100% - 2rem);
+    object-fit: cover;
+}
+
+/*
+=====================================================
+=                       game                   =
+=====================================================
+*/
+.game{
+    width: 100%;
+    height: 100vh;
+    background-image: var(--board-back);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+.game::-webkit-scrollbar{
+    display: none;
+}
+
+.game main {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    background-image: var(--board-back);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.game article{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+     background-image: var(--board-back);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.game .board{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 70%;
+}
+
+.game .board .opponent-board, 
+.game .board .player-board{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex : 0.5 0.5 auto;
+    width: 100%;
+    height: 60%;
+}
+
+.game .opponent-board .concept-place, 
+.game .player-board .concept-place{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.game .opponent-hand, 
+.game .player-hand{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 18%;
+}
+
+.game .player-hand div img{
+    width: 100%;
+    height: 150px;
+}
+
+.game .opponent-hand div:nth-child(n){
+    width: 100px;
+    height: 150px;
+    background-image: var(--game-reverse);
+    background-size: 100% 100%;
+}
+
+.game .player-board .concept-place div, 
+.game .opponent-board .concept-place div {
+    min-width: 100px;
+    width: 10%;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.game .player-board .concept-place div img,
+.game .opponent-board .concept-place div img {
+    width: 100px;
+    height: 150px;
+    border: 1px solid var(--main-yellow);
+}
+
+.game .bootbox-body .info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+
+/*
+=====================================================
+=                       Header                      =
+=====================================================
+*/
+
+.brand-lcs,h2 a{
+    text-decoration: none;
+    text-decoration : none;
+    font-style: none;
+    color: var(--main-yellow);
+}
+
+.brand-lcs:hover,h2 a:hover{
+    color: var(--secondary-red-1);
+}
+
+.body header{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid var(--secondary-red-1);
+    position: relative;
+    background-image: var(--head-back);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.body header nav, .sign header nav, .game header nav{
+    margin: auto;
+    margin-top: 2rem;
+    width: 95%;
+    display: flex;
+    font-family: 'cinzel';
+    color: var(--main-yellow);
+    background-color: var(--secondary-red-6);
+}
+
+.body header nav div, .sign header nav div, .game header nav div{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 4rem;
+}
+
+.body header nav ul, .sign header nav ul, .game header nav ul{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    margin-right: 4rem;
+    padding: 1rem;
+    text-align: center;
+}
+
+.body header nav ul li, .sign header nav ul li, .game header nav ul li{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 50%;
+    
+}
+
+.body li a, .sign li a, .menu li a, .game li a{
+    font-style: none;
+    width: 100%;
+    color: var(--secondary-yellow-1);
+}
+
+.body nav li:hover, .sign nav li:hover, .game nav li:hover{
+    border-bottom: 1px solid var(--secondary-yellow-2);
+}
+
+
+.body .welcome{
+    border: 1px solid black;
+    width: 45%;
+    /*height: 40vh;*/
+    position: absolute;
+    top: 20%;
+    left: 2.5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    font-family: 'cinzel';
+    background-color: rgba(0, 0, 0, 0.194);
+    color: var(--secure-light);
+}
+
+/*
+    FORMS AND USER THEME OF HEADER 
+*/
+
+.user header, .sign header, .game header{
+    width: 100%;
+    /*height: 10vh;*/
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.user header nav, .sign header nav, .game header nav{
+    margin: auto;
+    width: 100%;
+    /*height: 100%;*/
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    font-family: 'cinzel';
+    color: var(--main-yellow);
+    background-color: var(--secondary-red-6);
+}
+
+.user header nav a, .sign header nav a, .game header nav a{
+    text-decoration: none;
+    font-style: none;
+    color: var(--main-yellow);
+}
+
+.user header nav li, .sign header nav li, .game header nav li{
+    list-style: none;
+}
+
+/*
+=====================================================
+=                       Carrousel                   =
+=====================================================
+*/
+
+.carrousel{
+    width: 90%;
+    max-width: 1200px;
+    margin-bottom: 1rem;
+    border: 2px solid var(--main-yellow);
+}
+
+.component {
+    position: relative;
+}
+
+.component div{
+    position: absolute;
+    width: 50%;
+    height: 15vh;
+    top: 60%;
+    right: 25%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: var(--secure-light);
+    font-family: 'cinzel';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 5px;
+}
+
+/*
+=====================================================
+=                       Main                        =
+=====================================================
+*/
+
+.body main {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--main-blue);
+}
+
+.body article {
+    margin-top: 2rem;
+    padding: 3rem;
+}
+
+.body main h3{
+    width: 100%;
+    text-align: center;
+    font-family: 'cinzel';
+    margin-top: 1rem;
+    color: var(--main-yellow);
+}
+
+/*
+    FORMS THEME OF MAIN
+*/
+
+.sign main{
+    display: flex;
+    height: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/*
+    USER THEME OF MAIN
+*/
+
+.user main{
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.user .pc {
+    width: 100%;
+    height: 100%;
+    background-image: var(--user-pc);
+    background-size: 100% 100%;
+    background-position: left 90% bottom 50%;
+    background-attachment: fixed;
+    position: relative;
+}
+
+.user .pc .pc-body{
+    width: 47%;
+    height: 32%;
+    border: 1px solid white;
+    left: 47%;
+    bottom: 57%;
+    transform: rotate(0.5deg);
+    border-radius: 10px;
+    position: absolute;
+    background-color: var(--secondary-blue-3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
+    z-index: 1;
+    color: var(--secure-light)
+}
+
+.user .pc .pc-body button{
+    width: 50%;
+    margin-top: 0.3rem ;
+    color: var(--secure-light)
+}
+
+.user .form-oauth{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*
+=====================================================
+=                 Article 1: news                   =
+=====================================================
+*/
+
+.body .news{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    flex: 0.5 0.5 0.5;
+    background-color: var(--secondary-red-8);
+    color: var(--secure-light);
+    padding: 1rem;
+   
+}
+
+.body .news h3{
+   
+    width: 100%;
+    text-align: center;
+    font-family: 'cinzel';
+    margin-top: 1rem;
+  
+}
+
+.body .news .new{
+    margin-top: 0.5rem;
+    width: 300px;
+    height: 300px;
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.body .news .new-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 2rem;
+    position: absolute;
+    z-index: 1;
+}
+
+.body .news .new-body{
+    width: 100%;
+    height: 25%;
+    background-color: rgba(0, 0, 0, 0.194);
+    color: var(--secure-light);
+    text-align: center;
+    border-radius: 0 0 2rem 2rem ;
+    z-index: 2;
+}
+
+
+/*
+=====================================================
+=                 Article 2 Our game                =
+=====================================================
+*/
+
+
+.body .presentation{
+    width: 100%;
+    display:  flex;
+    flex-direction: column;
+    background-color: var(--secondary-red-8);
+    color: var(--secure-light);
+    font-family: 'cinzel';
+}
+
+.body .presentation h3{
+    text-align: center;
+    padding-top: 1rem;
+}
+
+.body .presentation section{
+    width: 100%;
+    display: flex;
+    
+}
+
+.body .section-image{
+    width: 50%;
+    min-height: 500px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+
+.body .section-image img{
+    height: 100%;
+    width: 100%;
+    min-height: 500px;
+    max-height: 515px;
+    max-width: 600px;
+}
+
+.body .section-image img{
+    width: 90%;
+    height: 90%;
+    margin: auto;
+}
+
+.body .section-body{
+    width: 50%;
+    height: 100%;
+    display:  flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    text-align: center;
+}
+
+.body .section-body p{
+    width: 90%;
+}
+
+/*
+=====================================================
+=                       Article 3                   =
+=====================================================
+*/
+
+
+.body .cards-of-game{
+    width: 100%;
+    background-color: var(--secondary-red-7);
+    font-family: 'cinzel';
+    color: var(--secure-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.body .cards-of-game h3{
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.body .cards-of-game .col-6{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.body .cards-of-game .card-image{
+    width: 100%;
+    height: 100%;
+    min-width: 11vw;
+    min-height: 16vh;
+    max-width: 400px;
+    max-height: 650px;
+    height: 50%;
+    margin: auto;
+    text-align: center;
+    border: 2px solid var(--secondary-red-1);
+}
+
+/*
+=====================================================
+=          Article 4 login and singin form          =
+=====================================================
+*/
+
+
+.sign .form{
+    width: 50%;
+    min-width: 300px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sign .form .form-head{
+    margin-top: 1rem;
+    text-align: center;
+    color: var(--main-yellow);
+}
+
+.sign .form a{
+    text-decoration: none;
+    text-align: center;
+    margin: 1rem;
+    align-self: center;
+}
+
+.sign .form .form-body{
+    margin-top: 2rem;
+    width: 85%;
+    min-width: 250px;
+    max-width: 750px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    color: var(--main-yellow);
+}
+
+.sign .form .form-footer{
+    width: 100%;
+    min-width: 300px;
+    max-width: 750px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--main-yellow);
+}
+
+.sign .form .form-footer div{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sign .form .form-footer .form-oauth{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.btn-colorized {
+    color: #fff;
+    background-color: var(--main-red);
+    border-color: var(--secondary-red-2);
+}
+  .btn-colorized:hover {
+    color: #fff;
+    background-color: var(--secondary-red-1);
+    border-color: var(--secondary-red-4);
+}
+  .btn-check:focus + .btn-colorized, .btn-colorized:focus {
+    color: #fff;
+    background-color: var(--secondary-red-5);
+    border-color:  var(--main-red);
+    box-shadow: 0 0 0 0.25rem var(--main-yellow);
+}
+  .btn-check:checked + .btn-colorized, .btn-check:active + .btn-colorized, .btn-colorized:active, .btn-primary.active, .show > .btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: var(--main-red);
+    border-color:  var(--main-red);
+}
+  .btn-check:checked + .btn-colorized:focus, .btn-colorized:active + .btn-colorized:focus, .btn-colorized:active:focus, .btn-colorized.active:focus, .show > .btn-colorized.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.25rem var(--main-red);
+}
+  .btn-colorized:disabled, .btn-colorized.disabled {
+    color: #fff;
+    border-color:  var(--main-red);
+    border-color:  var(--main-red);
+}
+
+.external-image{
+    width: 25%;
+    height: 100%;
+    background-image: var(--sing-icon);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.external-reverse-image{
+    width: 25%;
+    height: 100%;
+    background-image: var(--sing-icon);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    transform: rotateY(180deg);
+}
+
+/*
+=====================================================
+=                       Footer                      =
+=====================================================
+*/
+
+.body footer{
+    width: 100%;
+    height: 35vh;
+    display:  flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--secure-dark);
+    color: var(--secure-light);
+}
+
+.body footer .languaje{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.body footer .languaje select{
+    width: 50%;
+}
+
+.body footer .company{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+}
+
+
+.body footer .company .pegi, .body footer .company .contact{
+    width: 50%;
+    height: 100%;
+}
+.body footer .company .pegi{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.body footer .company .pegi div{
+    width: 50px;
+    height: 50px;
+}
+.body footer .company .pegi div img{
+    width: 100%;
+    height: 100%;
+}
+
+/*
+=====================================================
+=                       Deckbuilder                 =
+=====================================================
+*/
+
+
+.deckbuilder .col-8 {
+    overflow: scroll;
+}
+.seleccion{
+    overflow: scroll;
+}
+.acciones{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height:20vh;
+}
+
+/*
+=====================================================
+=                      Chat                         =
+=====================================================
+*/
+
+.chat-screen{
+    width: 100%;
+    margin: auto;
+}
+
+.scroled-element{
+    overflow: auto;
+}
+
+.scroled-element::-webkit-scrollbar:vertical, .game .chat-screen::-webkit-scrollbar:vertical,
+.deck div::-webkit-scrollbar:vertical{
+    width: 1px;
+    border-radius: 5px;
+}
+
+
+.scroled-element::-webkit-scrollbar, .game .chat-screen::-webkit-scrollbar, 
+.deck div::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.scroled-element::-webkit-scrollbar:vertical, 
+.game .chat-screen::-webkit-scrollbar:vertical,
+.deck div::-webkit-scrollbar:vertical{
+    width:10px;
+}
+
+.scroled-element::-webkit-scrollbar-button:increment,
+.scroled-element::-webkit-scrollbar-button,
+.game .chat-screen::-webkit-scrollbar-button:increment
+.game .chat-screen::-webkit-scrollbar-button, 
+.deck div::-webkit-scrollbar-button:increment
+.deck div::-webkit-scrollbar-button {
+    display: none;
+} 
+
+.scroled-element::-webkit-scrollbar:horizontal,
+.game .chat-screen::-webkit-scrollbar:horizontal,
+.deck div::-webkit-scrollbar:horizontal  {
+    height: 10px;
+}
+
+.scroled-element::-webkit-scrollbar-thumb,
+.game .chat-screen::-webkit-scrollbar-thumb,
+.deck div::-webkit-scrollbar-thumb {
+    background-color: #797979;
+    border-radius: 20px;
+    border: 2px solid #f1f2f3;
+}
+
+.scroled-element::-webkit-scrollbar-track,
+.game .chat-screen::-webkit-scrollbar-track,
+.deck div::-webkit-scrollbar-track {
+    border-radius: 10px;  
+}
+
+.coment{
+    word-wrap: break-word;
+}
+
+/*
+=====================================================
+=                      Menu                         =
+=====================================================
+*/
+
+.user .pc-body .option{
+    color: wheat;
+}
+
+.user .pc-body .option:hover{
+    color: black;
+}
+.user .pc-body{
+    width: 50%;
+    border-radius: 30%;
+    color: wheat;
+}
+
+
+/*
+=====================================================
+=                      MODAL                        =
+=====================================================
+*/
+
+.modal-content{
+    background-image: var(--modal-back);
+    background-size: 100% 100%;
+    background-color: rgba(67, 51, 51, 0.5)!important;
+    color: var(--secure-dark);
+}
+
+
+
+/*
+=====================================================
+=                      Deckbulder                   =
+=====================================================
+*/
+
+.deckbuilder{
+    height: 80vh;
+}
+
+.deck{
+    background-image: var(--modal-back);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+/*
+=====================================================
+=                       Media                       =
+=====================================================
+*/
+
+@media (max-width:700px) {
+    
+    .body .welcome{
+        font-size: 1rem;
+    }
+
+    .body footer .company {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .body footer .company .pegi, .body footer .company .contact{
+        width: 100%;
+    }
+
+    .company .contact p {
+        font-size: 0.7rem;
+    }
+
+    .body .news{
+        height: 200vh;
+    }
+
+    .body .presentation section:nth-child(1){
+        flex-direction: column;
+    }
+    .body .presentation section:nth-child(2){
+        flex-direction: column-reverse;
+    }
+    .body .presentation section:nth-child(3){
+        flex-direction: column;
+    }
+
+    .body .presentation section .section-image{
+        width: 100%;
+        height: 100%;
+    }
+
+    .body .presentation section .section-image img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .sign .external-image{
+        display: none;
+    }
+
+    .sign .external-reverse-image{
+        display: none;
+    }
+
+    .deck .table{
+        font-size: 0.8rem;
+    }
+
+    .deckbuilder{
+        display: flex;
+        flex-direction: column!important;
+        height: fit-content;
+    }
+    .deckbuilder div{
+        width: 100%;
+    }
+
+    .deckbuilder img {
+        width: 15%;
+        min-width: 150px;
+    }
+
+}
+@media (max-width:400px) {
+
+    .user .pc-body{
+        font-size: 0.7rem;
+    }
+
+    .body .presentation section .section-image img{
+        max-width: 250px;
+        min-width: 100px;
+        max-height: 250px;
+        min-height: 250px;
+        text-align: center;
+    }
+
+    .body .presentation .section-body{
+        width: 100%;
+    }
+    .body .presentation .section-body p {
+        width: 100%;
+    }
+    .body .welcome{
+        width: 90%;
+        height: 30%;
+    }
+    nav{
+        position: relative;
+        z-index: 3;
+    }
+}
+
+@media (max-height:790px) {
+    .body .news .new{
+        width: 250px;
+        height: 250px;
+    }
+}
+
+@media (max-height:655px) {
+    .body .news .new{
+        width: 200px;
+        height: 200px;
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-height:528px) {
+    .body .news{
+        display: none;
+    }
+}

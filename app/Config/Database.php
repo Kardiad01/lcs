@@ -19,23 +19,24 @@ class Database extends Config
      * Lets you choose which connection group to
      * use if no other is specified.
      */
-    public string $defaultGroup = 'default';
+    public string $defaultGroup = 'lascartasdesofia';
 
     /**
      * The default database connection.
      */
-    public array $default = [
+ 
+    public array $lascartasdesofia = [
         'DSN'      => '',
-        'hostname' => 'localhost',
-        'username' => '',
+        'hostname' => '127.0.0.1',
+        'username' => 'root',
         'password' => '',
-        'database' => '',
+        'database' => 'lascartasdesofia',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
         'DBDebug'  => true,
-        'charset'  => 'utf8',
-        'DBCollat' => 'utf8_general_ci',
+        'charset'  => 'utf8mb4',
+        'DBCollat' => 'utf8mb4_unicode_ci',
         'swapPre'  => '',
         'encrypt'  => false,
         'compress' => false,
