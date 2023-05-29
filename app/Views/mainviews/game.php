@@ -27,7 +27,7 @@
                     config : {
                         event: 'websocket',
                         trigger: document,
-                        url : 'http://localhost:8282',
+                        url : 'http://<?=$_SERVER['HTTP_HOST']?>:8282',
                         config: [],
                         open: (ev)=>{
                             console.log('QUE CORRE LA PARTIDA!!!');

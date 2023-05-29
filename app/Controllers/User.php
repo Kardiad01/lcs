@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Controllers;
-use App\Controllers\IViews;
 use App\Helpers\Languaje;
 use Exception;
 
-class User implements IViews {
+class User {
 
     private $request;
     private $post;

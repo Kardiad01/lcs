@@ -10,10 +10,10 @@ async function handleCredentialResponse (data){
     let url = '';
     const urlclass = window.location;
     if(window.location.pathname.includes('login/loadview')){
-        url = urlclass.origin+'/master/landing/login/googleoauthlogin';
+        url = urlclass.origin+'/index.php/master/landing/login/googleoauthlogin';
     }
     if(window.location.pathname.includes('login/singin')){
-        url = gurlSinging.origin+'/master/landing/login/googleoauthsignin';
+        url = urlclass.origin+'/index.php/master/landing/login/googleoauthsignin';
     }
     const form = new FormData();
     console.log(JSON.parse(parseJwt(data)))

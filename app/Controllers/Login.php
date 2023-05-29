@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Helpers\Mail;
 use App\Helpers\Languaje;
 
-class Login implements IViews{
+class Login{
 
     private $request;
     private $post;
@@ -107,7 +107,7 @@ class Login implements IViews{
             ]
             ]))->allInOne();
             $this->session->set('user', $user);
-            echo json_encode(['status'=>200, 'msg'=>'usuario registrado', 'url'=>base_url('/master/user/user/loadview')]);
+            echo json_encode(['status'=>200, 'msg'=>'usuario registrado', 'url'=>base_url('/master/user/user/loadview', false)]);
             return; 
         }
         return;
@@ -118,11 +118,11 @@ class Login implements IViews{
         $userByMail = model('Jugador')->where('direccion', $this->post['mail'])->get()->getResultArray(); 
         model('Jugador')->where('direccion', $this->post['mail'])->set('codigo_recuperacion', $code)->update();
         if($this->post['mail']!='' && isset($this->post['mail']) && !empty($userByMail)){
-            $result = (new Mail([$this->post['mail'], 
-            'Recuperar contraseñas', 
+            $result = (new Mail([$this->post['mail'],
+            'Recuperar contraseñas',
             ROOTPATH.'/public/assets/templates/recovery_password_es.html', [
                 'CODE' => $code,
-                'URL' => base_url('master/landing/login/restartpassword?code='.time())
+                'URL' => base_url('master/landing/login/restartpassword?code='.time(), false)
             ]]))->allInOne();
             if($result){
                 echo json_encode(['status'=>200, 'msg'=>'Revisa tu correo']);

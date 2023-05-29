@@ -28,8 +28,8 @@ class Database extends Config
     public array $lascartasdesofia = [
         'DSN'      => '',
         'hostname' => '127.0.0.1',
-        'username' => 'root',
-        'password' => '',
+        'username' => 'kardiad',
+        'password' => 'nK0&x^q6Ph@WHbFE%kZ0V^gS0via2UquPb02T^sQ86eIySpe#5',
         'database' => 'lascartasdesofia',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',

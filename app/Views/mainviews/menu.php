@@ -304,7 +304,7 @@ $(document).ready(()=>{
                 config: {
                     event : 'websocket',
                     trigger : document,
-                    url : 'http://localhost:8181', //url sin el wss o ws el http te lo quita, y tiene que estar, para que sea más notorio que es una... URL
+                    url : 'http://<?=$_SERVER['HTTP_HOST']?>:8181', //url sin el wss o ws el http te lo quita, y tiene que estar, para que sea más notorio que es una... URL
                     config : [
 
                     ],
@@ -395,12 +395,13 @@ $(document).ready(()=>{
                             })
                         }
                         if(data.type=='aceptduel'){
-                            //Idea de url sería base_url('master/play?game=984573rywiefgkjergh') con game igual al nombre de fichcero.
+                            //Idea de url sería base_url('master/game?play=984573rywiefgkjergh') con game igual al nombre de fichcero.
                             //Esto redirigirá a otra página con otro websocket que mandará a la movida del juego.
-                            window.open(`<?=base_url('master/game?play', false)?>${data.room}&type=friend`);
+                            window.open(`<?=base_url('master/game', false)?>?play=${data.room}&type=friend`);
                         }
                     },
                     close : function(ev){
+			console.log(ev);
                         ev.currentTarget.send(`{
                             type: "close"
                         }`)

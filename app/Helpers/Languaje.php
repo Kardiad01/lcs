@@ -15,7 +15,7 @@ class Languaje{
         $this->languajeAvailable = array_map(function($element){
             preg_match('/\w+\./', $element, $match);
             return str_replace('.', '', $match);
-        }, glob(FCPATH."\assets\languajedata\\*.html"));
+        }, glob(FCPATH."/assets/languajedata/*.html"));
         $this->seed = $this->getSeed();
     }
 
@@ -31,7 +31,7 @@ class Languaje{
     }
 
     private function getHtml(){
-        $base = explode('|ñ|', file_get_contents(FCPATH."\assets\languajedata\\$this->langTo.html"));
+        $base = explode('|ñ|', file_get_contents(FCPATH."/assets/languajedata/$this->langTo.html"));
         $correctLangToWeb = [
             'meta' => str_replace('http://localhost:8080/', base_url('', false), $base[0]),
             'welcome' => str_replace('http://localhost:8080/', base_url('', true), $base[1]),
@@ -58,11 +58,11 @@ class Languaje{
     public function generateLanguaje($html){
         $translator = new \DeepL\Translator(env('traductorKey'));
         $result = $translator->translateText($html, $this->baseLang, ($this->langTo==='en')?$this->langTo.'-GB':$this->langTo, ['tag_handling'=>'html']);
-        file_put_contents(FCPATH."\assets\languajedata\\".$this->langTo.".html", $result);
+        file_put_contents(FCPATH."/assets/languajedata/".$this->langTo.".html", $result);
     }
 
     private function getSeed(){
-        $translatedData = explode('|', file_get_contents(FCPATH."\assets\languajedata\\es.txt"));
+        $translatedData = explode('|', file_get_contents(FCPATH."/assets/languajedata/es.txt"));
         $seed = [
             'meta' => [
                 'meta' => $translatedData[0]

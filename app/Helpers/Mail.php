@@ -29,7 +29,7 @@ class Mail {
         $this->port = env('port');
         $this->cypto = env('crypto');
         $this->protocol = env('protocol');
-
+	$this->typeMsg = 'html';
         $this->mailer = \Config\Services::email();
         try{
             list($this->to, $this->issue, $this->message, $this->data) = $params;
@@ -39,14 +39,15 @@ class Mail {
         if($this->message!=''){
             $this->message = parse_url($this->message);
         }
-        if(!isset($this->message['scheme'])){
+	$this->messageTempate = $this->message['path'];
+        /*if(!isset($this->message['scheme'])){
             $this->typeMsg = 'text';
             $this->message = $this->message['path'];
         }
-        if(isset($this->message['scheme']) && $this->message['scheme']=='C'){
+        if(isset($this->message['scheme']) && $this->message['scheme']=='/var/'){
             $this->typeMsg = 'html';
             $this->messageTempate = $this->message['scheme'].':\\\\'.$this->message['path'];
-        }
+        }*/
     }
 
     private function writeMessage(){
@@ -74,6 +75,7 @@ class Mail {
                 'fromName' => 'Recuperación de contraseña'
         ];
         $this->mailer->initialize($this->config);
+	//$this->mailer->set_newline("\r\n");
         $this->mailer->setFrom($this->user, 'Las Cartas De Sofía');
         $this->mailer->setTo($this->to);
         $this->mailer->setSubject($this->issue);

@@ -15,7 +15,7 @@ abstract class AModel extends Model{
     protected $allowedFields = [];
     
     public function init($table){
-        $this->table = explode('\\', $table)[2];
+        $this->table = strtolower(explode('\\', $table)[2]);
         $colums = $this->query('SHOW COLUMNS FROM '.$this->table)->getResultArray();
         foreach($colums as $field){
             if($field['Field']!=$this->primaryKey){
