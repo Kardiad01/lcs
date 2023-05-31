@@ -1,5 +1,5 @@
 <main>
-   <?php echo html_entity_decode(str_replace('RANDCARD', base_url('/assets/img/cartas/'.rand(1, 48).'.png'), esc($languaje)['main']))?>  
+   <?php echo html_entity_decode(str_replace('RANDCARD', base_url('/assets/img/cartas/'.rand(1, 48).'.png', true), esc($languaje)['main']))?>  
 </main>
 <script>
     $(document).ready(()=>{
@@ -50,7 +50,7 @@
                     config : {
                         event : 'change',
                         call : (e)=>{
-                            window.location.href = "<?=base_url()?>?lang="+e.target.value;
+                            window.location.href = "<?=base_url('', false)?>?lang="+e.target.value;
                         }
                     }
                 }

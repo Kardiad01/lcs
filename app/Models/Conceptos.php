@@ -27,7 +27,7 @@ class Conceptos extends AModel{
                 'id_concepto' => $id_concept,
                 'id_jugador' => $session['id']
             ]);
-            return $this->select('nombre, tipo, descripcion, texto_aparicion')
+            return $this->select('id, nombre, texto_aparicion')
                 ->where('id', $id_concept)
                 ->get()
                 ->getResultArray();

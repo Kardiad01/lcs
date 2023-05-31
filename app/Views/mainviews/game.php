@@ -47,58 +47,52 @@
                                 //Cuando se acabe se reconocerá al usuario que ha ganado y saldrá
                                 //Una modal con el mensaje que corresponda.
                                 if(data.ganador === 'empate'){
-                                    alert("empate");
-                                    //ajax que mande resultado y borre o cambie a finalizada
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "<?=base_url('master/user/user/endgame')?>",
-                                        data: {
-                                            room : room_code,
-                                        },
-                                        dataType: "JSON",
-                                        success: function (response) {
-                                            
+                                    bootbox.alert({
+                                        message : '<h1>La partida acabó en empate</h1><p>al menos... ganaste +1 moneda refresca tu página de menu para verlas</p>',
+                                        callback: function(){
+                                            setInterval(()=>{
+                                                $.ajax({
+                                                    method: "POST",
+                                                    url: "<?=base_url('master/user/user/reloadsession', false)?>",
+                                                });
+                                                window.close();
+                                            }, 1000)
                                         }
                                     });
-                                    window.close();
-                                    return;
+                                   
                                 }
                                 if(data.ganador!='' && data.ganador=="<?=esc($user)[0]['id']?>"){
-                                    alert('HAS GANADOOOOO!!');
-                                    //ajas que mande resultado
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "<?=base_url('master/user/user/endgame')?>",
-                                        data: {
-                                            room : room_code,
-                                        },
-                                        dataType: "JSON",
-                                        success: function (response) {
-                                            
+                                    bootbox.alert({
+                                        message : '<h1>HAS GANADO!!</h1><p>has sido recompensado con +2 monedas refresca tu página de menu para verlas</p>',
+                                        callback: function(){
+                                            setInterval(()=>{
+                                                $.ajax({
+                                                    method: "POST",
+                                                    url: "<?=base_url('master/user/user/reloadsession', false)?>",
+                                                });
+                                                window.close();
+                                            }, 1000)
                                         }
                                     });
-                                    window.close();
-                                    return;
+                                    
                                 }
                                 if(data.ganador!='' && data.ganador!="<?=esc($user)[0]['id']?>"){
-                                    alert('HAS PERDIDO OTRA VEZ SERÁÁÁÁÁÁ!');
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "<?=base_url('master/user/user/endgame')?>",
-                                        data: {
-                                            room : room_code,
-                                        },
-                                        dataType: "JSON",
-                                        success: function (response) {
-                                            
+                                    bootbox.alert({
+                                        message : '<h1>Perdiste</h1><p>al menos lo intentaste toma +1 moneda refresca tu página de menu para verlas</p>',
+                                        callback: function(){
+                                            setInterval(()=>{
+                                                $.ajax({
+                                                    method: "POST",
+                                                    url: "<?=base_url('master/user/user/reloadsession', false)?>",
+                                                });
+                                                window.close();
+                                            }, 1000)
                                         }
                                     });
-                                    window.close();
-                                    return;
                                 }
                             }
                             if(data.type=='init'){
-                                selectorDeck("<?=base_url('/master/user/user/decksreadytoplaybyuser')?>" ,"<?=base_url('master/user/user/loaddeck')?>",  "<?=esc($user)[0]['id']?>", app);   
+                                selectorDeck("<?=base_url('/master/user/user/decksreadytoplaybyuser', false)?>" ,"<?=base_url('master/user/user/loaddeck', false)?>",  "<?=esc($user)[0]['id']?>", app);   
                             }
                             if(data.type=='ready'){      
                                 toastr.info(`Turno de: ${("<?=esc($user)[0]['id']?>"===data.propietario_turno)?'tuyo':'rival'}`);

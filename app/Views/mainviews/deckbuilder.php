@@ -11,7 +11,7 @@
                             serverSide : true,
                             ajax :{
                                 method : "POST",
-                                url :  "<?=base_url('/master/user/user/cardlist')?>"                                
+                                url :  "<?=base_url('/master/user/user/cardlist', false)?>"                                
                             } ,
                             columnDefs: [
                                 {
@@ -33,7 +33,7 @@
                                     targets: 2,
                                     data: 'id',
                                     render : function (data, type, row, meta){
-                                        return `<img src="<?=base_url('/assets/img/cartas/')?>${data}.png">`;
+                                        return `<img src="<?=base_url('/assets/img/cartas/', true)?>${data}.png">`;
                                     }
                                 },
                                 {
@@ -110,7 +110,7 @@
                                 const id = window.location.search.replace('?id=', '');
                                 $.ajax({
                                     type: "POST",
-                                    url: "<?=base_url('master/user/user/loaddeck')?>",
+                                    url: "<?=base_url('master/user/user/loaddeck', false)?>",
                                     data: {
                                         id_deck: id
                                     },
@@ -165,7 +165,7 @@
                                             mazoLocal = JSON.parse(window.localStorage.getItem('deck-'+id))                                    
                                             $.ajax({
                                                 type: "POST",
-                                                url: "<?=base_url('master/user/user/addcardstodeck')?>",
+                                                url: "<?=base_url('master/user/user/addcardstodeck', false)?>",
                                                 data: {
                                                     cards : mazoLocal.cartas,
                                                     id_deck : id

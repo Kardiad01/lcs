@@ -23,7 +23,7 @@ class Mail {
 
     public function __construct(array $params)
     {
-        $this->user = env('user');
+        $this->user = env('mailUser');
         $this->pass = env('pass');
         $this->host = env('host');
         $this->port = env('port');

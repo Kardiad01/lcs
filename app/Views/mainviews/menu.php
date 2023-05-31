@@ -1,4 +1,4 @@
-<video class="pc-background" src="<?=base_url('/assets/video/bak.mp4')?>" autoplay loop preload="true"></video>
+<video class="pc-background" src="<?=base_url('/assets/video/bak.mp4', true)?>" autoplay loop preload="true"></video>
 <div class="menuimage"></div>
 <main class="pc-body d-flex flex-column aling-items-center justify-content-center position-absolute">
     <div class="text-center user-header">
@@ -50,7 +50,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form data-library-func="form-0" action="<?=base_url('master/user/user/userprofile')?>" class="d-flex flex-column">
+            <form data-library-func="form-0" action="<?=base_url('master/user/user/userprofile', false)?>" class="d-flex flex-column">
                 <div>
                     <label class="form-label" for="<?=esc($languaje)['profile']['playername']?>"><?=esc($languaje)['profile']['playername']?></label>
                     <input data-get type="text" class="form-control" id="<?=esc($languaje)['profile']['playername']?>" name="nombre" value="<?=esc($user)[0]['nombre']?>">
@@ -242,7 +242,7 @@ $(document).ready(()=>{
         'position' : 'relative',
         'width' : pantalla.width*0.6,
         'height' : pantalla.height*0.8,
-        'background-image' : 'url("<?=base_url('/assets/img/menuimg.JPG')?>")',
+        'background-image' : 'url("<?=base_url('/assets/img/menuimg.JPG', true)?>")',
         'opacity' : 0.9,
         'z-index': -1,
         'background-size' : '100% 100%',
@@ -288,12 +288,12 @@ $(document).ready(()=>{
                 config: {
                     event : 'click', 
                     call : async()=>{
-                        const conn = await fetch("<?=base_url('/master/user/user/logout')?>");
+                        const conn = await fetch("<?=base_url('/master/user/user/logout', false)?>");
                         const res = await conn.json();
                         if(res.status===200){
                             toastr.success(res.msg);
                             setTimeout(()=>{
-                                window.location.replace("<?=base_url()?>");
+                                window.location.replace("<?=base_url('', false)?>");
                             }, 1000)
                         }
                     }
@@ -312,7 +312,7 @@ $(document).ready(()=>{
                         console.log('Conexión establecida');
                         $.ajax({
                             type: "POST",
-                            url: "<?=base_url('master/user/user/firendstosocket')?>",
+                            url: "<?=base_url('master/user/user/firendstosocket', false)?>",
                             data: "",
                             dataType: "JSON",
                             success: function (response) {
@@ -323,9 +323,9 @@ $(document).ready(()=>{
                                 friends: JSON.stringify(response)
                             }));
                             $(app.webMap.datatable[4].dom).dataTable().api().ajax.reload();
-                            getUserFriendRequest("<?=base_url('master/user/user/friendrequest')?>", 
-                                "<?=base_url('master/user/user/aceptnewfriend')?>", 
-                                "<?=base_url('master/user/user/rejectnewfriend')?>", app);
+                            getUserFriendRequest("<?=base_url('master/user/user/friendrequest', false)?>", 
+                                "<?=base_url('master/user/user/aceptnewfriend', false)?>", 
+                                "<?=base_url('master/user/user/rejectnewfriend', false)?>", app);
                             }
                         });
                     },
@@ -351,9 +351,9 @@ $(document).ready(()=>{
                             $(`#chat-screen-${data.data.id_hablante}`).animate({ scrollTop:  Number.MAX_SAFE_INTEGER }, 1000);                   
                         }
                         if(data.type=='request'){
-                            getUserFriendRequest("<?=base_url('master/user/user/friendrequest')?>", 
-                            "<?=base_url('master/user/user/aceptnewfriend')?>", 
-                            "<?=base_url('master/user/user/rejectnewfriend')?>", app);
+                            getUserFriendRequest("<?=base_url('master/user/user/friendrequest', false)?>", 
+                            "<?=base_url('master/user/user/aceptnewfriend', false)?>", 
+                            "<?=base_url('master/user/user/rejectnewfriend', false)?>", app);
                         }
                         if(data.type=='delete' || data.type=='accept' || data.type=='close'){
                             $(app.webMap.datatable[4].dom).dataTable().api().ajax.reload();                       
@@ -370,7 +370,7 @@ $(document).ready(()=>{
                                         callback: (e) => {
                                             $.ajax({
                                                 type: "POST",
-                                                url: "<?=base_url('master/user/user/playfriendsop')?>",
+                                                url: "<?=base_url('master/user/user/playfriendsop', false)?>",
                                                 data: {
                                                     id_opponent : data.id_opponent
                                                 },
@@ -397,7 +397,7 @@ $(document).ready(()=>{
                         if(data.type=='aceptduel'){
                             //Idea de url sería base_url('master/play?game=984573rywiefgkjergh') con game igual al nombre de fichcero.
                             //Esto redirigirá a otra página con otro websocket que mandará a la movida del juego.
-                            window.open(`<?=base_url('master/game?play')?>${data.room}&type=friend`);
+                            window.open(`<?=base_url('master/game', false)?>?play=${data.room}&type=friend`);
                         }
                     },
                     close : function(ev){
@@ -406,11 +406,11 @@ $(document).ready(()=>{
                         }`)
                         $.ajax({
                             method: "POST",
-                            url: "<?=base_url('/master/user/user/logout')?>",
+                            url: "<?=base_url('/master/user/user/logout', false)?>",
                             data: "",
                             dataType: "JSON"
                         });
-                        window.location.replace("<?=base_url()?>");
+                        window.location.replace("<?=base_url('', false)?>");
                     },
                     error : function(ev){
                         console.log(ev)
@@ -449,7 +449,7 @@ $(document).ready(()=>{
                             callback : function (){
                                 $.ajax({
                                     type: "POST",
-                                    url: "<?=base_url('master/user/user/deleteuser')?>",
+                                    url: "<?=base_url('master/user/user/deleteuser', false)?>",
                                     data: {
                                         id : "<?=esc($user)[0]['id']?>",
                                         password : $("#pass-delete-get").val()
@@ -459,7 +459,7 @@ $(document).ready(()=>{
                                         if(response.status==200){
                                             toastr.success("", "Cuenta borrada");
                                             setTimeout(()=>{
-                                                window.location.replace("<?=base_url()?>");
+                                                window.location.replace("<?=base_url('', false)?>");
                                             }, 1500)();
                                         }
                                     }
@@ -484,7 +484,7 @@ $(document).ready(()=>{
                                 if($("#deck-name").val()!=''){
                                     $.ajax({
                                         type: "POST",
-                                        url: "<?=base_url('master/user/user/createdeck')?>",
+                                        url: "<?=base_url('master/user/user/createdeck', false)?>",
                                         data: {
                                             deck_name : $("#deck-name").val()
                                         },
@@ -537,7 +537,7 @@ $(document).ready(()=>{
                                     config : {
                                         ajax: {
                                             type : "POST",
-                                            url :  "<?=base_url('/master/user/user/onlinefriends')?>",
+                                            url :  "<?=base_url('/master/user/user/onlinefriends', false)?>",
                                             dataSrc : 'data'
                                         },
                                         columnDefs: [
@@ -587,7 +587,7 @@ $(document).ready(()=>{
                     serverSide : true,
                     ajax :{
                         method : "POST",
-                        url :  "<?=base_url('/master/user/user/listbook')?>",
+                        url :  "<?=base_url('/master/user/user/listbook', false)?>",
                     } ,
                     columnDefs: [
                         {
@@ -616,7 +616,7 @@ $(document).ready(()=>{
                             let table2 = $(app.webMap.datatable[2].dom).dataTable();
                             $.ajax({
                                 type: "POST",
-                                url: "<?=base_url('master/user/user/buybook')?>",
+                                url: "<?=base_url('master/user/user/buybook', false)?>",
                                 data: {
                                     id_book : $(this).data('id'),
                                     id_user : $(this).data('user-id')
@@ -651,7 +651,7 @@ $(document).ready(()=>{
                     serverSide : true,
                     ajax :{
                         method : "POST",
-                        url :  "<?=base_url('/master/user/user/lookingforfriends')?>",
+                        url :  "<?=base_url('/master/user/user/lookingforfriends', false)?>",
                     } ,
                     columnDefs: [
                         {
@@ -672,7 +672,7 @@ $(document).ready(()=>{
                             let table = $(app.webMap.datatable[0].dom).dataTable();
                             $.ajax({
                                 type: "POST",
-                                url: "<?=base_url('master/user/user/addfriend')?>",
+                                url: "<?=base_url('master/user/user/addfriend', false)?>",
                                 data: {
                                     id_solicitante : $(this).data('id')
                                 },
@@ -698,7 +698,7 @@ $(document).ready(()=>{
                     serverSide : true,
                     ajax :{
                         method : "POST",
-                        url :  "<?=base_url('/master/user/user/booklist')?>"
+                        url :  "<?=base_url('/master/user/user/booklist', false)?>"
                     } ,
                     columnDefs: [
                         {
@@ -726,12 +726,12 @@ $(document).ready(()=>{
                             }
                         }
                     ],
-                    fnDrawCallback: function(e){                     
+                    fnDrawCallback: function(e){        
                         $('[data-read]').click(function(){
                             $(this).prop('disabled', true);
                             $.ajax({
                                 type: "POST",
-                                url: "<?=base_url('master/user/user/readbook')?>",
+                                url: "<?=base_url('master/user/user/readbook', false)?>",
                                 data: {
                                     id_book : $(this).data('id')
                                 },
@@ -742,14 +742,17 @@ $(document).ready(()=>{
                                         setTimeout(()=>{
                                             //Se habilita modal con el concepto mostrándolo
                                             bootbox.alert({
-                                                message: '<h2>Has obtenido '+response.data[0].nombre+'</h2>' +
-                                                    '<p>',
+                                                message: `<h2>Has obtenido ${response.data[0].nombre}</h2>
+                                                <div class="text-center"><img src="${window.location.origin}/assets/img/cartas/${response.data[0].id}.png"></div>`,
                                                 className: 'animate__animated animate__bounce'
                                             });
                                         },1500);
                                         $(this).prop('disabled', false);
-                                    }else{
+                                    }else if(response.status==203){
                                         toastr.error("", response.msg)
+                                    }else {
+                                        toastr.error("", response.msg);
+                                        $(this).prop('disabled', false);
                                     }
                                 }
                             });
@@ -764,7 +767,7 @@ $(document).ready(()=>{
                     autoWidth: true,
                     ajax :{
                         type : "POST",
-                        url :  "<?=base_url('/master/user/user/decklist')?>",
+                        url :  "<?=base_url('/master/user/user/decklist', false)?>",
                         dataSrc : 'data'
                     },
                     columnDefs: [
@@ -780,7 +783,7 @@ $(document).ready(()=>{
                             data: 'id',
                             render : function (data, type, row, meta){
                                 return `
-                                    <a class="btn btn-warning" href="<?=base_url('master/user/user/deckbuilder')?>?id=${row.id}" target="_blank"><i class="fa-solid fa-file-pen"></i></a>
+                                    <a class="btn btn-warning" href="<?=base_url('master/user/user/deckbuilder', false)?>?id=${row.id}" target="_blank"><i class="fa-solid fa-file-pen"></i></a>
                                     <button class="btn btn-danger" data-argumentario-delete-id="${row.id}"><i class="fa-solid fa-trash"></i></button>
                                 `;
                             }
@@ -791,7 +794,7 @@ $(document).ready(()=>{
                         $('[data-argumentario-delete-id]').click(function(){                            
                             $.ajax({
                                 type: "POST",
-                                url: "<?=base_url('/master/user/user/deletedeck')?>",
+                                url: "<?=base_url('/master/user/user/deletedeck', false)?>",
                                 data: {
                                     id_deck : $(this).data('argumentarioDeleteId')
                                 },
@@ -813,7 +816,7 @@ $(document).ready(()=>{
                     paging : false,
                     ajax: {
                         type : "POST",
-                        url :  "<?=base_url('/master/user/user/friendlist')?>",
+                        url :  "<?=base_url('/master/user/user/friendlist', false)?>",
                         dataSrc : 'data'
                     },
                     columnDefs: [
@@ -864,7 +867,7 @@ $(document).ready(()=>{
                                         callback : ()=>{
                                             $.ajax({
                                                 type: "POST",
-                                                url: "<?=base_url('master/user/user/deletefriend')?>",
+                                                url: "<?=base_url('master/user/user/deletefriend', false)?>",
                                                 data: {
                                                     id_player : $(this).data('eliminarAmigo')
                                                 },
@@ -888,7 +891,7 @@ $(document).ready(()=>{
                             })[0];
                             $.ajax({
                                 type: "POST",
-                                url: "<?=base_url('master/user/user/historicchat')?>",
+                                url: "<?=base_url('master/user/user/historicchat', false)?>",
                                 data: {
                                     id_otrousuario : idChat
                                 },

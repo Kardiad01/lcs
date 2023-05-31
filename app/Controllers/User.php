@@ -49,9 +49,11 @@ class User implements IViews {
         ]);
         echo json_encode(['status'=>200, 'data'=>$dataRoom]);
     }
+    
 
-    public function endgame(){
-        model('Debate')->where('recurso', $this->post['room'])->set('jugable', 0)->update();
+    public function reloadsession(){
+        $id = $this->session->get('user')[0]['id'];
+        $this->session->set('user', model('Jugador')->select()->where('id', $id)->get()->getResultArray());
     }
 
     //User methods
@@ -66,11 +68,11 @@ class User implements IViews {
             $updateableData['img_perfil'] = '';
             $randName = $this->files['img_perfil']->getRandomName();
             $this->files['img_perfil']->move(FCPATH .'/user'.'/', $randName);
-            $updateableData['img_perfil'] = base_url('/user'.'/'.$randName);
+            $updateableData['img_perfil'] = base_url('/user'.'/'.$randName, true);
         }        
         $id = $this->session->get('user')[0]['id'];
         if($this->session->get('user')[0]['img_perfil']!=''){
-            unlink(str_replace(base_url(), FCPATH,$this->session->get('user')[0]['img_perfil']));
+            unlink(str_replace(base_url('', true), FCPATH,$this->session->get('user')[0]['img_perfil']));
         }
         model('Jugador')->secureUpdate($updateableData, $id);
         $this->session->set('user', []);
@@ -85,8 +87,10 @@ class User implements IViews {
     public function deleteuser(){
         $userdataDelete = model('Jugador')->getDeleteData($this->post['id']);
         if(password_verify($this->post['password'], $userdataDelete[0]['contrasena'])){
-            unlink(str_replace(base_url(), FCPATH, $userdataDelete[0]['img_perfil']));
-            model('Jugador')->where('id', $this->post['id'])->delete();
+            if(is_file(str_replace(base_url('', false), FCPATH, $userdataDelete[0]['img_perfil']))){
+                unlink(str_replace(base_url('', false), FCPATH, $userdataDelete[0]['img_perfil']));
+            }
+            model('Jugador')->where('id', $this->post['id'])->set('activo', 0)->update();
             echo json_encode(['status'=>200]);
         }else{
             echo json_encode(['status'=>404]);
@@ -161,7 +165,7 @@ class User implements IViews {
         }
         if($learntbook==$conceptsbybook){
             model('Jugador')->masteredbook($this->session->get('user')[0]['id'], $this->post['id_book']);
-            echo json_encode(['status'=>202, 'msg'=>'Ya has aprendido todo lo que puede darte ese libro']);
+            echo json_encode(['status'=>203, 'msg'=>'Ya has aprendido todo lo que puede darte ese libro']);
             return;
         }
         if(gettype($findConcepts) == 'boolean'){

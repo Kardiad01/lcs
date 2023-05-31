@@ -33,11 +33,11 @@ class Languaje{
     private function getHtml(){
         $base = explode('|ñ|', file_get_contents(FCPATH."\assets\languajedata\\$this->langTo.html"));
         $correctLangToWeb = [
-            'meta' => $base[0],
-            'welcome' => $base[1],
-            'combotoform'=>$base[2],
-            'combotocarousel' => $base[3],
-            'main' => $base[4],
+            'meta' => str_replace('http://localhost:8080/', base_url('', false), $base[0]),
+            'welcome' => str_replace('http://localhost:8080/', base_url('', true), $base[1]),
+            'combotoform'=> str_replace('http://localhost:8080/', base_url('', false), $base[2]),
+            'combotocarousel' =>  str_replace('http://localhost:8080/', base_url('', true), $base[3]),
+            'main' => str_replace('http://localhost:8080/', base_url('', true), $base[4]),
         ];
         return $correctLangToWeb;
     }
@@ -100,27 +100,27 @@ class Languaje{
                 'head' => $translatedData[20],
                 'legend' => [
                     'mana' => [
-                        base_url('/assets/img/assets_cartas/costo_mana.png'),
+                        base_url('/assets/img/assets_cartas/costo_mana.png', true),
                         $translatedData[49]
                     ],
                     'name' => [
-                        base_url('/assets/img/assets_cartas/tape.png'),
+                        base_url('/assets/img/assets_cartas/tape.png', true),
                         $translatedData[50]
                     ],
                     'contra' => [
-                        base_url('/assets/img/assets_cartas/puntos_perdida.png'),
+                        base_url('/assets/img/assets_cartas/puntos_perdida.png', true),
                         $translatedData[51]
                     ],
                     'beneficio' => [
-                        base_url('/assets/img/assets_cartas/puntos_beneficio.png'),
+                        base_url('/assets/img/assets_cartas/puntos_beneficio.png', true),
                         $translatedData[52]
                     ],
                     'tipo_carta' => [
-                        base_url('/assets/img/assets_cartas/tape_top.png'),
+                        base_url('/assets/img/assets_cartas/tape_top.png', true),
                         $translatedData[53]
                     ],
                     'otros_efectos' => [
-                        base_url('/assets/img/assets_cartas/paper_shadow.png'),
+                        base_url('/assets/img/assets_cartas/paper_shadow.png', true),
                         $translatedData[54]
                     ]
                 ]
@@ -171,7 +171,7 @@ class Languaje{
         foreach($seed['news'] as $key=>$new){
             if($key!='n1'){
                 $newsLoop.= "<div class=\"new\">
-                <img class=\"new-img\" src=\"".base_url('assets/img/BackHead.webp')."\">
+                <img class=\"new-img\" src=\"".base_url('assets/img/BackHead.webp', true)."\">
                 <div class=\"new-body\">
                    <p>
                      $new
@@ -192,7 +192,7 @@ class Languaje{
         <article class=\"presentation\">
             <section>
                 <div class=\"section-image\">
-                    <img src=\"".base_url('assets/img/otherbackground.png')."\">
+                    <img src=\"".base_url('assets/img/otherbackground.png', true)."\">
                 </div>
                 <div class=\"section-body\">
                     <h3>".$seed['ourgame']['o1']."</h3>
@@ -205,12 +205,12 @@ class Languaje{
                     <p>".$seed['ourgame']['os2']."</p>
                 </div>
                 <div class=\"section-image\">
-                    <img src=\"".base_url('assets/img/otherbackground.png')."\">
+                    <img src=\"".base_url('assets/img/otherbackground.png', true)."\">
                 </div>
             </section>
             <section>
                 <div class=\"section-image\">
-                    <img src=\"".base_url('assets/img/otherbackground.png')."\">
+                    <img src=\"".base_url('assets/img/otherbackground.png', true)."\">
                 </div>
                 <div class=\"section-body\">
                     <h3>".$seed['ourgame']['o3']."</h3>
@@ -238,10 +238,10 @@ class Languaje{
             'welcome' => $seed['header']['header'],
             'combotoform' => "
                 <li>
-                    <a href=\"".base_url('master/landing/login/loadview')."?lang=".$seed['meta']['meta']."\">".$seed['nav']['alta']."</a>
+                    <a href=\"".base_url('master/landing/login/loadview', false)."?lang=".$seed['meta']['meta']."\">".$seed['nav']['alta']."</a>
                 </li>
                 <li>
-                    <a href=\"".base_url('master/landing/login/singin')."?lang=".$seed['meta']['meta']."\">".$seed['nav']['login']."</a>
+                    <a href=\"".base_url('master/landing/login/singin', false)."?lang=".$seed['meta']['meta']."\">".$seed['nav']['login']."</a>
                 </li> 
             ",
             'combotocarousel' => "
@@ -255,7 +255,7 @@ class Languaje{
                         <div class=\"splide__track\">
                             <ul class=\"splide__list\">
                                 <li class=\"splide__slide component\" data-splide-hash=\"slide01\">
-                                    <img width=\"100%\" height=\"100%\" src=\"".base_url('/assets/img/carrousel1.jpg')."\">
+                                    <img width=\"100%\" height=\"100%\" src=\"".base_url('/assets/img/carrousel1.jpg', true)."\">
                                     <div>
                                         <p style=\"color:white\">
                                             ".$seed['carousel']['c1']."
@@ -263,7 +263,7 @@ class Languaje{
                                     </div>
                                 </li>
                                 <li class=\"splide__slide component\" data-splide-hash=\"slide02\">
-                                    <img width=\"100%\" height=\"100%\" src=\"".base_url('/assets/img/carrousel2.jpg')."\">
+                                    <img width=\"100%\" height=\"100%\" src=\"".base_url('/assets/img/carrousel2.jpg', true)."\">
                                     <div>
                                         <p style=\"color:white\">
                                             ".$seed['carousel']['c2']."
@@ -271,7 +271,7 @@ class Languaje{
                                     </div>
                                 </li>
                                 <li class=\"splide__slide component\" data-splide-hash=\"slide03\">
-                                    <img width=\"100%\" height=\"100%\" src=\"".base_url('/assets/img/carrousel3.jpg')."\">
+                                    <img width=\"100%\" height=\"100%\" src=\"".base_url('/assets/img/carrousel3.jpg', true)."\">
                                     <div>
                                         <p style=\"color:white\">
                                             ".$seed['carousel']['c3']."

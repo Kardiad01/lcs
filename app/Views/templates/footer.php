@@ -23,16 +23,16 @@
         <div class="pegi">
             <!--PEGI Y ESAS MIERDAS-->
             <div>
-                <img src="<?=base_url('assets/img/pegi7.jpg')?>" alt="">
+                <img src="<?=base_url('assets/img/pegi7.jpg', true)?>" alt="">
             </div>
             <div>
-                <img src="<?=base_url('assets/img/pegigamblin.jpg')?>" alt="">
+                <img src="<?=base_url('assets/img/pegigamblin.jpg', true)?>" alt="">
             </div>
             <div>
-                <img src="<?=base_url('assets/img/pegionline.jpg')?>" alt="">
+                <img src="<?=base_url('assets/img/pegionline.jpg', true)?>" alt="">
             </div>
             <div>
-                <img src="<?=base_url('assets/img/pegiteens.jpg')?>" alt="">
+                <img src="<?=base_url('assets/img/pegiteens.jpg', true)?>" alt="">
             </div>
         </div>
         <div class="contact">

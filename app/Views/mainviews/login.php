@@ -3,7 +3,7 @@
     <article class="external-reverse-image">
 
     </article>
-        <article class="form" action="<?=base_url('master/landing/login/login')?>" method="post" data-library-func="form-0">
+        <article class="form" action="<?=base_url('master/landing/login/login', false)?>" method="post" data-library-func="form-0">
             <div class="form-head">
                 <h2>Login</h2>
             </div>
@@ -13,31 +13,14 @@
                 <label for="pass" class="form-label">Contraseña</label>
                 <input type="password" class="form-control" id="pass" name="pass" placeholder="Contraseña" data-get>
             </div>
-            <a href="<?=base_url('/master/landing/login/mailtorecovery')?>">Olvidaste tu contraseña?</a>
+            <a href="<?=base_url('/master/landing/login/mailtorecovery', false)?>">Olvidaste tu contraseña?</a>
             <div class="form-footer">
                 <div class="mt-2">
                     <button class="btn btn-colorized w-75" data-send>Log In</button>
                 </div>
-                <div>
-                <p class="form-oauth mt-3">
-                    <p id="g_id_onload"
-                        data-client_id="1022634642221-ka80kvh3bluekv4noo7ntl2n2ti2mkmm.apps.googleusercontent.com"
-                        data-context="signin"
-                        data-ux_mode="popup"
-                        data-callback="handleCredentialResponse"
-                        data-nonce=""
-                        data-auto_prompt="false"
-                        class="d-none">
-                    </p>
-
-                    <p class="g_id_signin"
-                        data-type="icon"
-                        data-shape="circle"
-                        data-theme="filled_black"
-                        data-text="signin_with"
-                        data-size="large">
-                    </p>
-                </p>
+                <div class="form-oauth mt-3">
+                    <button data-library-func="event-google"><img src="<?=base_url('/assets/img/G.jpg', true)?>" width="50px" height="50px" alt="accede con tu cuenta de Google"></button>
+                </div>
             </div>
         </div>
     </article>
@@ -48,7 +31,7 @@
     <article class="external-reverse-image">
 
     </article>
-    <article class="form" action="<?=base_url('/master/landing/login/adduser')?>" method="post" data-library-func="form-0">
+    <article class="form" action="<?=base_url('/master/landing/login/adduser', false)?>" method="post" data-library-func="form-0">
         <div class="form-head">
             <h2>Sing In</h2>
         </div>
@@ -68,7 +51,7 @@
             </div>
             <div class="form-oauth mt-3">
                     <p id="g_id_onload"
-                        data-client_id="1022634642221-ka80kvh3bluekv4noo7ntl2n2ti2mkmm.apps.googleusercontent.com"
+                        data-client_id="1022634642221-ld9j4g0veupo9ol9nprer2bman5rglsg.apps.googleusercontent.com"
                         data-context="signup"
                         data-ux_mode="popup"
                         data-callback="handleCredentialResponse"
@@ -95,7 +78,7 @@
 <article class="external-reverse-image">
 
 </article>
-<article class="form" action="<?=base_url('/master/landing/login/recovery')?>" method="post" data-library-func="form-0">
+<article class="form" action="<?=base_url('/master/landing/login/recovery', false)?>" method="post" data-library-func="form-0">
     <div class="form-head">
         <h2>Recupera tu cuenta</h2>
     </div>
@@ -116,7 +99,7 @@
 <article class="external-reverse-image">
 
 </article>
-<article class="form" action="<?=base_url('/master/landing/login/newpassword?code='.$_GET['code'])?>" method="post" data-library-func="form-0">
+<article class="form" action="<?=base_url('/master/landing/login/newpassword?code='.$_GET['code'], false)?>" method="post" data-library-func="form-0">
     <div class="form-head">
         <h2>Cambia tu contraseña</h2>
     </div>
@@ -137,7 +120,11 @@
 </article>
 <?php endif;?>
 </main>
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+import { handleCredentialResponse} from '/assets/js/custom/google.js';
+
 $(document).ready(()=>{
     const app = new App({
         form:{
@@ -145,15 +132,52 @@ $(document).ready(()=>{
                 config: {
                     get: 'data-get',
                     method: 'post',
-                    format: 'json',
+                    format: 'JSON',
                     send: 'data-send',
                     ajax: true,
                     reload: false,
                     redirect: true,
-                    debug: true
+                    debug: false
                 }
             }
         },
+        event:{
+            google:{
+                name : "boton google que hace cosas",
+                config: {
+                    event : 'click',
+                    call : (e)=>{
+                        const firebaseConfig = {
+                            apiKey: "AIzaSyBnjVphA0_LAH29WLmHAinfpVpbs3DcKN8",
+                            authDomain: "lascartasdesofia-35e3a.firebaseapp.com",
+                            projectId: "lascartasdesofia-35e3a",
+                            storageBucket: "lascartasdesofia-35e3a.appspot.com",
+                            messagingSenderId: "565984624674",
+                            appId: "1:565984624674:web:5e8b5c60d15b968d618a7b",
+                            measurementId: "G-VW03VZPWHD"
+                        };
+                        const appi = initializeApp(firebaseConfig);
+                        const auth = getAuth(appi);
+                        const gapi = new GoogleAuthProvider();
+                        gapi.addScope('https://www.googleapis.com/auth/userinfo.profile');
+                        //añadir boton google tope y mazo de cutre para que puedas loguear con google.
+                        signInWithPopup(auth, gapi).then((result)=>{
+                            const credential = GoogleAuthProvider.credentialFromResult(result);
+                            const token = credential.idToken;
+                            handleCredentialResponse(token)                            
+                        }).catch((error)=>{
+                            const errorCode = error.code;
+                            const errorMessage = error.message;
+                            console.error(errorCode + ':' + errorMessage)
+                            // The email of the user's account used.
+                            const email = error.customData.email;
+                            // The AuthCredential type that was used.
+                            const credential = GoogleAuthProvider.credentialFromError(error);
+                        })
+                    }
+                }
+            }
+        }
     });
 })
 </script>

@@ -42,6 +42,7 @@ class Login implements IViews{
     public function login(){
        $user = model('Jugador')
                     ->where('nombre', $this->post['user'])
+                    ->where('activo', 1)
                     ->get()
                     ->getResultArray();
        if(empty($user)){
@@ -54,7 +55,7 @@ class Login implements IViews{
        }
        $this->session->set('user', $user);
        model('Jugador')->set('enlinea', 1)->where('id', $user[0]['id'])->update();
-       echo json_encode(['status'=>200, 'msg'=>'credenciales correctas', 'url'=>base_url('master/user/user/loadview')]);
+       echo json_encode(['status'=>200, 'msg'=>'credenciales correctas', 'url'=>base_url('master/user/user/loadview', false)]);
     }
 
     public function googleoauthlogin(){
@@ -63,7 +64,8 @@ class Login implements IViews{
             return json_encode(['status'=>401, 'msg'=>'correo no verificado']);
         }
         $user = model('Jugador')
-            ->where('direccion',$data->email)
+            ->where('direccion', $data->email)
+            ->where('activo', 1)
             ->get()
             ->getResultArray();
         if(empty($user)){
@@ -71,8 +73,8 @@ class Login implements IViews{
             return;
         }else{
             $this->session->set('user', $user);
-            model('Jugador')->set('enlinea', 1)->where('id', $user[0]['id'])->update();
-            echo json_encode(['status'=>200, 'msg'=>'credenciales correctas', 'url'=>base_url('/master/user/user/loadview')]);
+            model('Jugador')->set('enlinea', 1)->where('id', $user[0]['id'])->where('activo', 1)->update();
+            echo json_encode(['status'=>200, 'msg'=>'credenciales correctas', 'url'=>base_url('/master/user/user/loadview', false)]);
             return; 
         }
     }
@@ -157,8 +159,9 @@ class Login implements IViews{
 
     public function adduser(){
         $model = model('Jugador');
-        $test = $model->where('nombre', $this->post['user'])->get()->getResultArray();
-        if($this->post['pass1']==$this->post['pass'] && count($test)==0){
+        $test1 = $model->where('nombre', $this->post['user'])->get()->getResultArray();
+        $test2 = $model->where('direccion', $this->post['mail'])->get()->getResultArray();
+        if($this->post['pass1']==$this->post['pass'] && count($test1)==0 && count($test2)==0){
             $data = [
                 'nombre' => $this->post['user'],
                 'contrasena' =>password_hash($this->post['pass'], PASSWORD_DEFAULT),
@@ -166,10 +169,19 @@ class Login implements IViews{
             ];
             $model->insert($data);
             echo json_encode(['status'=>200, 'msg'=> 'Usuario registrado en bbdd']);
-        }else if($this->post['pass1']!=$this->post['pass']){
+            return;
+        }
+        if($this->post['pass1']!=$this->post['pass']){
             echo json_encode(['status'=>203, 'msg' => 'Las contraseñas no coinciden']);
-        }else if(count($test)>1){
+            return;
+        }
+        if(count($test1)>=1){
             echo json_encode(['status'=>202, 'msg' => 'Ya hay un usuario con ese nombre']);
+            return;
+        }
+        if(count($test2)>=1){
+            echo json_encode(['status'=>202, 'msg' => 'Ya hay un usuario con ese correo']);
+            return;
         }
     }
     

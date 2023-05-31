@@ -6,37 +6,29 @@ function parseJwt (token) {
     }).join(''));
     return jsonPayload;
 }
-window.handleCredentialResponse = async (data) =>{
+async function handleCredentialResponse (data){
     let url = '';
+    const urlclass = window.location;
     if(window.location.pathname.includes('login/loadview')){
-        url = gurlLogin;
+        url = urlclass.origin+'/master/landing/login/googleoauthlogin';
     }
     if(window.location.pathname.includes('login/singin')){
-        url = gurlSinging;
+        url = gurlSinging.origin+'/master/landing/login/googleoauthsignin';
     }
     const form = new FormData();
-        form.append('payload', data.credential);
-        form.append('data', parseJwt(data.credential))
-        await fetch(url,{
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${data.credential}`
-            },
-            body : form
-        }).then(async (response)=>{
-            const json = await response.json();
-            if(json.status==200){
-                toastr.success("", json.msg);
-                window.location.replace(json.url)
-            }else{
-                toastr.error("", json.msg);
-            }
-        })
+    console.log(JSON.parse(parseJwt(data)))
+    form.append('data', parseJwt(data));
+    await fetch(url,{
+        method: 'POST',
+        body : form
+    }).then(async (response)=>{
+        const json = await response.json();
+        if(json.status==200){
+            toastr.success("", json.msg);
+            window.location.replace(json.url)
+        }else{
+            toastr.error("", json.msg);
+        }
+    })
 }
-window.onload = function () {
-    google.accounts.id.initialize({
-        client_id: id,
-        callback: handleCredentialResponse
-    });
-    google.accounts.id.prompt();
-};
+export {handleCredentialResponse};

@@ -1,48 +1,34 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <base href="<?php echo base_url('lcs/lcs/public');?>">
+    <base href="<?php echo base_url('lcs/lcs/public', false);?>">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-signin-client_id" content="<?=env('clienti')?>">
     <title>Document</title>
     <?php if(esc($path)=='login' || esc($path)=='singin'):?>
-        <!--Movidas de google-->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="https://accounts.google.com/gsi/client" onload="console.log('TODO: add onload function')">  
-    </script>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <script src="https://apis.google.com/js/api.js"></script>
-    <!--Configuración para cliente de google, o como pasar el jwt a back y que registre-->
-    <script>
-        const id = '<?=env('clienti')?>';
-        const gurlLogin = '<?=base_url('/master/landing/login/googleoauthlogin')?>';
-        const gurlSinging = '<?=base_url('/master/landing/login/googleoauthsignin')?>';
-        </script>
-    <script src="<?=base_url('/assets/js/custom/google.js')?>"></script>
     <?php endif;?>
     <?php if(esc($path)=='user' || esc($path)=='videogame'):?>
-        <script src="<?= base_url('/assets/js/custom/helper.js')?>"></script>
+        <script src="<?= base_url('/assets/js/custom/helper.js', true)?>"></script>
     <?php endif;?>
     <!--Css varios y css de librerías-->
-    <link rel="stylesheet" href="<?=base_url('/assets/js/libs/fontawesome/css/all.css')?>">
-    <link rel="stylesheet" href="<?=base_url('/assets/js/libs/splider/dist/css/splide.min.css');?>">
-    <link rel="stylesheet" href="<?=base_url('/assets/js/libs/bootstrap/css/bootstrap.css');?>">
-    <link rel="stylesheet" href="<?=base_url('/assets/js/libs/toastr/toastr.css');?>">
-    <link rel="stylesheet" href="<?=base_url('/assets/js/libs/datatable/datatables.min.css');?>">
-    <link rel="stylesheet" href="<?=base_url('/assets/css/animate.css');?>"/>
+    <link rel="stylesheet" href="<?=base_url('/assets/js/libs/fontawesome/css/all.css', true)?>">
+    <link rel="stylesheet" href="<?=base_url('/assets/js/libs/splider/dist/css/splide.min.css', true);?>">
+    <link rel="stylesheet" href="<?=base_url('/assets/js/libs/bootstrap/css/bootstrap.css', true);?>">
+    <link rel="stylesheet" href="<?=base_url('/assets/js/libs/toastr/toastr.css', true);?>">
+    <link rel="stylesheet" href="<?=base_url('/assets/js/libs/datatable/datatables.min.css', true);?>">
+    <link rel="stylesheet" href="<?=base_url('/assets/css/animate.css', true);?>"/>
     <!--JavaScript y cosas de librerías-->
-    <script src="<?=base_url('/assets/js/libs/jquery/jquery.js');?>"></script>
-    <script src="<?=base_url('/assets/js/libs/datatable/datatables.min.js');?>"></script>
-    <script src="<?=base_url('/assets/js/libs/bootbox/bootbox.js');?>"></script>
-    <script src="<?=base_url('/assets/js/libs/moment/moment.js');?>"></script>
-    <script src="<?=base_url('/assets/js/libs/toastr/toastr.js');?>"></script>
-    <script src="<?=base_url('/assets/js/libs/bootstrap/js/bootstrap.js');?>"></script>
-    <script src="<?=base_url('/assets/js/libs/anime/lib/anime.min.js');?>"></script>
-    <script src="<?=base_url('/assets/js/libs/splider/dist/js/splide.min.js');?>"></script>
-    <script src="<?=base_url('/assets/js/libs/components/component.js');?>"></script>
-    <script src="<?=base_url('/assets/js/libs/components/profile.js');?>"></script>
+    <script src="<?=base_url('/assets/js/libs/jquery/jquery.js', true);?>"></script>
+    <script src="<?=base_url('/assets/js/libs/datatable/datatables.min.js', true);?>"></script>
+    <script src="<?=base_url('/assets/js/libs/bootbox/bootbox.js', true);?>"></script>
+    <script src="<?=base_url('/assets/js/libs/moment/moment.js', true);?>"></script>
+    <script src="<?=base_url('/assets/js/libs/toastr/toastr.js', true);?>"></script>
+    <script src="<?=base_url('/assets/js/libs/bootstrap/js/bootstrap.js', true);?>"></script>
+    <script src="<?=base_url('/assets/js/libs/anime/lib/anime.min.js', true);?>"></script>
+    <script src="<?=base_url('/assets/js/libs/splider/dist/js/splide.min.js', true);?>"></script>
+    <script src="<?=base_url('/assets/js/libs/components/component.js', true);?>"></script>
+    <script src="<?=base_url('/assets/js/libs/components/profile.js', true);?>"></script>
     <script>
          $('table').css({
             "width": '100%',
@@ -50,7 +36,7 @@
             "max-width" : '1000px',
         });
     </script>
-    <link rel="stylesheet" href="<?=base_url('/assets/css/styles.css');?>">
+    <link rel="stylesheet" href="<?=base_url('/assets/css/styles.css', true);?>">
 </head>
 <body class="<?php 
     if(esc($path)=='landing'){
@@ -68,7 +54,7 @@
     <header>
     <nav class="navbar navbar-expand-md">
         <h2>
-            <a class="navbar-brand brand-lcs" href="<?=(esc($path)=='user')?base_url('master/user/user/loadview'):base_url('master/landing')?>?lang=es">LCS</a>
+            <a class="navbar-brand brand-lcs" href="<?=(esc($path)=='user')?base_url('master/user/user/loadview', false):base_url('master/landing', false)?>?lang=es">LCS</a>
         </h2>
         <button class="navbar-toggler mr-5" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

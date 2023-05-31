@@ -51,6 +51,14 @@ require_once SYSTEMPATH . 'Config/DotEnv.php';
  * the pieces all working together.
  */
 
+function base_url(string $path, bool $isFile){
+    if($isFile){
+        return 'http://'.$_SERVER['HTTP_HOST'].'/'.$path;
+    }else{
+        return 'http://'.$_SERVER['HTTP_HOST'].'/index.php/'.$path;
+    }
+}
+
 $app = Config\Services::codeigniter();
 $app->initialize();
 $context = is_cli() ? 'php-cli' : 'web';
