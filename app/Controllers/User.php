@@ -49,8 +49,9 @@ class User {
         echo json_encode(['status'=>200, 'data'=>$dataRoom]);
     }
 
-    public function endgame(){
-        model('Debate')->where('recurso', $this->post['room'])->set('jugable', 0)->update();
+    public function reloadsession(){
+        $id = $this->session->get('user')[0]['id'];
+        $this->session->set('user', model('Jugador')->select()->where('id', $id)->get()->getResultArray());
     }
 
     //User methods
