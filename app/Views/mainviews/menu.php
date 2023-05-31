@@ -743,7 +743,7 @@ $(document).ready(()=>{
                                         setTimeout(()=>{
                                             //Se habilita modal con el concepto mostrándolo
                                             bootbox.alert({
-                                                message: `<h2>Has obtenido ${response.data[0].nombre}</h2>
+                                                message: `<h2 class="text-center">Has obtenido:</h2>
                                                 <div class="text-center"><img src="${window.location.origin}/assets/img/cartas/${response.data[0].id}.png"></div>`,
                                                 className: 'animate__animated animate__bounce'
                                             });

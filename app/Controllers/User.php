@@ -58,15 +58,15 @@ class User {
     public function userprofile(){
         $updateableData = array_filter($this->post, function($element){
             if($element!=''){
-               return $element; 
+               return $element;
             }
         });
         if(!empty($this->files)){
             $updateableData['img_perfil'] = '';
             $randName = $this->files['img_perfil']->getRandomName();
-            $this->files['img_perfil']->move(FCPATH .'/user'.'/', $randName);
-            $updateableData['img_perfil'] = base_url('/user'.'/'.$randName, true);
-        }        
+            $this->files['img_perfil']->move(FCPATH .'user/', $randName);
+            $updateableData['img_perfil'] = base_url('user/'.$randName, true);
+        }
         $id = $this->session->get('user')[0]['id'];
         if($this->session->get('user')[0]['img_perfil']!=''){
             unlink(str_replace(base_url('', true), FCPATH,$this->session->get('user')[0]['img_perfil']));

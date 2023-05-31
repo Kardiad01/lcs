@@ -83,7 +83,7 @@ a{
     --game-reverse : url('../img/reverse-cards.JPG');
     --game-menu: url('../img/menubackground.jpg');
     --modal-back: url('../img/fondomodal.jpg');
-    --board-back : url('../img/tablerofondo.jpg');
+    --board-back : url('../img/pizarra-vacia.jpg');
 }
 
     /*
@@ -992,6 +992,11 @@ a{
 =                       Media                       =
 =====================================================
 */
+@media (max-width:860px){
+     .body .welcome{
+	font-size: 1.5rem;	
+     }
+}
 
 @media (max-width:700px) {
     
